@@ -1,0 +1,146 @@
+{
+  "peregrino_jan": {
+    "field": "Peregrino",
+    "season": "jan",
+    "n_members": 10,
+    "npz": "main\\outputs\\risk_grids\\peregrino_jan_risk.npz"
+  },
+  "peregrino_apr": {
+    "field": "Peregrino",
+    "season": "apr",
+    "n_members": 10,
+    "npz": "main\\outputs\\risk_grids\\peregrino_apr_risk.npz"
+  },
+  "peregrino_jul": {
+    "field": "Peregrino",
+    "season": "jul",
+    "n_members": 10,
+    "npz": "main\\outputs\\risk_grids\\peregrino_jul_risk.npz"
+  },
+  "peregrino_oct": {
+    "field": "Peregrino",
+    "season": "oct",
+    "n_members": 10,
+    "npz": "main\\outputs\\risk_grids\\peregrino_oct_risk.npz"
+  },
+  "marlim_jan": {
+    "field": "Marlim",
+    "season": "jan",
+    "n_members": 10,
+    "npz": "main\\outputs\\risk_grids\\marlim_jan_risk.npz"
+  },
+  "marlim_apr": {
+    "field": "Marlim",
+    "season": "apr",
+    "n_members": 10,
+    "npz": "main\\outputs\\risk_grids\\marlim_apr_risk.npz"
+  },
+  "marlim_jul": {
+    "field": "Marlim",
+    "season": "jul",
+    "n_members": 10,
+    "npz": "main\\outputs\\risk_grids\\marlim_jul_risk.npz"
+  },
+  "marlim_oct": {
+    "field": "Marlim",
+    "season": "oct",
+    "n_members": 10,
+    "npz": "main\\outputs\\risk_grids\\marlim_oct_risk.npz"
+  },
+  "roncador_jan": {
+    "field": "Roncador",
+    "season": "jan",
+    "n_members": 10,
+    "npz": "main\\outputs\\risk_grids\\roncador_jan_risk.npz"
+  },
+  "roncador_apr": {
+    "field": "Roncador",
+    "season": "apr",
+    "n_members": 10,
+    "npz": "main\\outputs\\risk_grids\\roncador_apr_risk.npz"
+  },
+  "roncador_jul": {
+    "field": "Roncador",
+    "season": "jul",
+    "n_members": 10,
+    "npz": "main\\outputs\\risk_grids\\roncador_jul_risk.npz"
+  },
+  "roncador_oct": {
+    "field": "Roncador",
+    "season": "oct",
+    "n_members": 10,
+    "npz": "main\\outputs\\risk_grids\\roncador_oct_risk.npz"
+  },
+  "jubarte_jan": {
+    "field": "Jubarte",
+    "season": "jan",
+    "n_members": 10,
+    "npz": "main\\outputs\\risk_grids\\jubarte_jan_risk.npz"
+  },
+  "jubarte_apr": {
+    "field": "Jubarte",
+    "season": "apr",
+    "n_members": 10,
+    "npz": "main\\outputs\\risk_grids\\jubarte_apr_risk.npz"
+  },
+  "jubarte_jul": {
+    "field": "Jubarte",
+    "season": "jul",
+    "n_members": 10,
+    "npz": "main\\outputs\\risk_grids\\jubarte_jul_risk.npz"
+  },
+  "jubarte_oct": {
+    "field": "Jubarte",
+    "season": "oct",
+    "n_members": 10,
+    "npz": "main\\outputs\\risk_grids\\jubarte_oct_risk.npz"
+  },
+  "frade_jan": {
+    "field": "Frade",
+    "season": "jan",
+    "n_members": 10,
+    "npz": "main\\outputs\\risk_grids\\frade_jan_risk.npz"
+  },
+  "frade_apr": {
+    "field": "Frade",
+    "season": "apr",
+    "n_members": 10,
+    "npz": "main\\outputs\\risk_grids\\frade_apr_risk.npz"
+  },
+  "frade_jul": {
+    "field": "Frade",
+    "season": "jul",
+    "n_members": 10,
+    "npz": "main\\outputs\\risk_grids\\frade_jul_risk.npz"
+  },
+  "frade_oct": {
+    "field": "Frade",
+    "season": "oct",
+    "n_members": 10,
+    "npz": "main\\outputs\\risk_grids\\frade_oct_risk.npz"
+  },
+  "albacora_jan": {
+    "field": "Albacora",
+    "season": "jan",
+    "n_members": 10,
+    "npz": "main\\outputs\\risk_grids\\albacora_jan_risk.npz"
+  },
+  "albacora_apr": {
+    "field": "Albacora",
+    "season": "apr",
+    "n_members": 10,
+    "npz": "main\\outputs\\risk_grids\\albacora_apr_risk.npz"
+  },
+  "albacora_jul": {
+    "field": "Albacora",
+    "season": "jul",
+    "n_members": 10,
+    "npz": "main\\outputs\\risk_grids\\albacora_jul_risk.npz"
+  },
+  "albacora_oct": {
+    "field": "Albacora",
+    "season": "oct",
+    "n_members": 10,
+    "npz": "main\\outputs\\risk_grids\\albacora_oct_risk.npz"
+  }
+}

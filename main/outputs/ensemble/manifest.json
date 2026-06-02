@@ -1,0 +1,1682 @@
+{
+  "peregrino_jan_m00": {
+    "field": "Peregrino",
+    "season": "jan",
+    "member": 0,
+    "start": "2025-01-01T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_jan_m00.nc"
+  },
+  "peregrino_jan_m01": {
+    "field": "Peregrino",
+    "season": "jan",
+    "member": 1,
+    "start": "2025-01-04T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_jan_m01.nc"
+  },
+  "peregrino_jan_m02": {
+    "field": "Peregrino",
+    "season": "jan",
+    "member": 2,
+    "start": "2025-01-07T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_jan_m02.nc"
+  },
+  "peregrino_jan_m03": {
+    "field": "Peregrino",
+    "season": "jan",
+    "member": 3,
+    "start": "2025-01-10T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_jan_m03.nc"
+  },
+  "peregrino_jan_m04": {
+    "field": "Peregrino",
+    "season": "jan",
+    "member": 4,
+    "start": "2025-01-13T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_jan_m04.nc"
+  },
+  "peregrino_jan_m05": {
+    "field": "Peregrino",
+    "season": "jan",
+    "member": 5,
+    "start": "2025-01-16T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_jan_m05.nc"
+  },
+  "peregrino_jan_m06": {
+    "field": "Peregrino",
+    "season": "jan",
+    "member": 6,
+    "start": "2025-01-19T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_jan_m06.nc"
+  },
+  "peregrino_jan_m07": {
+    "field": "Peregrino",
+    "season": "jan",
+    "member": 7,
+    "start": "2025-01-22T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_jan_m07.nc"
+  },
+  "peregrino_jan_m08": {
+    "field": "Peregrino",
+    "season": "jan",
+    "member": 8,
+    "start": "2025-01-25T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_jan_m08.nc"
+  },
+  "peregrino_jan_m09": {
+    "field": "Peregrino",
+    "season": "jan",
+    "member": 9,
+    "start": "2025-01-28T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_jan_m09.nc"
+  },
+  "peregrino_apr_m00": {
+    "field": "Peregrino",
+    "season": "apr",
+    "member": 0,
+    "start": "2025-04-01T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_apr_m00.nc"
+  },
+  "peregrino_apr_m01": {
+    "field": "Peregrino",
+    "season": "apr",
+    "member": 1,
+    "start": "2025-04-04T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_apr_m01.nc"
+  },
+  "peregrino_apr_m02": {
+    "field": "Peregrino",
+    "season": "apr",
+    "member": 2,
+    "start": "2025-04-07T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_apr_m02.nc"
+  },
+  "peregrino_apr_m03": {
+    "field": "Peregrino",
+    "season": "apr",
+    "member": 3,
+    "start": "2025-04-10T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_apr_m03.nc"
+  },
+  "peregrino_apr_m04": {
+    "field": "Peregrino",
+    "season": "apr",
+    "member": 4,
+    "start": "2025-04-13T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_apr_m04.nc"
+  },
+  "peregrino_apr_m05": {
+    "field": "Peregrino",
+    "season": "apr",
+    "member": 5,
+    "start": "2025-04-16T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_apr_m05.nc"
+  },
+  "peregrino_apr_m06": {
+    "field": "Peregrino",
+    "season": "apr",
+    "member": 6,
+    "start": "2025-04-19T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_apr_m06.nc"
+  },
+  "peregrino_apr_m07": {
+    "field": "Peregrino",
+    "season": "apr",
+    "member": 7,
+    "start": "2025-04-22T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_apr_m07.nc"
+  },
+  "peregrino_apr_m08": {
+    "field": "Peregrino",
+    "season": "apr",
+    "member": 8,
+    "start": "2025-04-25T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_apr_m08.nc"
+  },
+  "peregrino_apr_m09": {
+    "field": "Peregrino",
+    "season": "apr",
+    "member": 9,
+    "start": "2025-04-28T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_apr_m09.nc"
+  },
+  "peregrino_jul_m00": {
+    "field": "Peregrino",
+    "season": "jul",
+    "member": 0,
+    "start": "2025-07-01T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_jul_m00.nc"
+  },
+  "peregrino_jul_m01": {
+    "field": "Peregrino",
+    "season": "jul",
+    "member": 1,
+    "start": "2025-07-04T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_jul_m01.nc"
+  },
+  "peregrino_jul_m02": {
+    "field": "Peregrino",
+    "season": "jul",
+    "member": 2,
+    "start": "2025-07-07T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_jul_m02.nc"
+  },
+  "peregrino_jul_m03": {
+    "field": "Peregrino",
+    "season": "jul",
+    "member": 3,
+    "start": "2025-07-10T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_jul_m03.nc"
+  },
+  "peregrino_jul_m04": {
+    "field": "Peregrino",
+    "season": "jul",
+    "member": 4,
+    "start": "2025-07-13T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_jul_m04.nc"
+  },
+  "peregrino_jul_m05": {
+    "field": "Peregrino",
+    "season": "jul",
+    "member": 5,
+    "start": "2025-07-16T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_jul_m05.nc"
+  },
+  "peregrino_jul_m06": {
+    "field": "Peregrino",
+    "season": "jul",
+    "member": 6,
+    "start": "2025-07-19T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_jul_m06.nc"
+  },
+  "peregrino_jul_m07": {
+    "field": "Peregrino",
+    "season": "jul",
+    "member": 7,
+    "start": "2025-07-22T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_jul_m07.nc"
+  },
+  "peregrino_jul_m08": {
+    "field": "Peregrino",
+    "season": "jul",
+    "member": 8,
+    "start": "2025-07-25T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_jul_m08.nc"
+  },
+  "peregrino_jul_m09": {
+    "field": "Peregrino",
+    "season": "jul",
+    "member": 9,
+    "start": "2025-07-28T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_jul_m09.nc"
+  },
+  "peregrino_oct_m00": {
+    "field": "Peregrino",
+    "season": "oct",
+    "member": 0,
+    "start": "2025-10-01T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_oct_m00.nc"
+  },
+  "peregrino_oct_m01": {
+    "field": "Peregrino",
+    "season": "oct",
+    "member": 1,
+    "start": "2025-10-04T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_oct_m01.nc"
+  },
+  "peregrino_oct_m02": {
+    "field": "Peregrino",
+    "season": "oct",
+    "member": 2,
+    "start": "2025-10-07T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_oct_m02.nc"
+  },
+  "peregrino_oct_m03": {
+    "field": "Peregrino",
+    "season": "oct",
+    "member": 3,
+    "start": "2025-10-10T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_oct_m03.nc"
+  },
+  "peregrino_oct_m04": {
+    "field": "Peregrino",
+    "season": "oct",
+    "member": 4,
+    "start": "2025-10-13T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_oct_m04.nc"
+  },
+  "peregrino_oct_m05": {
+    "field": "Peregrino",
+    "season": "oct",
+    "member": 5,
+    "start": "2025-10-16T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_oct_m05.nc"
+  },
+  "peregrino_oct_m06": {
+    "field": "Peregrino",
+    "season": "oct",
+    "member": 6,
+    "start": "2025-10-19T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_oct_m06.nc"
+  },
+  "peregrino_oct_m07": {
+    "field": "Peregrino",
+    "season": "oct",
+    "member": 7,
+    "start": "2025-10-22T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_oct_m07.nc"
+  },
+  "peregrino_oct_m08": {
+    "field": "Peregrino",
+    "season": "oct",
+    "member": 8,
+    "start": "2025-10-25T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_oct_m08.nc"
+  },
+  "peregrino_oct_m09": {
+    "field": "Peregrino",
+    "season": "oct",
+    "member": 9,
+    "start": "2025-10-28T00:00:00",
+    "nc": "main\\outputs\\ensemble\\peregrino_oct_m09.nc"
+  },
+  "marlim_jan_m00": {
+    "field": "Marlim",
+    "season": "jan",
+    "member": 0,
+    "start": "2025-01-01T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_jan_m00.nc"
+  },
+  "marlim_jan_m01": {
+    "field": "Marlim",
+    "season": "jan",
+    "member": 1,
+    "start": "2025-01-04T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_jan_m01.nc"
+  },
+  "marlim_jan_m02": {
+    "field": "Marlim",
+    "season": "jan",
+    "member": 2,
+    "start": "2025-01-07T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_jan_m02.nc"
+  },
+  "marlim_jan_m03": {
+    "field": "Marlim",
+    "season": "jan",
+    "member": 3,
+    "start": "2025-01-10T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_jan_m03.nc"
+  },
+  "marlim_jan_m04": {
+    "field": "Marlim",
+    "season": "jan",
+    "member": 4,
+    "start": "2025-01-13T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_jan_m04.nc"
+  },
+  "marlim_jan_m05": {
+    "field": "Marlim",
+    "season": "jan",
+    "member": 5,
+    "start": "2025-01-16T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_jan_m05.nc"
+  },
+  "marlim_jan_m06": {
+    "field": "Marlim",
+    "season": "jan",
+    "member": 6,
+    "start": "2025-01-19T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_jan_m06.nc"
+  },
+  "marlim_jan_m07": {
+    "field": "Marlim",
+    "season": "jan",
+    "member": 7,
+    "start": "2025-01-22T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_jan_m07.nc"
+  },
+  "marlim_jan_m08": {
+    "field": "Marlim",
+    "season": "jan",
+    "member": 8,
+    "start": "2025-01-25T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_jan_m08.nc"
+  },
+  "marlim_jan_m09": {
+    "field": "Marlim",
+    "season": "jan",
+    "member": 9,
+    "start": "2025-01-28T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_jan_m09.nc"
+  },
+  "marlim_apr_m00": {
+    "field": "Marlim",
+    "season": "apr",
+    "member": 0,
+    "start": "2025-04-01T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_apr_m00.nc"
+  },
+  "marlim_apr_m01": {
+    "field": "Marlim",
+    "season": "apr",
+    "member": 1,
+    "start": "2025-04-04T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_apr_m01.nc"
+  },
+  "marlim_apr_m02": {
+    "field": "Marlim",
+    "season": "apr",
+    "member": 2,
+    "start": "2025-04-07T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_apr_m02.nc"
+  },
+  "marlim_apr_m03": {
+    "field": "Marlim",
+    "season": "apr",
+    "member": 3,
+    "start": "2025-04-10T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_apr_m03.nc"
+  },
+  "marlim_apr_m04": {
+    "field": "Marlim",
+    "season": "apr",
+    "member": 4,
+    "start": "2025-04-13T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_apr_m04.nc"
+  },
+  "marlim_apr_m05": {
+    "field": "Marlim",
+    "season": "apr",
+    "member": 5,
+    "start": "2025-04-16T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_apr_m05.nc"
+  },
+  "marlim_apr_m06": {
+    "field": "Marlim",
+    "season": "apr",
+    "member": 6,
+    "start": "2025-04-19T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_apr_m06.nc"
+  },
+  "marlim_apr_m07": {
+    "field": "Marlim",
+    "season": "apr",
+    "member": 7,
+    "start": "2025-04-22T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_apr_m07.nc"
+  },
+  "marlim_apr_m08": {
+    "field": "Marlim",
+    "season": "apr",
+    "member": 8,
+    "start": "2025-04-25T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_apr_m08.nc"
+  },
+  "marlim_apr_m09": {
+    "field": "Marlim",
+    "season": "apr",
+    "member": 9,
+    "start": "2025-04-28T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_apr_m09.nc"
+  },
+  "marlim_jul_m00": {
+    "field": "Marlim",
+    "season": "jul",
+    "member": 0,
+    "start": "2025-07-01T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_jul_m00.nc"
+  },
+  "marlim_jul_m01": {
+    "field": "Marlim",
+    "season": "jul",
+    "member": 1,
+    "start": "2025-07-04T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_jul_m01.nc"
+  },
+  "marlim_jul_m02": {
+    "field": "Marlim",
+    "season": "jul",
+    "member": 2,
+    "start": "2025-07-07T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_jul_m02.nc"
+  },
+  "marlim_jul_m03": {
+    "field": "Marlim",
+    "season": "jul",
+    "member": 3,
+    "start": "2025-07-10T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_jul_m03.nc"
+  },
+  "marlim_jul_m04": {
+    "field": "Marlim",
+    "season": "jul",
+    "member": 4,
+    "start": "2025-07-13T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_jul_m04.nc"
+  },
+  "marlim_jul_m05": {
+    "field": "Marlim",
+    "season": "jul",
+    "member": 5,
+    "start": "2025-07-16T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_jul_m05.nc"
+  },
+  "marlim_jul_m06": {
+    "field": "Marlim",
+    "season": "jul",
+    "member": 6,
+    "start": "2025-07-19T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_jul_m06.nc"
+  },
+  "marlim_jul_m07": {
+    "field": "Marlim",
+    "season": "jul",
+    "member": 7,
+    "start": "2025-07-22T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_jul_m07.nc"
+  },
+  "marlim_jul_m08": {
+    "field": "Marlim",
+    "season": "jul",
+    "member": 8,
+    "start": "2025-07-25T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_jul_m08.nc"
+  },
+  "marlim_jul_m09": {
+    "field": "Marlim",
+    "season": "jul",
+    "member": 9,
+    "start": "2025-07-28T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_jul_m09.nc"
+  },
+  "marlim_oct_m00": {
+    "field": "Marlim",
+    "season": "oct",
+    "member": 0,
+    "start": "2025-10-01T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_oct_m00.nc"
+  },
+  "marlim_oct_m01": {
+    "field": "Marlim",
+    "season": "oct",
+    "member": 1,
+    "start": "2025-10-04T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_oct_m01.nc"
+  },
+  "marlim_oct_m02": {
+    "field": "Marlim",
+    "season": "oct",
+    "member": 2,
+    "start": "2025-10-07T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_oct_m02.nc"
+  },
+  "marlim_oct_m03": {
+    "field": "Marlim",
+    "season": "oct",
+    "member": 3,
+    "start": "2025-10-10T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_oct_m03.nc"
+  },
+  "marlim_oct_m04": {
+    "field": "Marlim",
+    "season": "oct",
+    "member": 4,
+    "start": "2025-10-13T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_oct_m04.nc"
+  },
+  "marlim_oct_m05": {
+    "field": "Marlim",
+    "season": "oct",
+    "member": 5,
+    "start": "2025-10-16T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_oct_m05.nc"
+  },
+  "marlim_oct_m06": {
+    "field": "Marlim",
+    "season": "oct",
+    "member": 6,
+    "start": "2025-10-19T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_oct_m06.nc"
+  },
+  "marlim_oct_m07": {
+    "field": "Marlim",
+    "season": "oct",
+    "member": 7,
+    "start": "2025-10-22T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_oct_m07.nc"
+  },
+  "marlim_oct_m08": {
+    "field": "Marlim",
+    "season": "oct",
+    "member": 8,
+    "start": "2025-10-25T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_oct_m08.nc"
+  },
+  "marlim_oct_m09": {
+    "field": "Marlim",
+    "season": "oct",
+    "member": 9,
+    "start": "2025-10-28T00:00:00",
+    "nc": "main\\outputs\\ensemble\\marlim_oct_m09.nc"
+  },
+  "roncador_jan_m00": {
+    "field": "Roncador",
+    "season": "jan",
+    "member": 0,
+    "start": "2025-01-01T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_jan_m00.nc"
+  },
+  "roncador_jan_m01": {
+    "field": "Roncador",
+    "season": "jan",
+    "member": 1,
+    "start": "2025-01-04T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_jan_m01.nc"
+  },
+  "roncador_jan_m02": {
+    "field": "Roncador",
+    "season": "jan",
+    "member": 2,
+    "start": "2025-01-07T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_jan_m02.nc"
+  },
+  "roncador_jan_m03": {
+    "field": "Roncador",
+    "season": "jan",
+    "member": 3,
+    "start": "2025-01-10T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_jan_m03.nc"
+  },
+  "roncador_jan_m04": {
+    "field": "Roncador",
+    "season": "jan",
+    "member": 4,
+    "start": "2025-01-13T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_jan_m04.nc"
+  },
+  "roncador_jan_m05": {
+    "field": "Roncador",
+    "season": "jan",
+    "member": 5,
+    "start": "2025-01-16T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_jan_m05.nc"
+  },
+  "roncador_jan_m06": {
+    "field": "Roncador",
+    "season": "jan",
+    "member": 6,
+    "start": "2025-01-19T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_jan_m06.nc"
+  },
+  "roncador_jan_m07": {
+    "field": "Roncador",
+    "season": "jan",
+    "member": 7,
+    "start": "2025-01-22T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_jan_m07.nc"
+  },
+  "roncador_jan_m08": {
+    "field": "Roncador",
+    "season": "jan",
+    "member": 8,
+    "start": "2025-01-25T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_jan_m08.nc"
+  },
+  "roncador_jan_m09": {
+    "field": "Roncador",
+    "season": "jan",
+    "member": 9,
+    "start": "2025-01-28T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_jan_m09.nc"
+  },
+  "roncador_apr_m00": {
+    "field": "Roncador",
+    "season": "apr",
+    "member": 0,
+    "start": "2025-04-01T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_apr_m00.nc"
+  },
+  "roncador_apr_m01": {
+    "field": "Roncador",
+    "season": "apr",
+    "member": 1,
+    "start": "2025-04-04T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_apr_m01.nc"
+  },
+  "roncador_apr_m02": {
+    "field": "Roncador",
+    "season": "apr",
+    "member": 2,
+    "start": "2025-04-07T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_apr_m02.nc"
+  },
+  "roncador_apr_m03": {
+    "field": "Roncador",
+    "season": "apr",
+    "member": 3,
+    "start": "2025-04-10T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_apr_m03.nc"
+  },
+  "roncador_apr_m04": {
+    "field": "Roncador",
+    "season": "apr",
+    "member": 4,
+    "start": "2025-04-13T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_apr_m04.nc"
+  },
+  "roncador_apr_m05": {
+    "field": "Roncador",
+    "season": "apr",
+    "member": 5,
+    "start": "2025-04-16T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_apr_m05.nc"
+  },
+  "roncador_apr_m06": {
+    "field": "Roncador",
+    "season": "apr",
+    "member": 6,
+    "start": "2025-04-19T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_apr_m06.nc"
+  },
+  "roncador_apr_m07": {
+    "field": "Roncador",
+    "season": "apr",
+    "member": 7,
+    "start": "2025-04-22T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_apr_m07.nc"
+  },
+  "roncador_apr_m08": {
+    "field": "Roncador",
+    "season": "apr",
+    "member": 8,
+    "start": "2025-04-25T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_apr_m08.nc"
+  },
+  "roncador_apr_m09": {
+    "field": "Roncador",
+    "season": "apr",
+    "member": 9,
+    "start": "2025-04-28T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_apr_m09.nc"
+  },
+  "roncador_jul_m00": {
+    "field": "Roncador",
+    "season": "jul",
+    "member": 0,
+    "start": "2025-07-01T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_jul_m00.nc"
+  },
+  "roncador_jul_m01": {
+    "field": "Roncador",
+    "season": "jul",
+    "member": 1,
+    "start": "2025-07-04T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_jul_m01.nc"
+  },
+  "roncador_jul_m02": {
+    "field": "Roncador",
+    "season": "jul",
+    "member": 2,
+    "start": "2025-07-07T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_jul_m02.nc"
+  },
+  "roncador_jul_m03": {
+    "field": "Roncador",
+    "season": "jul",
+    "member": 3,
+    "start": "2025-07-10T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_jul_m03.nc"
+  },
+  "roncador_jul_m04": {
+    "field": "Roncador",
+    "season": "jul",
+    "member": 4,
+    "start": "2025-07-13T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_jul_m04.nc"
+  },
+  "roncador_jul_m05": {
+    "field": "Roncador",
+    "season": "jul",
+    "member": 5,
+    "start": "2025-07-16T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_jul_m05.nc"
+  },
+  "roncador_jul_m06": {
+    "field": "Roncador",
+    "season": "jul",
+    "member": 6,
+    "start": "2025-07-19T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_jul_m06.nc"
+  },
+  "roncador_jul_m07": {
+    "field": "Roncador",
+    "season": "jul",
+    "member": 7,
+    "start": "2025-07-22T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_jul_m07.nc"
+  },
+  "roncador_jul_m08": {
+    "field": "Roncador",
+    "season": "jul",
+    "member": 8,
+    "start": "2025-07-25T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_jul_m08.nc"
+  },
+  "roncador_jul_m09": {
+    "field": "Roncador",
+    "season": "jul",
+    "member": 9,
+    "start": "2025-07-28T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_jul_m09.nc"
+  },
+  "roncador_oct_m00": {
+    "field": "Roncador",
+    "season": "oct",
+    "member": 0,
+    "start": "2025-10-01T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_oct_m00.nc"
+  },
+  "roncador_oct_m01": {
+    "field": "Roncador",
+    "season": "oct",
+    "member": 1,
+    "start": "2025-10-04T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_oct_m01.nc"
+  },
+  "roncador_oct_m02": {
+    "field": "Roncador",
+    "season": "oct",
+    "member": 2,
+    "start": "2025-10-07T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_oct_m02.nc"
+  },
+  "roncador_oct_m03": {
+    "field": "Roncador",
+    "season": "oct",
+    "member": 3,
+    "start": "2025-10-10T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_oct_m03.nc"
+  },
+  "roncador_oct_m04": {
+    "field": "Roncador",
+    "season": "oct",
+    "member": 4,
+    "start": "2025-10-13T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_oct_m04.nc"
+  },
+  "roncador_oct_m05": {
+    "field": "Roncador",
+    "season": "oct",
+    "member": 5,
+    "start": "2025-10-16T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_oct_m05.nc"
+  },
+  "roncador_oct_m06": {
+    "field": "Roncador",
+    "season": "oct",
+    "member": 6,
+    "start": "2025-10-19T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_oct_m06.nc"
+  },
+  "roncador_oct_m07": {
+    "field": "Roncador",
+    "season": "oct",
+    "member": 7,
+    "start": "2025-10-22T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_oct_m07.nc"
+  },
+  "roncador_oct_m08": {
+    "field": "Roncador",
+    "season": "oct",
+    "member": 8,
+    "start": "2025-10-25T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_oct_m08.nc"
+  },
+  "roncador_oct_m09": {
+    "field": "Roncador",
+    "season": "oct",
+    "member": 9,
+    "start": "2025-10-28T00:00:00",
+    "nc": "main\\outputs\\ensemble\\roncador_oct_m09.nc"
+  },
+  "jubarte_jan_m00": {
+    "field": "Jubarte",
+    "season": "jan",
+    "member": 0,
+    "start": "2025-01-01T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_jan_m00.nc"
+  },
+  "jubarte_jan_m01": {
+    "field": "Jubarte",
+    "season": "jan",
+    "member": 1,
+    "start": "2025-01-04T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_jan_m01.nc"
+  },
+  "jubarte_jan_m02": {
+    "field": "Jubarte",
+    "season": "jan",
+    "member": 2,
+    "start": "2025-01-07T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_jan_m02.nc"
+  },
+  "jubarte_jan_m03": {
+    "field": "Jubarte",
+    "season": "jan",
+    "member": 3,
+    "start": "2025-01-10T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_jan_m03.nc"
+  },
+  "jubarte_jan_m04": {
+    "field": "Jubarte",
+    "season": "jan",
+    "member": 4,
+    "start": "2025-01-13T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_jan_m04.nc"
+  },
+  "jubarte_jan_m05": {
+    "field": "Jubarte",
+    "season": "jan",
+    "member": 5,
+    "start": "2025-01-16T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_jan_m05.nc"
+  },
+  "jubarte_jan_m06": {
+    "field": "Jubarte",
+    "season": "jan",
+    "member": 6,
+    "start": "2025-01-19T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_jan_m06.nc"
+  },
+  "jubarte_jan_m07": {
+    "field": "Jubarte",
+    "season": "jan",
+    "member": 7,
+    "start": "2025-01-22T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_jan_m07.nc"
+  },
+  "jubarte_jan_m08": {
+    "field": "Jubarte",
+    "season": "jan",
+    "member": 8,
+    "start": "2025-01-25T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_jan_m08.nc"
+  },
+  "jubarte_jan_m09": {
+    "field": "Jubarte",
+    "season": "jan",
+    "member": 9,
+    "start": "2025-01-28T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_jan_m09.nc"
+  },
+  "jubarte_apr_m00": {
+    "field": "Jubarte",
+    "season": "apr",
+    "member": 0,
+    "start": "2025-04-01T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_apr_m00.nc"
+  },
+  "jubarte_apr_m01": {
+    "field": "Jubarte",
+    "season": "apr",
+    "member": 1,
+    "start": "2025-04-04T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_apr_m01.nc"
+  },
+  "jubarte_apr_m02": {
+    "field": "Jubarte",
+    "season": "apr",
+    "member": 2,
+    "start": "2025-04-07T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_apr_m02.nc"
+  },
+  "jubarte_apr_m03": {
+    "field": "Jubarte",
+    "season": "apr",
+    "member": 3,
+    "start": "2025-04-10T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_apr_m03.nc"
+  },
+  "jubarte_apr_m04": {
+    "field": "Jubarte",
+    "season": "apr",
+    "member": 4,
+    "start": "2025-04-13T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_apr_m04.nc"
+  },
+  "jubarte_apr_m05": {
+    "field": "Jubarte",
+    "season": "apr",
+    "member": 5,
+    "start": "2025-04-16T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_apr_m05.nc"
+  },
+  "jubarte_apr_m06": {
+    "field": "Jubarte",
+    "season": "apr",
+    "member": 6,
+    "start": "2025-04-19T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_apr_m06.nc"
+  },
+  "jubarte_apr_m07": {
+    "field": "Jubarte",
+    "season": "apr",
+    "member": 7,
+    "start": "2025-04-22T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_apr_m07.nc"
+  },
+  "jubarte_apr_m08": {
+    "field": "Jubarte",
+    "season": "apr",
+    "member": 8,
+    "start": "2025-04-25T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_apr_m08.nc"
+  },
+  "jubarte_apr_m09": {
+    "field": "Jubarte",
+    "season": "apr",
+    "member": 9,
+    "start": "2025-04-28T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_apr_m09.nc"
+  },
+  "jubarte_jul_m00": {
+    "field": "Jubarte",
+    "season": "jul",
+    "member": 0,
+    "start": "2025-07-01T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_jul_m00.nc"
+  },
+  "jubarte_jul_m01": {
+    "field": "Jubarte",
+    "season": "jul",
+    "member": 1,
+    "start": "2025-07-04T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_jul_m01.nc"
+  },
+  "jubarte_jul_m02": {
+    "field": "Jubarte",
+    "season": "jul",
+    "member": 2,
+    "start": "2025-07-07T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_jul_m02.nc"
+  },
+  "jubarte_jul_m03": {
+    "field": "Jubarte",
+    "season": "jul",
+    "member": 3,
+    "start": "2025-07-10T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_jul_m03.nc"
+  },
+  "jubarte_jul_m04": {
+    "field": "Jubarte",
+    "season": "jul",
+    "member": 4,
+    "start": "2025-07-13T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_jul_m04.nc"
+  },
+  "jubarte_jul_m05": {
+    "field": "Jubarte",
+    "season": "jul",
+    "member": 5,
+    "start": "2025-07-16T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_jul_m05.nc"
+  },
+  "jubarte_jul_m06": {
+    "field": "Jubarte",
+    "season": "jul",
+    "member": 6,
+    "start": "2025-07-19T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_jul_m06.nc"
+  },
+  "jubarte_jul_m07": {
+    "field": "Jubarte",
+    "season": "jul",
+    "member": 7,
+    "start": "2025-07-22T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_jul_m07.nc"
+  },
+  "jubarte_jul_m08": {
+    "field": "Jubarte",
+    "season": "jul",
+    "member": 8,
+    "start": "2025-07-25T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_jul_m08.nc"
+  },
+  "jubarte_jul_m09": {
+    "field": "Jubarte",
+    "season": "jul",
+    "member": 9,
+    "start": "2025-07-28T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_jul_m09.nc"
+  },
+  "jubarte_oct_m00": {
+    "field": "Jubarte",
+    "season": "oct",
+    "member": 0,
+    "start": "2025-10-01T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_oct_m00.nc"
+  },
+  "jubarte_oct_m01": {
+    "field": "Jubarte",
+    "season": "oct",
+    "member": 1,
+    "start": "2025-10-04T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_oct_m01.nc"
+  },
+  "jubarte_oct_m02": {
+    "field": "Jubarte",
+    "season": "oct",
+    "member": 2,
+    "start": "2025-10-07T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_oct_m02.nc"
+  },
+  "jubarte_oct_m03": {
+    "field": "Jubarte",
+    "season": "oct",
+    "member": 3,
+    "start": "2025-10-10T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_oct_m03.nc"
+  },
+  "jubarte_oct_m04": {
+    "field": "Jubarte",
+    "season": "oct",
+    "member": 4,
+    "start": "2025-10-13T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_oct_m04.nc"
+  },
+  "jubarte_oct_m05": {
+    "field": "Jubarte",
+    "season": "oct",
+    "member": 5,
+    "start": "2025-10-16T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_oct_m05.nc"
+  },
+  "jubarte_oct_m06": {
+    "field": "Jubarte",
+    "season": "oct",
+    "member": 6,
+    "start": "2025-10-19T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_oct_m06.nc"
+  },
+  "jubarte_oct_m07": {
+    "field": "Jubarte",
+    "season": "oct",
+    "member": 7,
+    "start": "2025-10-22T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_oct_m07.nc"
+  },
+  "jubarte_oct_m08": {
+    "field": "Jubarte",
+    "season": "oct",
+    "member": 8,
+    "start": "2025-10-25T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_oct_m08.nc"
+  },
+  "jubarte_oct_m09": {
+    "field": "Jubarte",
+    "season": "oct",
+    "member": 9,
+    "start": "2025-10-28T00:00:00",
+    "nc": "main\\outputs\\ensemble\\jubarte_oct_m09.nc"
+  },
+  "frade_jan_m00": {
+    "field": "Frade",
+    "season": "jan",
+    "member": 0,
+    "start": "2025-01-01T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_jan_m00.nc"
+  },
+  "frade_jan_m01": {
+    "field": "Frade",
+    "season": "jan",
+    "member": 1,
+    "start": "2025-01-04T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_jan_m01.nc"
+  },
+  "frade_jan_m02": {
+    "field": "Frade",
+    "season": "jan",
+    "member": 2,
+    "start": "2025-01-07T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_jan_m02.nc"
+  },
+  "frade_jan_m03": {
+    "field": "Frade",
+    "season": "jan",
+    "member": 3,
+    "start": "2025-01-10T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_jan_m03.nc"
+  },
+  "frade_jan_m04": {
+    "field": "Frade",
+    "season": "jan",
+    "member": 4,
+    "start": "2025-01-13T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_jan_m04.nc"
+  },
+  "frade_jan_m05": {
+    "field": "Frade",
+    "season": "jan",
+    "member": 5,
+    "start": "2025-01-16T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_jan_m05.nc"
+  },
+  "frade_jan_m06": {
+    "field": "Frade",
+    "season": "jan",
+    "member": 6,
+    "start": "2025-01-19T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_jan_m06.nc"
+  },
+  "frade_jan_m07": {
+    "field": "Frade",
+    "season": "jan",
+    "member": 7,
+    "start": "2025-01-22T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_jan_m07.nc"
+  },
+  "frade_jan_m08": {
+    "field": "Frade",
+    "season": "jan",
+    "member": 8,
+    "start": "2025-01-25T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_jan_m08.nc"
+  },
+  "frade_jan_m09": {
+    "field": "Frade",
+    "season": "jan",
+    "member": 9,
+    "start": "2025-01-28T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_jan_m09.nc"
+  },
+  "frade_apr_m00": {
+    "field": "Frade",
+    "season": "apr",
+    "member": 0,
+    "start": "2025-04-01T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_apr_m00.nc"
+  },
+  "frade_apr_m01": {
+    "field": "Frade",
+    "season": "apr",
+    "member": 1,
+    "start": "2025-04-04T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_apr_m01.nc"
+  },
+  "frade_apr_m02": {
+    "field": "Frade",
+    "season": "apr",
+    "member": 2,
+    "start": "2025-04-07T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_apr_m02.nc"
+  },
+  "frade_apr_m03": {
+    "field": "Frade",
+    "season": "apr",
+    "member": 3,
+    "start": "2025-04-10T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_apr_m03.nc"
+  },
+  "frade_apr_m04": {
+    "field": "Frade",
+    "season": "apr",
+    "member": 4,
+    "start": "2025-04-13T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_apr_m04.nc"
+  },
+  "frade_apr_m05": {
+    "field": "Frade",
+    "season": "apr",
+    "member": 5,
+    "start": "2025-04-16T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_apr_m05.nc"
+  },
+  "frade_apr_m06": {
+    "field": "Frade",
+    "season": "apr",
+    "member": 6,
+    "start": "2025-04-19T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_apr_m06.nc"
+  },
+  "frade_apr_m07": {
+    "field": "Frade",
+    "season": "apr",
+    "member": 7,
+    "start": "2025-04-22T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_apr_m07.nc"
+  },
+  "frade_apr_m08": {
+    "field": "Frade",
+    "season": "apr",
+    "member": 8,
+    "start": "2025-04-25T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_apr_m08.nc"
+  },
+  "frade_apr_m09": {
+    "field": "Frade",
+    "season": "apr",
+    "member": 9,
+    "start": "2025-04-28T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_apr_m09.nc"
+  },
+  "frade_jul_m00": {
+    "field": "Frade",
+    "season": "jul",
+    "member": 0,
+    "start": "2025-07-01T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_jul_m00.nc"
+  },
+  "frade_jul_m01": {
+    "field": "Frade",
+    "season": "jul",
+    "member": 1,
+    "start": "2025-07-04T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_jul_m01.nc"
+  },
+  "frade_jul_m02": {
+    "field": "Frade",
+    "season": "jul",
+    "member": 2,
+    "start": "2025-07-07T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_jul_m02.nc"
+  },
+  "frade_jul_m03": {
+    "field": "Frade",
+    "season": "jul",
+    "member": 3,
+    "start": "2025-07-10T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_jul_m03.nc"
+  },
+  "frade_jul_m04": {
+    "field": "Frade",
+    "season": "jul",
+    "member": 4,
+    "start": "2025-07-13T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_jul_m04.nc"
+  },
+  "frade_jul_m05": {
+    "field": "Frade",
+    "season": "jul",
+    "member": 5,
+    "start": "2025-07-16T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_jul_m05.nc"
+  },
+  "frade_jul_m06": {
+    "field": "Frade",
+    "season": "jul",
+    "member": 6,
+    "start": "2025-07-19T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_jul_m06.nc"
+  },
+  "frade_jul_m07": {
+    "field": "Frade",
+    "season": "jul",
+    "member": 7,
+    "start": "2025-07-22T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_jul_m07.nc"
+  },
+  "frade_jul_m08": {
+    "field": "Frade",
+    "season": "jul",
+    "member": 8,
+    "start": "2025-07-25T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_jul_m08.nc"
+  },
+  "frade_jul_m09": {
+    "field": "Frade",
+    "season": "jul",
+    "member": 9,
+    "start": "2025-07-28T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_jul_m09.nc"
+  },
+  "frade_oct_m00": {
+    "field": "Frade",
+    "season": "oct",
+    "member": 0,
+    "start": "2025-10-01T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_oct_m00.nc"
+  },
+  "frade_oct_m01": {
+    "field": "Frade",
+    "season": "oct",
+    "member": 1,
+    "start": "2025-10-04T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_oct_m01.nc"
+  },
+  "frade_oct_m02": {
+    "field": "Frade",
+    "season": "oct",
+    "member": 2,
+    "start": "2025-10-07T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_oct_m02.nc"
+  },
+  "frade_oct_m03": {
+    "field": "Frade",
+    "season": "oct",
+    "member": 3,
+    "start": "2025-10-10T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_oct_m03.nc"
+  },
+  "frade_oct_m04": {
+    "field": "Frade",
+    "season": "oct",
+    "member": 4,
+    "start": "2025-10-13T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_oct_m04.nc"
+  },
+  "frade_oct_m05": {
+    "field": "Frade",
+    "season": "oct",
+    "member": 5,
+    "start": "2025-10-16T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_oct_m05.nc"
+  },
+  "frade_oct_m06": {
+    "field": "Frade",
+    "season": "oct",
+    "member": 6,
+    "start": "2025-10-19T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_oct_m06.nc"
+  },
+  "frade_oct_m07": {
+    "field": "Frade",
+    "season": "oct",
+    "member": 7,
+    "start": "2025-10-22T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_oct_m07.nc"
+  },
+  "frade_oct_m08": {
+    "field": "Frade",
+    "season": "oct",
+    "member": 8,
+    "start": "2025-10-25T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_oct_m08.nc"
+  },
+  "frade_oct_m09": {
+    "field": "Frade",
+    "season": "oct",
+    "member": 9,
+    "start": "2025-10-28T00:00:00",
+    "nc": "main\\outputs\\ensemble\\frade_oct_m09.nc"
+  },
+  "albacora_jan_m00": {
+    "field": "Albacora",
+    "season": "jan",
+    "member": 0,
+    "start": "2025-01-01T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_jan_m00.nc"
+  },
+  "albacora_jan_m01": {
+    "field": "Albacora",
+    "season": "jan",
+    "member": 1,
+    "start": "2025-01-04T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_jan_m01.nc"
+  },
+  "albacora_jan_m02": {
+    "field": "Albacora",
+    "season": "jan",
+    "member": 2,
+    "start": "2025-01-07T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_jan_m02.nc"
+  },
+  "albacora_jan_m03": {
+    "field": "Albacora",
+    "season": "jan",
+    "member": 3,
+    "start": "2025-01-10T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_jan_m03.nc"
+  },
+  "albacora_jan_m04": {
+    "field": "Albacora",
+    "season": "jan",
+    "member": 4,
+    "start": "2025-01-13T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_jan_m04.nc"
+  },
+  "albacora_jan_m05": {
+    "field": "Albacora",
+    "season": "jan",
+    "member": 5,
+    "start": "2025-01-16T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_jan_m05.nc"
+  },
+  "albacora_jan_m06": {
+    "field": "Albacora",
+    "season": "jan",
+    "member": 6,
+    "start": "2025-01-19T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_jan_m06.nc"
+  },
+  "albacora_jan_m07": {
+    "field": "Albacora",
+    "season": "jan",
+    "member": 7,
+    "start": "2025-01-22T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_jan_m07.nc"
+  },
+  "albacora_jan_m08": {
+    "field": "Albacora",
+    "season": "jan",
+    "member": 8,
+    "start": "2025-01-25T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_jan_m08.nc"
+  },
+  "albacora_jan_m09": {
+    "field": "Albacora",
+    "season": "jan",
+    "member": 9,
+    "start": "2025-01-28T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_jan_m09.nc"
+  },
+  "albacora_apr_m00": {
+    "field": "Albacora",
+    "season": "apr",
+    "member": 0,
+    "start": "2025-04-01T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_apr_m00.nc"
+  },
+  "albacora_apr_m01": {
+    "field": "Albacora",
+    "season": "apr",
+    "member": 1,
+    "start": "2025-04-04T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_apr_m01.nc"
+  },
+  "albacora_apr_m02": {
+    "field": "Albacora",
+    "season": "apr",
+    "member": 2,
+    "start": "2025-04-07T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_apr_m02.nc"
+  },
+  "albacora_apr_m03": {
+    "field": "Albacora",
+    "season": "apr",
+    "member": 3,
+    "start": "2025-04-10T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_apr_m03.nc"
+  },
+  "albacora_apr_m04": {
+    "field": "Albacora",
+    "season": "apr",
+    "member": 4,
+    "start": "2025-04-13T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_apr_m04.nc"
+  },
+  "albacora_apr_m05": {
+    "field": "Albacora",
+    "season": "apr",
+    "member": 5,
+    "start": "2025-04-16T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_apr_m05.nc"
+  },
+  "albacora_apr_m06": {
+    "field": "Albacora",
+    "season": "apr",
+    "member": 6,
+    "start": "2025-04-19T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_apr_m06.nc"
+  },
+  "albacora_apr_m07": {
+    "field": "Albacora",
+    "season": "apr",
+    "member": 7,
+    "start": "2025-04-22T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_apr_m07.nc"
+  },
+  "albacora_apr_m08": {
+    "field": "Albacora",
+    "season": "apr",
+    "member": 8,
+    "start": "2025-04-25T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_apr_m08.nc"
+  },
+  "albacora_apr_m09": {
+    "field": "Albacora",
+    "season": "apr",
+    "member": 9,
+    "start": "2025-04-28T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_apr_m09.nc"
+  },
+  "albacora_jul_m00": {
+    "field": "Albacora",
+    "season": "jul",
+    "member": 0,
+    "start": "2025-07-01T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_jul_m00.nc"
+  },
+  "albacora_jul_m01": {
+    "field": "Albacora",
+    "season": "jul",
+    "member": 1,
+    "start": "2025-07-04T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_jul_m01.nc"
+  },
+  "albacora_jul_m02": {
+    "field": "Albacora",
+    "season": "jul",
+    "member": 2,
+    "start": "2025-07-07T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_jul_m02.nc"
+  },
+  "albacora_jul_m03": {
+    "field": "Albacora",
+    "season": "jul",
+    "member": 3,
+    "start": "2025-07-10T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_jul_m03.nc"
+  },
+  "albacora_jul_m04": {
+    "field": "Albacora",
+    "season": "jul",
+    "member": 4,
+    "start": "2025-07-13T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_jul_m04.nc"
+  },
+  "albacora_jul_m05": {
+    "field": "Albacora",
+    "season": "jul",
+    "member": 5,
+    "start": "2025-07-16T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_jul_m05.nc"
+  },
+  "albacora_jul_m06": {
+    "field": "Albacora",
+    "season": "jul",
+    "member": 6,
+    "start": "2025-07-19T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_jul_m06.nc"
+  },
+  "albacora_jul_m07": {
+    "field": "Albacora",
+    "season": "jul",
+    "member": 7,
+    "start": "2025-07-22T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_jul_m07.nc"
+  },
+  "albacora_jul_m08": {
+    "field": "Albacora",
+    "season": "jul",
+    "member": 8,
+    "start": "2025-07-25T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_jul_m08.nc"
+  },
+  "albacora_jul_m09": {
+    "field": "Albacora",
+    "season": "jul",
+    "member": 9,
+    "start": "2025-07-28T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_jul_m09.nc"
+  },
+  "albacora_oct_m00": {
+    "field": "Albacora",
+    "season": "oct",
+    "member": 0,
+    "start": "2025-10-01T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_oct_m00.nc"
+  },
+  "albacora_oct_m01": {
+    "field": "Albacora",
+    "season": "oct",
+    "member": 1,
+    "start": "2025-10-04T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_oct_m01.nc"
+  },
+  "albacora_oct_m02": {
+    "field": "Albacora",
+    "season": "oct",
+    "member": 2,
+    "start": "2025-10-07T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_oct_m02.nc"
+  },
+  "albacora_oct_m03": {
+    "field": "Albacora",
+    "season": "oct",
+    "member": 3,
+    "start": "2025-10-10T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_oct_m03.nc"
+  },
+  "albacora_oct_m04": {
+    "field": "Albacora",
+    "season": "oct",
+    "member": 4,
+    "start": "2025-10-13T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_oct_m04.nc"
+  },
+  "albacora_oct_m05": {
+    "field": "Albacora",
+    "season": "oct",
+    "member": 5,
+    "start": "2025-10-16T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_oct_m05.nc"
+  },
+  "albacora_oct_m06": {
+    "field": "Albacora",
+    "season": "oct",
+    "member": 6,
+    "start": "2025-10-19T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_oct_m06.nc"
+  },
+  "albacora_oct_m07": {
+    "field": "Albacora",
+    "season": "oct",
+    "member": 7,
+    "start": "2025-10-22T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_oct_m07.nc"
+  },
+  "albacora_oct_m08": {
+    "field": "Albacora",
+    "season": "oct",
+    "member": 8,
+    "start": "2025-10-25T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_oct_m08.nc"
+  },
+  "albacora_oct_m09": {
+    "field": "Albacora",
+    "season": "oct",
+    "member": 9,
+    "start": "2025-10-28T00:00:00",
+    "nc": "main\\outputs\\ensemble\\albacora_oct_m09.nc"
+  }
+}

@@ -1,0 +1,338 @@
+{
+  "peregrino_jan_wind_on": {
+    "field": "Peregrino",
+    "season": "jan",
+    "wind": "wind_on",
+    "nc": "main\\outputs\\scenarios\\peregrino_jan_wind_on.nc",
+    "computed": "2026-05-31T23:26:53.792739"
+  },
+  "peregrino_apr_wind_on": {
+    "field": "Peregrino",
+    "season": "apr",
+    "wind": "wind_on",
+    "nc": "main\\outputs\\scenarios\\peregrino_apr_wind_on.nc",
+    "computed": "2026-05-31T23:28:20.160811"
+  },
+  "peregrino_jul_wind_on": {
+    "field": "Peregrino",
+    "season": "jul",
+    "wind": "wind_on",
+    "nc": "main\\outputs\\scenarios\\peregrino_jul_wind_on.nc",
+    "computed": "2026-05-31T23:29:42.281877"
+  },
+  "peregrino_oct_wind_on": {
+    "field": "Peregrino",
+    "season": "oct",
+    "wind": "wind_on",
+    "nc": "main\\outputs\\scenarios\\peregrino_oct_wind_on.nc",
+    "computed": "2026-05-31T23:31:18.912310"
+  },
+  "marlim_jan_wind_on": {
+    "field": "Marlim",
+    "season": "jan",
+    "wind": "wind_on",
+    "nc": "main\\outputs\\scenarios\\marlim_jan_wind_on.nc",
+    "computed": "2026-05-31T23:32:38.995591"
+  },
+  "marlim_apr_wind_on": {
+    "field": "Marlim",
+    "season": "apr",
+    "wind": "wind_on",
+    "nc": "main\\outputs\\scenarios\\marlim_apr_wind_on.nc",
+    "computed": "2026-05-31T23:34:20.879571"
+  },
+  "marlim_jul_wind_on": {
+    "field": "Marlim",
+    "season": "jul",
+    "wind": "wind_on",
+    "nc": "main\\outputs\\scenarios\\marlim_jul_wind_on.nc",
+    "computed": "2026-05-31T23:35:55.714347"
+  },
+  "marlim_oct_wind_on": {
+    "field": "Marlim",
+    "season": "oct",
+    "wind": "wind_on",
+    "nc": "main\\outputs\\scenarios\\marlim_oct_wind_on.nc",
+    "computed": "2026-05-31T23:37:28.207706"
+  },
+  "frade_jan_wind_on": {
+    "field": "Frade",
+    "season": "jan",
+    "wind": "wind_on",
+    "nc": "main\\outputs\\scenarios\\frade_jan_wind_on.nc",
+    "computed": "2026-05-31T23:39:10.727802"
+  },
+  "frade_apr_wind_on": {
+    "field": "Frade",
+    "season": "apr",
+    "wind": "wind_on",
+    "nc": "main\\outputs\\scenarios\\frade_apr_wind_on.nc",
+    "computed": "2026-05-31T23:39:34.805247"
+  },
+  "frade_jul_wind_on": {
+    "field": "Frade",
+    "season": "jul",
+    "wind": "wind_on",
+    "nc": "main\\outputs\\scenarios\\frade_jul_wind_on.nc",
+    "computed": "2026-05-31T23:41:12.986212"
+  },
+  "frade_oct_wind_on": {
+    "field": "Frade",
+    "season": "oct",
+    "wind": "wind_on",
+    "nc": "main\\outputs\\scenarios\\frade_oct_wind_on.nc",
+    "computed": "2026-05-31T23:41:29.748534"
+  },
+  "albacora_jan_wind_on": {
+    "field": "Albacora",
+    "season": "jan",
+    "wind": "wind_on",
+    "nc": "main\\outputs\\scenarios\\albacora_jan_wind_on.nc",
+    "computed": "2026-05-31T23:42:50.246290"
+  },
+  "albacora_apr_wind_on": {
+    "field": "Albacora",
+    "season": "apr",
+    "wind": "wind_on",
+    "nc": "main\\outputs\\scenarios\\albacora_apr_wind_on.nc",
+    "computed": "2026-05-31T23:44:17.528714"
+  },
+  "albacora_jul_wind_on": {
+    "field": "Albacora",
+    "season": "jul",
+    "wind": "wind_on",
+    "nc": "main\\outputs\\scenarios\\albacora_jul_wind_on.nc",
+    "computed": "2026-05-31T23:45:52.664780"
+  },
+  "albacora_oct_wind_on": {
+    "field": "Albacora",
+    "season": "oct",
+    "wind": "wind_on",
+    "nc": "main\\outputs\\scenarios\\albacora_oct_wind_on.nc",
+    "computed": "2026-05-31T23:47:15.700304"
+  },
+  "peregrino_jan_wind_off": {
+    "field": "Peregrino",
+    "season": "jan",
+    "wind": "wind_off",
+    "nc": "main\\outputs\\scenarios\\peregrino_jan_wind_off.nc",
+    "computed": "2026-06-01T00:38:46.177620"
+  },
+  "peregrino_apr_wind_off": {
+    "field": "Peregrino",
+    "season": "apr",
+    "wind": "wind_off",
+    "nc": "main\\outputs\\scenarios\\peregrino_apr_wind_off.nc",
+    "computed": "2026-06-01T00:39:57.548689"
+  },
+  "peregrino_jul_wind_off": {
+    "field": "Peregrino",
+    "season": "jul",
+    "wind": "wind_off",
+    "nc": "main\\outputs\\scenarios\\peregrino_jul_wind_off.nc",
+    "computed": "2026-06-01T00:40:40.486405"
+  },
+  "peregrino_oct_wind_off": {
+    "field": "Peregrino",
+    "season": "oct",
+    "wind": "wind_off",
+    "nc": "main\\outputs\\scenarios\\peregrino_oct_wind_off.nc",
+    "computed": "2026-06-01T00:41:22.299731"
+  },
+  "marlim_jan_wind_off": {
+    "field": "Marlim",
+    "season": "jan",
+    "wind": "wind_off",
+    "nc": "main\\outputs\\scenarios\\marlim_jan_wind_off.nc",
+    "computed": "2026-06-01T00:42:03.153179"
+  },
+  "marlim_apr_wind_off": {
+    "field": "Marlim",
+    "season": "apr",
+    "wind": "wind_off",
+    "nc": "main\\outputs\\scenarios\\marlim_apr_wind_off.nc",
+    "computed": "2026-06-01T00:43:00.712812"
+  },
+  "marlim_jul_wind_off": {
+    "field": "Marlim",
+    "season": "jul",
+    "wind": "wind_off",
+    "nc": "main\\outputs\\scenarios\\marlim_jul_wind_off.nc",
+    "computed": "2026-06-01T00:44:24.296632"
+  },
+  "marlim_oct_wind_off": {
+    "field": "Marlim",
+    "season": "oct",
+    "wind": "wind_off",
+    "nc": "main\\outputs\\scenarios\\marlim_oct_wind_off.nc",
+    "computed": "2026-06-01T00:45:41.253706"
+  },
+  "roncador_jan_wind_off": {
+    "field": "Roncador",
+    "season": "jan",
+    "wind": "wind_off",
+    "nc": "main\\outputs\\scenarios\\roncador_jan_wind_off.nc",
+    "computed": "2026-06-01T00:46:55.200147"
+  },
+  "roncador_apr_wind_off": {
+    "field": "Roncador",
+    "season": "apr",
+    "wind": "wind_off",
+    "nc": "main\\outputs\\scenarios\\roncador_apr_wind_off.nc",
+    "computed": "2026-06-01T00:48:09.160799"
+  },
+  "roncador_jul_wind_off": {
+    "field": "Roncador",
+    "season": "jul",
+    "wind": "wind_off",
+    "nc": "main\\outputs\\scenarios\\roncador_jul_wind_off.nc",
+    "computed": "2026-06-01T00:49:25.972211"
+  },
+  "roncador_oct_wind_off": {
+    "field": "Roncador",
+    "season": "oct",
+    "wind": "wind_off",
+    "nc": "main\\outputs\\scenarios\\roncador_oct_wind_off.nc",
+    "computed": "2026-06-01T00:50:58.946984"
+  },
+  "jubarte_jan_wind_off": {
+    "field": "Jubarte",
+    "season": "jan",
+    "wind": "wind_off",
+    "nc": "main\\outputs\\scenarios\\jubarte_jan_wind_off.nc",
+    "computed": "2026-06-01T00:52:26.441223"
+  },
+  "jubarte_apr_wind_off": {
+    "field": "Jubarte",
+    "season": "apr",
+    "wind": "wind_off",
+    "nc": "main\\outputs\\scenarios\\jubarte_apr_wind_off.nc",
+    "computed": "2026-06-01T00:53:54.078724"
+  },
+  "jubarte_jul_wind_off": {
+    "field": "Jubarte",
+    "season": "jul",
+    "wind": "wind_off",
+    "nc": "main\\outputs\\scenarios\\jubarte_jul_wind_off.nc",
+    "computed": "2026-06-01T00:55:10.462970"
+  },
+  "jubarte_oct_wind_off": {
+    "field": "Jubarte",
+    "season": "oct",
+    "wind": "wind_off",
+    "nc": "main\\outputs\\scenarios\\jubarte_oct_wind_off.nc",
+    "computed": "2026-06-01T00:56:26.259671"
+  },
+  "frade_jan_wind_off": {
+    "field": "Frade",
+    "season": "jan",
+    "wind": "wind_off",
+    "nc": "main\\outputs\\scenarios\\frade_jan_wind_off.nc",
+    "computed": "2026-06-01T00:57:56.682416"
+  },
+  "frade_apr_wind_off": {
+    "field": "Frade",
+    "season": "apr",
+    "wind": "wind_off",
+    "nc": "main\\outputs\\scenarios\\frade_apr_wind_off.nc",
+    "computed": "2026-06-01T00:59:34.059149"
+  },
+  "frade_jul_wind_off": {
+    "field": "Frade",
+    "season": "jul",
+    "wind": "wind_off",
+    "nc": "main\\outputs\\scenarios\\frade_jul_wind_off.nc",
+    "computed": "2026-06-01T01:00:35.922778"
+  },
+  "frade_oct_wind_off": {
+    "field": "Frade",
+    "season": "oct",
+    "wind": "wind_off",
+    "nc": "main\\outputs\\scenarios\\frade_oct_wind_off.nc",
+    "computed": "2026-06-01T01:01:45.033924"
+  },
+  "albacora_jan_wind_off": {
+    "field": "Albacora",
+    "season": "jan",
+    "wind": "wind_off",
+    "nc": "main\\outputs\\scenarios\\albacora_jan_wind_off.nc",
+    "computed": "2026-06-01T01:03:08.566133"
+  },
+  "albacora_apr_wind_off": {
+    "field": "Albacora",
+    "season": "apr",
+    "wind": "wind_off",
+    "nc": "main\\outputs\\scenarios\\albacora_apr_wind_off.nc",
+    "computed": "2026-06-01T01:04:24.607220"
+  },
+  "albacora_jul_wind_off": {
+    "field": "Albacora",
+    "season": "jul",
+    "wind": "wind_off",
+    "nc": "main\\outputs\\scenarios\\albacora_jul_wind_off.nc",
+    "computed": "2026-06-01T01:05:35.243734"
+  },
+  "albacora_oct_wind_off": {
+    "field": "Albacora",
+    "season": "oct",
+    "wind": "wind_off",
+    "nc": "main\\outputs\\scenarios\\albacora_oct_wind_off.nc",
+    "computed": "2026-06-01T01:07:04.001722"
+  },
+  "roncador_jan_wind_on": {
+    "field": "Roncador",
+    "season": "jan",
+    "wind": "wind_on",
+    "nc": "main\\outputs\\scenarios\\roncador_jan_wind_on.nc",
+    "computed": "2026-06-01T02:08:04.024868"
+  },
+  "roncador_apr_wind_on": {
+    "field": "Roncador",
+    "season": "apr",
+    "wind": "wind_on",
+    "nc": "main\\outputs\\scenarios\\roncador_apr_wind_on.nc",
+    "computed": "2026-06-01T02:09:44.188109"
+  },
+  "roncador_jul_wind_on": {
+    "field": "Roncador",
+    "season": "jul",
+    "wind": "wind_on",
+    "nc": "main\\outputs\\scenarios\\roncador_jul_wind_on.nc",
+    "computed": "2026-06-01T02:11:11.120090"
+  },
+  "roncador_oct_wind_on": {
+    "field": "Roncador",
+    "season": "oct",
+    "wind": "wind_on",
+    "nc": "main\\outputs\\scenarios\\roncador_oct_wind_on.nc",
+    "computed": "2026-06-01T02:12:43.871212"
+  },
+  "jubarte_jan_wind_on": {
+    "field": "Jubarte",
+    "season": "jan",
+    "wind": "wind_on",
+    "nc": "main\\outputs\\scenarios\\jubarte_jan_wind_on.nc",
+    "computed": "2026-06-01T02:14:15.656515"
+  },
+  "jubarte_apr_wind_on": {
+    "field": "Jubarte",
+    "season": "apr",
+    "wind": "wind_on",
+    "nc": "main\\outputs\\scenarios\\jubarte_apr_wind_on.nc",
+    "computed": "2026-06-01T02:15:37.134179"
+  },
+  "jubarte_jul_wind_on": {
+    "field": "Jubarte",
+    "season": "jul",
+    "wind": "wind_on",
+    "nc": "main\\outputs\\scenarios\\jubarte_jul_wind_on.nc",
+    "computed": "2026-06-01T02:17:07.278670"
+  },
+  "jubarte_oct_wind_on": {
+    "field": "Jubarte",
+    "season": "oct",
+    "wind": "wind_on",
+    "nc": "main\\outputs\\scenarios\\jubarte_oct_wind_on.nc",
+    "computed": "2026-06-01T02:18:43.528289"
+  }
+}
