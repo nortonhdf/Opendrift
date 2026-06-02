@@ -5,6 +5,7 @@ dependencies:
   - matplotlib>=3.5
   - numpy>1.23
   - scipy>=1.14
+  - libblas=*=*openblas   # force OpenBLAS — MKL builds crashed on Windows/py3.14 (see main/README.md)
   - netcdf4
   - ffmpeg
   - pyproj>=2.3
@@ -35,6 +36,10 @@ dependencies:
   - copernicusmarine>=2.0
   - bottleneck
   - python-dotenv
+  # Campos Basin dispersion app (main/app.py)
+  - streamlit>=1.30
+  - plotly>=5.18
+  - pandas
   - pip
   - git
   - pip:

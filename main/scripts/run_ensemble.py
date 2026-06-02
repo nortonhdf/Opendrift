@@ -23,6 +23,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
+# Windows consoles default to cp1252, which can't encode the ✓/✗ status glyphs.
+try:
+    sys.stdout.reconfigure(encoding="utf-8")
+except Exception:
+    pass
+
 from main.fields_config import CAMPOS_FIELDS
 from main.run_open_oil import run_simulation
 

@@ -1,8 +1,7 @@
 """
 Campos Basin Oil Spill Dispersion — Streamlit App
 
-Run with:
-    cd C:\\Users\\nbkon\\Git\\opendrift
+Run from the repository root with the opendrift environment active:
     conda activate opendrift
     streamlit run main/app.py
 """
@@ -30,7 +29,8 @@ SCENARIOS_DIR = ROOT / "main" / "outputs" / "scenarios"
 MANIFEST_PATH = SCENARIOS_DIR / "manifest.json"
 
 RISK_DIR  = ROOT / "main" / "outputs" / "risk_grids"
-GRID_RES  = 0.1  # degrees — matches compute_risk_grids.py
+BEACH_DIR = ROOT / "main" / "outputs" / "beaching"
+GRID_RES  = 0.1  # degrees — matches compute_risk_grids.py / compute_beaching.py
 
 SEASON_LABELS = {"jan": "January", "apr": "April", "jul": "July", "oct": "October"}
 SEASON_DATES  = {
@@ -205,6 +205,81 @@ def load_risk_grid(npz_path: str) -> dict:
     return {k: d[k] for k in d.files}
 
 
+# ── Oil weathering budget ───────────────────────────────────────────────────────
+
+# (mass key, label, colour) — order = stacking order, bottom to top
+BUDGET_CATEGORIES = [
+    ("mass_surface",     "Surface",     "#e8a33d"),
+    ("mass_submerged",   "Submerged",   "#3a7ca5"),
+    ("mass_dispersed",   "Dispersed",   "#2f4858"),
+    ("mass_stranded",    "Stranded",    "#8d6e63"),
+    ("mass_evaporated",  "Evaporated",  "#bdbdbd"),
+    ("mass_biodegraded", "Biodegraded", "#66bb6a"),
+]
+
+
+def budget_npz_for(nc_path: Path) -> Path:
+    """Sidecar produced by run_open_oil alongside each trajectory NetCDF."""
+    return nc_path.with_name(nc_path.stem + "_budget.npz")
+
+
+@st.cache_data(show_spinner=False)
+def load_budget(npz_path: str) -> dict:
+    d = np.load(npz_path)
+    return {k: d[k] for k in d.files}
+
+
+def build_budget_figure(budget: dict) -> go.Figure:
+    hours  = budget["hours"]
+    total0 = float(budget["mass_total"][0]) or 1.0
+
+    fig = go.Figure()
+    for key, label, color in BUDGET_CATEGORIES:
+        y = budget[key] / total0 * 100.0
+        if np.nanmax(y) < 0.05:        # hide categories that never occur
+            continue
+        fig.add_trace(go.Scatter(
+            x=hours, y=y, mode="lines", name=label,
+            line=dict(width=0.5, color=color),
+            stackgroup="one", fillcolor=color,
+            hovertemplate=f"{label}: %{{y:.1f}}%<extra></extra>",
+        ))
+
+    fig.update_layout(
+        height=320, margin=dict(l=0, r=0, t=10, b=0),
+        xaxis_title="Hours since release",
+        yaxis_title="% of released oil mass",
+        yaxis=dict(range=[0, 100]),
+        legend=dict(orientation="h", yanchor="bottom", y=-0.35, x=0),
+    )
+    return fig
+
+
+def show_budget(nc_rel: str) -> None:
+    """Render the weathering budget for a run, if its sidecar exists."""
+    npz = budget_npz_for(ROOT / nc_rel)
+    if not npz.exists():
+        return
+    budget = load_budget(str(npz))
+    total0 = float(budget["mass_total"][0]) or 1.0
+
+    st.divider()
+    st.subheader("🛢 Oil weathering budget")
+    bc1, bc2 = st.columns([3, 1])
+    with bc1:
+        st.plotly_chart(build_budget_figure(budget), width="stretch")
+    with bc2:
+        st.caption("**Final fate** (% of released mass)")
+        def pct(k: str) -> float:
+            return float(budget[k][-1]) / total0 * 100.0
+        st.metric("Evaporated", f"{pct('mass_evaporated'):.0f}%")
+        st.metric("Dispersed",  f"{pct('mass_dispersed'):.0f}%")
+        st.metric("At surface",  f"{pct('mass_surface'):.0f}%")
+        if float(budget["mass_stranded"][-1]) > 0:
+            st.metric("Stranded", f"{pct('mass_stranded'):.0f}%")
+        st.caption(f"Oil density: {float(np.ravel(budget['oil_density'])[0]):.0f} kg/m³")
+
+
 def build_risk_figure(
     grid: dict, field: dict, field_name: str,
     metric: str, threshold: float,
@@ -263,6 +338,58 @@ def build_risk_figure(
     return go.Figure(data=traces, layout=layout)
 
 
+def build_beaching_figure(
+    grid: dict, field: dict, field_name: str, threshold: float,
+) -> go.Figure:
+    lons = grid["lons"]
+    lats = grid["lats"]
+    prob = grid["strand_grid"]  # (n_lat, n_lon) — P(particle beaches in cell)
+
+    clon = lons + GRID_RES / 2
+    clat = lats + GRID_RES / 2
+    lon_g, lat_g = np.meshgrid(clon, clat)
+    lon_f  = lon_g.flatten()
+    lat_f  = lat_g.flatten()
+    prob_f = prob.flatten()
+
+    mask = (prob_f > 0) & (prob_f >= threshold)
+    traces = []
+
+    if mask.any():
+        traces.append(go.Densitymapbox(
+            lon=lon_f[mask].tolist(),
+            lat=lat_f[mask].tolist(),
+            z=prob_f[mask].tolist(),
+            radius=22,
+            colorscale="Hot_r",
+            zmin=threshold,
+            zmax=float(prob_f.max()),
+            opacity=0.75,
+            showscale=True,
+            colorbar=dict(title="Beaching<br>probability", tickformat=".0%", x=1.0),
+            name="Beaching",
+        ))
+
+    traces.append(go.Scattermapbox(
+        lon=[field["lon"]], lat=[field["lat"]],
+        mode="markers",
+        marker=dict(size=14, color="#4CAF50"),
+        name=f"{field_name} (source)",
+    ))
+
+    layout = go.Layout(
+        mapbox=dict(
+            style="open-street-map",
+            center=dict(lon=field["lon"] - 0.6, lat=field["lat"] - 0.6),
+            zoom=6,
+        ),
+        margin=dict(l=0, r=0, t=0, b=0),
+        height=600,
+        legend=dict(x=0.01, y=0.99, bgcolor="rgba(255,255,255,0.8)"),
+    )
+    return go.Figure(data=traces, layout=layout)
+
+
 def build_stats(data: dict) -> dict:
     status = data["status"]
     lons   = data["lon"]
@@ -281,16 +408,17 @@ def build_stats(data: dict) -> dict:
                 lon_range=lon_range, lat_range=lat_range)
 
 
-def show_results(data: dict, field: dict, field_name: str, cfg: dict) -> None:
+def show_results(data: dict, field: dict, field_name: str, cfg: dict,
+                 key: str = "res") -> None:
     col_map, col_info = st.columns([3, 1])
 
-    show_density = st.toggle("Show density heatmap", value=False,
+    show_density = st.toggle("Show density heatmap", value=False, key=f"{key}_density",
                              help="Overlay showing concentration of final particle positions")
 
     with col_map:
         st.plotly_chart(
             build_animated_figure(data, field, field_name, show_density),
-            use_container_width=True,
+            width="stretch",
         )
 
     with col_info:
@@ -317,12 +445,17 @@ def show_results(data: dict, field: dict, field_name: str, cfg: dict) -> None:
                 with open(nc_path, "rb") as f:
                     st.download_button("NetCDF trajectory", f,
                                        file_name=nc_path.name,
-                                       mime="application/octet-stream")
+                                       mime="application/octet-stream",
+                                       key=f"{key}_dl")
+
+    show_budget(cfg.get("nc", "main/outputs/openoil_run.nc"))
 
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 
-tab_pre, tab_risk, tab_custom = st.tabs(["📦 Pre-computed Scenarios", "🗺️ Risk Maps", "⚙️ Custom Run"])
+tab_pre, tab_risk, tab_beach, tab_custom = st.tabs(
+    ["📦 Pre-computed Scenarios", "🗺️ Risk Maps", "🏖️ Beaching", "⚙️ Custom Run"]
+)
 
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -375,7 +508,8 @@ with tab_pre:
                                   duration_h=120,
                                   use_wind=sel_wind == "wind_on",
                                   use_waves=False,
-                                  nc=entry["nc"]))
+                                  nc=entry["nc"]),
+                         key=f"pre_{key}")
         else:
             st.warning(
                 f"Scenario **{key}** not computed yet. "
@@ -393,7 +527,7 @@ with tab_pre:
                         row[f"{SEASON_LABELS[s]} {'💨' if w == 'wind_on' else '🌫'}"] = "✅" if k in manifest else "⬜"
                 rows.append(row)
             import pandas as pd
-            st.dataframe(pd.DataFrame(rows).set_index("Field"), use_container_width=True)
+            st.dataframe(pd.DataFrame(rows).set_index("Field"), width="stretch")
 
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -465,7 +599,7 @@ with tab_risk:
             with map_col:
                 st.plotly_chart(
                     build_risk_figure(grid, field_cfg, r_field, r_metric, r_threshold),
-                    use_container_width=True,
+                    width="stretch",
                 )
 
             with info_col:
@@ -517,7 +651,95 @@ with tab_risk:
 
 
 # ════════════════════════════════════════════════════════════════════════════
-# TAB 3 — Custom run (live simulation)
+# TAB 3 — Beaching (coastal stranding)
+# ════════════════════════════════════════════════════════════════════════════
+
+with tab_beach:
+    beach_manifest_path = BEACH_DIR / "manifest.json"
+
+    if not beach_manifest_path.exists():
+        st.info(
+            "No beaching grids computed yet. Run the ensemble first, then:\n\n"
+            "```\npython main/scripts/compute_beaching.py\n```\n\n"
+            "This aggregates where and when oil reaches the coast across all "
+            "ensemble members."
+        )
+    else:
+        beach_manifest = json.loads(beach_manifest_path.read_text())
+
+        bc1, bc2 = st.columns(2)
+        with bc1:
+            b_field = st.selectbox(
+                "Field",
+                sorted({v["field"] for v in beach_manifest.values()}),
+                key="beach_field",
+            )
+        with bc2:
+            available_seasons = sorted(
+                {v["season"] for v in beach_manifest.values() if v["field"] == b_field},
+                key=list(SEASON_LABELS.keys()).index,
+            )
+            b_season = st.selectbox(
+                "Season", available_seasons,
+                format_func=lambda s: SEASON_LABELS[s],
+                key="beach_season",
+            )
+
+        grid_key = f"{b_field.lower().replace(' ', '_')}_{b_season}"
+        if grid_key in beach_manifest:
+            entry     = beach_manifest[grid_key]
+            grid      = load_risk_grid(str(ROOT / entry["npz"]))  # generic .npz loader
+            field_cfg = CAMPOS_FIELDS[b_field]
+
+            stranded_frac = float(grid["stranded_fraction"])
+            n_members     = int(grid["n_members"])
+
+            if stranded_frac < 0.005:
+                st.success(
+                    f"**{b_field} · {SEASON_LABELS[b_season]} 2025** — negligible beaching: "
+                    f"oil stays offshore for the full 120 h window "
+                    f"({n_members} ensemble members)."
+                )
+            else:
+                peak = float(grid["strand_grid"].max())
+                b_threshold = st.slider(
+                    "Minimum beaching probability to display",
+                    min_value=0.0, max_value=0.10,
+                    value=0.01, step=0.005, format="%.3f",
+                    help="Grid cells where fewer than this fraction of released "
+                         "particles beach are hidden",
+                )
+
+                map_col, info_col = st.columns([3, 1])
+                with map_col:
+                    st.plotly_chart(
+                        build_beaching_figure(grid, field_cfg, b_field, b_threshold),
+                        width="stretch",
+                    )
+                with info_col:
+                    st.subheader(f"{b_field}")
+                    st.caption(f"{SEASON_LABELS[b_season]} 2025 · {n_members} members")
+                    st.divider()
+                    st.metric("Particles beached", f"{stranded_frac * 100:.0f}%")
+                    st.metric("Peak cell probability", f"{peak * 100:.0f}%")
+                    p10, p50, p90 = (float(grid["hours_p10"]),
+                                     float(grid["hours_p50"]),
+                                     float(grid["hours_p90"]))
+                    if not np.isnan(p50):
+                        st.caption("**Time to beach** (hours after release)")
+                        st.metric("Median", f"{p50:.0f} h")
+                        st.caption(f"10–90th percentile: {p10:.0f}–{p90:.0f} h")
+                    st.divider()
+                    st.caption(
+                        "Probability that a released particle beaches in each "
+                        "0.1° coastal cell, across ensemble members."
+                    )
+        else:
+            st.warning(f"Beaching grid for **{grid_key}** not found in manifest.")
+
+
+# ════════════════════════════════════════════════════════════════════════════
+# TAB 4 — Custom run (live simulation)
 # ════════════════════════════════════════════════════════════════════════════
 
 with tab_custom:
@@ -564,10 +786,11 @@ API: **{field['api']}°** · {field['operator']} · {field['water_depth_m']} m
         st.divider()
         use_wind   = st.toggle("Wind forcing",        value=True)
         use_waves  = st.toggle("Stokes drift (waves)", value=False,
-                               help="Requires waves_cf.nc — run scripts/download_era5_waves.py first")
+                               help="Adds wave-driven Stokes drift, parameterised from the "
+                                    "wind field (no separate wave dataset needed). Requires wind.")
         n_particles = st.slider("Particles", 100, 2000, 1000, step=100)
 
-        run_btn = st.button("▶ Run simulation", type="primary", use_container_width=True)
+        run_btn = st.button("▶ Run simulation", type="primary", width="stretch")
 
     CUSTOM_NC  = ROOT / "main" / "outputs" / "openoil_run.nc"
     CUSTOM_FIG = ROOT / "main" / "outputs" / "tracks.png"
@@ -600,6 +823,6 @@ API: **{field['api']}°** · {field['operator']} · {field['water_depth_m']} m
             nc=str(CUSTOM_NC.relative_to(ROOT)),
         ))
         data = load_nc(str(CUSTOM_NC))
-        show_results(data, field, cfg.get("field", field_name), cfg)
+        show_results(data, field, cfg.get("field", field_name), cfg, key="custom")
     else:
         st.info("Configure parameters in the sidebar and press **▶ Run simulation**.")
