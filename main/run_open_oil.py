@@ -272,6 +272,7 @@ def run_simulation(
     )
 
     o.plot(filename=figfile)
+    import matplotlib.pyplot as _plt; _plt.close("all")  # prevent figure accumulation in long batch runs
 
     # Weathering budget sidecar (small .npz next to the NetCDF)
     budget_file = save_oil_budget(o, outfile)
