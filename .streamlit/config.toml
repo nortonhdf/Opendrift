@@ -1,0 +1,6 @@
+[server]
+headless = true
+
+[runner]
+# Avoid UnicodeEncodeError from emoji in page_icon on some systems
+postScriptGarbageCollectionEnabled = false
