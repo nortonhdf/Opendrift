@@ -17,3 +17,6 @@ build
 
 .vscode/*
 .ipynb_checkpoints
+
+# Campos rebuild orchestrator log (regenerated each run).
+main/rebuild_all.log

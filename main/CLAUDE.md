@@ -50,7 +50,20 @@ conda install -n opendrift -c conda-forge "blas=*=openblas" --force-reinstall -y
 Em batch de 48+ simulações no mesmo processo Python, figuras matplotlib não fechadas acumulam
 memória e causam crash nativo (STATUS_ACCESS_VIOLATION, exit code 5 no PowerShell).
 
-**Correção** já aplicada em `run_open_oil.py`: `plt.close("all")` após cada `o.plot()`.
+**Correção** já aplicada em `run_open_oil.py`: `plt.close("all")` após cada `o.plot()`
+(agora num bloco `finally`, ver fix #4).
+
+### 4 — Plot do cartopy baixa shapefile de costa ONLINE (rede instável)
+
+`o.plot()` desenha um mapa cartopy cujos shapefiles de costa são **baixados da internet**
+(`cartopy/io/shapereader.py acquire_all_resources → urlopen`). Com rede bloqueada/flaky o
+download falha e a exceção **abortava o membro inteiro**. Como o `.nc` é gravado no `o.run()`
+ANTES do plot, e `compute_risk_grids.py`/`compute_beaching.py` leem só do `manifest.json` (que
+NÃO é atualizado em membro com falha), as falhas zeravam os grids dos campos afetados.
+Observado: ~60% do ensemble falhando (marlim 38/40, peregrino 11).
+
+**Correção** aplicada em `run_open_oil.py`: `o.plot()` num `try/except` (vira warning, não
+aborta) com `plt.close("all")` no `finally`. O .png do ensemble é descartável (não usado pelo app).
 
 ### 3 — Captura de output do subprocess
 
@@ -67,21 +80,20 @@ processos nativos (Python) pode não ser capturada. Usar sempre o `python.exe` d
 - **Ondas (`waves_cf.nc`) NÃO existem** — o toggle de Stokes drift no app exige rodar
   `download_era5_waves.py` + `prep_era5_waves.py` antes.
 
-## Estado atual dos outputs (2026-06-03)
+## Estado atual dos outputs (2026-06-05) — PIPELINE 100% COMPLETO ✓
 
-### O que está PRONTO ✓
-- **48 cenários** (`main/outputs/scenarios/`): todos re-computados com oil-type correto por campo
-  e com sidecar `_budget.npz`. Manifest atualizado. Prontos para o app.
+Todos os produtos re-computados com oil-type correto por campo + budget, **0 falhas**:
+- **48 cenários** (`main/outputs/scenarios/`): + sidecar `_budget.npz`. Manifest OK.
+- **240 ensemble** (`main/outputs/ensemble/`): 240 .nc + 240 `_budget.npz` + manifest (240 membros).
+- **24 risk grids** (`main/outputs/risk_grids/`): + manifest.
+- **24 beaching grids** (`main/outputs/beaching/`): + manifest. (campos offshore p/ algumas
+  estações dão `stranded 0% / median nan` — correto: óleo não encalhou, não é erro.)
 
-### O que ainda precisa ser rodado ✗
-- **240 ensemble** (`main/outputs/ensemble/`): os .nc existem mas são **stale** (gerados sem
-  oil-type por campo e sem budget). Manifest foi deletado pelo `--fresh`. Precisam re-run.
-- **24 risk grids** (`main/outputs/risk_grids/`): vazios — dependem do ensemble atualizado.
-- **24 beaching grids** (`main/outputs/beaching/`): vazios — dependem do ensemble atualizado.
+Rebuild rodado em 94,5 min (sequencial), pausável/resumível via manifest (`--resume`).
 
-### Como continuar o rebuild na próxima sessão
+### Como re-rodar o rebuild (referência)
 
-Da **raiz do repo** (`Opendrift/`), rodar os estágios restantes:
+Da **raiz do repo** (`Opendrift/`):
 
 ```powershell
 # Mostra o plano sem alterar nada:
@@ -122,11 +134,11 @@ Estágios em ordem: **scenarios → ensemble → risk → beaching**. 1 cenário
 - App validado headless via `streamlit.testing.v1.AppTest` (4 abas, zero exceções).
 - `streamlit`+`plotly` adicionados ao `environment.yml`.
 - `rebuild_all.ps1` portátil: busca `python.exe` em locais padrão de conda sem path hardcoded.
-- `plt.close("all")` após cada plot em `run_simulation` (evita crash por acumulação de memória).
+- `plt.close("all")` em `finally` após cada plot em `run_simulation` (acúmulo de memória).
+- `o.plot()` em `try/except` — falha de download do cartopy não aborta mais o membro (fix #4).
 
 ## Possíveis próximos passos
 
-1. **Concluir o rebuild** (ensemble + risk + beaching) — `--resume --only ensemble,risk,beaching`.
-2. Deploy do Streamlit.
-3. Oil budget também para os cenários (já feito) — confirmar que app exibe o painel corretamente.
-4. Waves nos cenários pré-computados (hoje só wind on/off, waves off).
+1. Deploy do Streamlit.
+2. Confirmar no app que o painel de oil budget aparece para cenários e ensemble.
+3. Waves nos cenários/ensemble pré-computados (hoje só wind on/off, waves off).

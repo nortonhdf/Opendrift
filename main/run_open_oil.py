@@ -271,8 +271,17 @@ def run_simulation(
         export_variables=EXPORT_VARIABLES,
     )
 
-    o.plot(filename=figfile)
-    import matplotlib.pyplot as _plt; _plt.close("all")  # prevent figure accumulation in long batch runs
+    # Plotting is cosmetic and must never sink a valid run: o.plot() draws a
+    # cartopy map whose coastline shapefiles are fetched online, so it fails on a
+    # blocked/flaky network. The trajectory NetCDF and oil budget are already (or
+    # about to be) written, and downstream risk/beaching read the NetCDF — so a
+    # plot failure is downgraded to a warning instead of aborting the member.
+    try:
+        o.plot(filename=figfile)
+    except Exception as e:
+        print(f"[WARN] plot falhou ({type(e).__name__}: {e}) — seguindo sem figura ({figfile}).")
+    finally:
+        import matplotlib.pyplot as _plt; _plt.close("all")  # prevent figure accumulation in long batch runs
 
     # Weathering budget sidecar (small .npz next to the NetCDF)
     budget_file = save_oil_budget(o, outfile)
