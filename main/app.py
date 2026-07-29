@@ -481,7 +481,10 @@ with tab_pre:
             "This takes ~50 minutes and generates 48 scenarios (6 fields × 4 seasons × wind on/off)."
         )
     else:
-        ready_fields  = sorted({v["field"]  for v in manifest.values()})
+        # Intersect with the current field registry: manifests computed before
+        # a field change (e.g. Jubarte -> Papa-Terra) may list retired fields.
+        ready_fields  = sorted({v["field"] for v in manifest.values()}
+                               & set(CAMPOS_FIELDS))
         ready_seasons = sorted({v["season"] for v in manifest.values()},
                                key=list(SEASON_LABELS.keys()).index)
 
@@ -561,8 +564,8 @@ with tab_risk:
         with rc1:
             r_field = st.selectbox(
                 "Field",
-                [v["field"] for v in risk_manifest.values()
-                 if v["season"] == list(risk_manifest.values())[0]["season"]],
+                sorted({v["field"] for v in risk_manifest.values()}
+                       & set(CAMPOS_FIELDS)),
                 key="risk_field",
             )
         with rc2:
@@ -680,7 +683,8 @@ with tab_beach:
         with bc1:
             b_field = st.selectbox(
                 "Field",
-                sorted({v["field"] for v in beach_manifest.values()}),
+                sorted({v["field"] for v in beach_manifest.values()}
+                       & set(CAMPOS_FIELDS)),
                 key="beach_field",
             )
         with bc2:
