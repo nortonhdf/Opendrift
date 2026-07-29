@@ -24,6 +24,7 @@ sys.path.insert(0, str(ROOT))
 
 from main.fields_config import CAMPOS_FIELDS
 from main.run_open_oil import run_simulation
+from main.status_utils import ACTIVE, STRANDED, final_status, status_map
 
 SCENARIOS_DIR = ROOT / "main" / "outputs" / "scenarios"
 MANIFEST_PATH = SCENARIOS_DIR / "manifest.json"
@@ -61,6 +62,9 @@ def load_nc(path: str) -> dict:
         "lat":    ds["lat"].values,
         "status": ds["status"].values,
         "times":  ds["time"].values,
+        # Status codes are per-file (flag_meanings order varies) — carry the
+        # attrs so stats can decode them instead of hard-coding numbers.
+        "status_attrs": dict(ds["status"].attrs),
     }
     ds.close()
     return out
@@ -394,17 +398,23 @@ def build_stats(data: dict) -> dict:
     status = data["status"]
     lons   = data["lon"]
     lats   = data["lat"]
-    final  = status[:, -1]
-    total  = len(final)
-    active = int((final == 0).sum())
-    stranded = total - active
-    active_mask = final == 0
+    total  = status.shape[0]
+
+    # Decode per-file status meanings — 'stranded' and 'missing_data' (left
+    # the forcing domain) are different fates and must not be conflated.
+    smap   = status_map(data.get("status_attrs", {}))
+    finals = final_status(np.asarray(lons, dtype=float), status, smap)
+    active   = int((finals == ACTIVE).sum())
+    stranded = int((finals == STRANDED).sum())
+    other    = total - active - stranded   # missing_data (left domain) etc.
+
+    active_mask = status[:, -1] == 0       # 'active' is always code 0
     if active_mask.any():
         lon_range = (float(lons[active_mask, -1].min()), float(lons[active_mask, -1].max()))
         lat_range = (float(lats[active_mask, -1].min()), float(lats[active_mask, -1].max()))
     else:
         lon_range = lat_range = (None, None)
-    return dict(total=total, active=active, stranded=stranded,
+    return dict(total=total, active=active, stranded=stranded, other=other,
                 lon_range=lon_range, lat_range=lat_range)
 
 
@@ -429,9 +439,13 @@ def show_results(data: dict, field: dict, field_name: str, cfg: dict,
         st.metric("Total particles", stats["total"])
         st.metric("Active (at sea)", stats["active"],
                   delta=f"{stats['active']/stats['total']*100:.0f}%")
-        st.metric("Stranded / inactive", stats["stranded"],
+        st.metric("Stranded (coast)", stats["stranded"],
                   delta=f"-{stats['stranded']/stats['total']*100:.0f}%",
                   delta_color="inverse")
+        if stats["other"]:
+            st.metric("Left domain / other", stats["other"],
+                      help="Particles deactivated after drifting outside the "
+                           "forcing-data coverage — not beached.")
         if stats["lon_range"][0] is not None:
             st.caption("**Final active extent**")
             st.caption(f"Lon: {stats['lon_range'][0]:.2f}° → {stats['lon_range'][1]:.2f}°")

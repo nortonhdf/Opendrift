@@ -31,6 +31,7 @@ except Exception:
     pass
 
 from main.fields_config import CAMPOS_FIELDS
+from main.status_utils import ACTIVE, code_of
 
 ENSEMBLE_DIR = ROOT / "main" / "outputs" / "ensemble"
 OUT_DIR      = ROOT / "main" / "outputs" / "risk_grids"
@@ -79,20 +80,25 @@ def compute_risk(nc_paths: list, lons: np.ndarray, lats: np.ndarray) -> dict:
             lond   = ds["lon"].values    # (n_particles, n_time)
             latd   = ds["lat"].values
             status = ds["status"].values
+            # 'active' is 0 by convention, but decode it from the file's
+            # flag_meanings anyway — codes are per-file (audit finding #1).
+            active_code = code_of(ds["status"], ACTIVE)
             ds.close()
         except Exception as e:
             print(f"    [WARN] skipping {Path(path).name}: {e}")
             continue
+        if active_code is None:
+            active_code = 0
 
         # Final timestep — active particles only
-        active_f = status[:, -1] == 0
+        active_f = status[:, -1] == active_code
         sum_final += particles_to_grid(lond[active_f, -1], latd[active_f, -1], n_lon, n_lat)
 
         # Any timestep — union of all cells ever visited by active particles
         n_t   = lond.shape[1]
         g_any = np.zeros((n_lat, n_lon), dtype=np.float32)
         for t in range(n_t):
-            active_t = status[:, t] == 0
+            active_t = status[:, t] == active_code
             g_t = particles_to_grid(lond[active_t, t], latd[active_t, t], n_lon, n_lat)
             np.maximum(g_any, g_t, out=g_any)
         sum_any += g_any

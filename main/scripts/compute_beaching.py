@@ -38,6 +38,7 @@ except Exception:
     pass
 
 from main.fields_config import CAMPOS_FIELDS
+from main.status_utils import STRANDED, code_of, last_valid_index
 
 ENSEMBLE_DIR = ROOT / "main" / "outputs" / "ensemble"
 OUT_DIR      = ROOT / "main" / "outputs" / "beaching"
@@ -49,8 +50,6 @@ GRID_RES = 0.1
 
 SEASONS = ["jan", "apr", "jul", "oct"]
 
-STRANDED = 1   # status flag value for stranded elements
-
 
 def make_grid() -> tuple[np.ndarray, np.ndarray]:
     lons = np.arange(LON_MIN, LON_MAX, GRID_RES)
@@ -58,24 +57,29 @@ def make_grid() -> tuple[np.ndarray, np.ndarray]:
     return lons, lats
 
 
-def stranding_events(lon, lat, status, times):
-    """Return (slon, slat, shours) for particles that strand in one run."""
-    n, nt = lon.shape
+def stranding_events(lon, lat, status, times, stranded_code):
+    """Return (slon, slat, shours) for particles that strand in one run.
+
+    ``stranded_code`` is the per-file integer meaning 'stranded' (decoded from
+    the file's flag_meanings — it varies between files; audit finding #1).
+    Pass None when the file recorded no stranding at all.
+    A particle counts as stranded when its status at its last valid position
+    is the stranded code — including a stranding exactly at the final output
+    step (a particle that survives shows status 'active' there instead).
+    """
     t_hours = (times - times[0]) / np.timedelta64(1, "h")
 
-    slon, slat, shours = [], [], []
-    for i in range(n):
-        valid = np.where(~np.isnan(lon[i]))[0]
-        if len(valid) == 0:
-            continue
-        last = valid[-1]
-        # Stranded if the last valid status is the stranded flag (a particle
-        # that survives to the final step is still drifting, not beached).
-        if status[i, last] == STRANDED and last < nt - 1:
-            slon.append(lon[i, last])
-            slat.append(lat[i, last])
-            shours.append(float(t_hours[last]))
-    return np.array(slon), np.array(slat), np.array(shours)
+    if stranded_code is None:
+        return np.array([]), np.array([]), np.array([])
+
+    last = last_valid_index(lon)
+    idx = np.arange(lon.shape[0])
+    ok = last >= 0
+    stranded = ok & (status[idx, np.maximum(last, 0)] == stranded_code)
+    li = last[stranded]
+    return (lon[stranded, li],
+            lat[stranded, li],
+            np.asarray(t_hours[li], dtype=float))
 
 
 def compute_beaching(nc_paths, lons, lats) -> dict:
@@ -94,13 +98,14 @@ def compute_beaching(nc_paths, lons, lats) -> dict:
             lat    = ds["lat"].values
             status = ds["status"].values
             times  = ds["time"].values
+            stranded_code = code_of(ds["status"], STRANDED)  # varies per file!
             ds.close()
         except Exception as e:
             print(f"    [WARN] skipping {Path(path).name}: {e}")
             continue
 
         total_particles += lon.shape[0]
-        slon, slat, shours = stranding_events(lon, lat, status, times)
+        slon, slat, shours = stranding_events(lon, lat, status, times, stranded_code)
         total_stranded += len(slon)
         all_hours.extend(shours)
 
