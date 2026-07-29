@@ -220,6 +220,7 @@ def run_simulation(
     use_wind: bool = True,
     use_waves: bool = True,
     vertical_mixing: bool = VERTICAL_MIXING,
+    smoke_test: bool = False,
     currents_file: Optional[str] = CURRENTS_FILE,
     wind_file: Optional[str] = WIND_FILE,
     waves_file: Optional[str] = WAVES_FILE,
@@ -257,9 +258,21 @@ def run_simulation(
     # relies on the wind-based parameterisation above.
     wind_ref  = wind_file  if use_wind  else None
     waves_ref = waves_file if use_waves else None
-    used_real = add_real_readers(o, currents_file, wind_ref, waves_ref)
-    if not used_real:
+    if smoke_test:
+        # Constant synthetic forcing, ONLY on explicit request. The old code
+        # fell back to this silently whenever no real reader loaded — a batch
+        # with a missing/corrupt currents file would produce plausible but
+        # physically fake scenarios (audit finding grave #5).
         add_smoke_test_reader(o)
+    else:
+        used_real = add_real_readers(o, currents_file, wind_ref, waves_ref)
+        if not used_real:
+            raise RuntimeError(
+                "No real forcing reader could be loaded "
+                f"(currents={currents_file!r}, wind={wind_ref!r}, waves={waves_ref!r}). "
+                "Refusing to run on synthetic forcing — pass smoke_test=True "
+                "if that is really what you want."
+            )
 
     # OpenOil always needs wind variables for its weathering model (evaporation,
     # emulsification) even when wind-driven transport is disabled. Supply zero wind.
