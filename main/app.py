@@ -11,7 +11,7 @@ from __future__ import annotations
 import json
 import sys
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import numpy as np
@@ -75,8 +75,11 @@ def get_data_range(nc_path: str) -> tuple[datetime | None, datetime | None]:
     try:
         ds    = xr.open_dataset(nc_path)
         t     = ds["time"].values
-        start = datetime.utcfromtimestamp(int(t[0].astype("int64")) // 1_000_000_000)
-        end   = datetime.utcfromtimestamp(int(t[-1].astype("int64")) // 1_000_000_000)
+        # Naive-UTC datetimes (the rest of the app compares against naive)
+        start = datetime.fromtimestamp(int(t[0].astype("int64")) // 1_000_000_000,
+                                       tz=timezone.utc).replace(tzinfo=None)
+        end   = datetime.fromtimestamp(int(t[-1].astype("int64")) // 1_000_000_000,
+                                       tz=timezone.utc).replace(tzinfo=None)
         ds.close()
         return start, end
     except Exception:
@@ -829,13 +832,16 @@ API: **{field['api']}°** · {field['operator']} · {field['water_depth_m']} m
             except Exception as e:
                 st.error(f"Simulation failed: {e}")
 
-    if CUSTOM_NC.exists():
-        cfg  = st.session_state.get("custom_cfg", dict(
-            field=field_name, start="", duration_h=duration_h,
-            use_wind=use_wind, use_waves=use_waves,
-            nc=str(CUSTOM_NC.relative_to(ROOT)),
-        ))
+    if CUSTOM_NC.exists() and "custom_cfg" in st.session_state:
+        cfg  = st.session_state["custom_cfg"]
         data = load_nc(str(CUSTOM_NC))
         show_results(data, field, cfg.get("field", field_name), cfg, key="custom")
+    elif CUSTOM_NC.exists():
+        # A run from a previous session exists on disk, but its settings are
+        # unknown — showing it labelled with the CURRENT sidebar values would
+        # be misleading (audit finding #14).
+        st.info("A custom run from a previous session exists on disk, but its "
+                "settings are unknown. Press **▶ Run simulation** to compute "
+                "a fresh one.")
     else:
         st.info("Configure parameters in the sidebar and press **▶ Run simulation**.")

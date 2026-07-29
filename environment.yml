@@ -11,7 +11,7 @@ dependencies:
   - pyproj>=2.3
   - libgdal>=3.1
   - gdal>=3.1
-  - xarray<=2025.9.0
+  - xarray=2026.4.*   # pinned to the version the committed products were generated with
   - dask
   - geopandas
   - cfgrib
@@ -19,7 +19,7 @@ dependencies:
   - pygrib
   - xhistogram
   - requests
-  - pytest<8
+  - pytest<9          # main/tests run with pytest 8.x
   - pytest-cov
   - pytest-benchmark
   - pytest-mpl

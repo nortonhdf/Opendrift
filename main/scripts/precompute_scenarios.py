@@ -14,7 +14,7 @@ Skips scenarios already on disk — safe to interrupt and resume.
 import json
 import sys
 import traceback
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -108,7 +108,7 @@ def main() -> None:
                 "season":   season,
                 "wind":     wind_label,
                 "nc":       str(nc_out.relative_to(ROOT)),
-                "computed": datetime.utcnow().isoformat(),
+                "computed": datetime.now(timezone.utc).isoformat(),
             }
             save_manifest(manifest)
             print(f"{prefix}  ✓ done")
