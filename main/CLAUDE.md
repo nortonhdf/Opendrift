@@ -1,144 +1,71 @@
-# Projeto — Dispersão de óleo na Bacia de Campos (OpenDrift)
+# Project — Oil spill dispersion, Campos Basin (OpenDrift)
 
-> Contexto portátil do projeto (viaja no git, carrega automaticamente em qualquer máquina).
-> Atualizado em 2026-06-03.
+> Portable project context (travels in git). Rewritten 2026-07-29 after the
+> technical audit — the previous version of this file claimed "2D surface, no
+> vertical mixing" and "beaching 0–89% correct", both wrong at the time.
+> Authoritative audit record: `docs/auditoria/` (root `CLAUDE.md` has the summary).
 
-## Visão geral
+## Overview
 
-Modelagem de dispersão de óleo na **Bacia de Campos**, construída sobre o **OpenDrift v1.14.7**
-(usado *in-place*, **NÃO** pip-instalado). Todo o código customizado vive em `main/`.
+Oil dispersion modelling for six **Campos Basin** fields (Peregrino, Marlim,
+Roncador, Papa-Terra, Frade, Albacora) on **OpenDrift v1.14.7** used
+*in-place* (NOT pip-installed, upstream untouched). All custom code in `main/`.
+Research project; an ML layer (patch-transport surrogate + scenario summary
+statistics) is planned on top of the regenerated products — see
+`docs/auditoria/CAMADA_IA.md`.
 
-**Componentes:**
-- `main/app.py` — app **Streamlit** com 4 abas: cenários pré-computados, mapas de risco
-  (ensemble), run customizado ao vivo, e beaching/encalhe. Plotly + mapbox open-street-map.
-- `main/fields_config.py` — 6 campos de óleo (Peregrino, Marlim, Roncador, Jubarte, Frade,
-  Albacora) com lon/lat/API/tipo de óleo ADIOS.
-- `main/run_open_oil.py` — runner OpenOil (`run_simulation(...)`). 2D superfície, sem mixing
-  vertical, weathering NOAA. Exporta lon/lat/status/z/massa + sidecar `_budget.npz`.
-- `main/scripts/` — download (CMEMS correntes, ERA5 vento/ondas), prep/patch (renomeia vars p/
-  convenções CF), `precompute_scenarios.py` (48 cenários), `run_ensemble.py` (240 runs),
-  `compute_risk_grids.py` (24 grids de prob.), `compute_beaching.py` (24 grids de encalhe),
-  `rebuild_all.py` (orquestrador único de todos os estágios).
+**Components** — `app.py` (Streamlit, 4 tabs), `fields_config.py` (official
+ANP/EPE coordinates + API→oil rule), `domain_config.py` (single source for
+box/grid/seasons), `status_utils.py` (per-file status decoding),
+`run_open_oil.py` (`run_simulation()`), `scripts/` (download/prep, 48
+scenarios, 240-member ensemble, risk + beaching grids, `rebuild_all.py`
+orchestrator), `tests/` (pytest).
 
-## Como rodar
+## Declared model configuration (do not silently change)
 
-- **Env conda** `opendrift` (miniforge, Python 3.14). Recriar via `environment.yml`.
-- `rebuild_all.ps1` é **portátil** — busca `python.exe` do env `opendrift` em locais padrão
-  (`%USERPROFILE%\miniforge3`, `%LOCALAPPDATA%\miniforge3`, etc.) sem precisar de ativação.
-- Comandos com caminhos relativos (`main\inputs\...`) exigem **cwd = raiz do repo** `Opendrift/`.
-- App: `streamlit run main/app.py` a partir da raiz.
+- 2D surface transport: `vertical_mixing=False` default (parameter available).
+- NOAA weathering; SST from CMEMS thetao, fallback 24 °C declared.
+- Spill volume: `spill_m3=10` (reference scenario; type out of scope).
+- RK4 advection; declared uncertainties current 0.05 / wind 0.5 m/s.
+- Forcing box lon −45..−36 / lat −27..−19; >2 % domain-exit triggers a warning.
+- No silent smoke fallback: missing forcing raises (pass `smoke_test=True`).
+- **Status codes vary per output file** — decode via `main/status_utils.py`
+  (`flag_meanings`); `active` is always 0; never assume `1 == stranded`.
 
-## ⚠️ Fixes críticos de ambiente (não esquecer ao recriar o env)
+## How to run
 
-### 1 — BLAS/MKL crash (Windows, Python 3.14)
+- Env conda `opendrift` (miniforge, Python 3.14). PATH python is NOT it.
+- Always run from the repo root. App: `python -m streamlit run main/app.py`.
+- Rebuild: `.\main\rebuild_all.ps1 [--fresh|--resume] [--only stages]`
+  (finds the env python itself). Direct: `python main/scripts/rebuild_all.py`.
+- Tests: `python -m pytest main/tests -o addopts=""`.
 
-Em build py3.14, `numpy` linkado contra **Intel MKL** crasha nativamente em QUALQUER simulação
-com `Windows fatal exception: code 0xc06d007f` (entry point ausente em DLL MKL/TBB).
+## ⚠ Environment gotchas (Windows)
 
-**Sintoma:** exit code 0xC06D007F, stdout/stderr completamente vazios — crash silencioso.
+1. **BLAS/MKL**: numpy linked against MKL crashes natively (exit 0xC06D007F,
+   empty output). Keep OpenBLAS: `conda list blas` must show openblas;
+   otherwise `conda install -n opendrift "blas=*=openblas" --force-reinstall`.
+2. **Batch plotting**: `o.plot()` downloads coastline shapefiles (may fail
+   offline) and leaks figures — already wrapped in try/except + close("all").
+3. **Subprocess logging**: call the env's `python.exe` directly, not
+   `powershell -File`; note `*>` redirects produce UTF-16 logs.
 
-**Causa:** mesmo com `libblas=*=*openblas` no `environment.yml`, o conda pode resolver para
-o build MKL. Verificar: `conda list -n opendrift blas` — build string deve ter `openblas`, NÃO `mkl`.
+## State of outputs (2026-07-29)
 
-**Correção (obrigatória após criar o env):**
-```
-conda install -n opendrift -c conda-forge "blas=*=openblas" --force-reinstall -y
-```
+The committed `outputs/` (48 scenarios + 240 ensemble + 24 risk + 24
+beaching) were generated BEFORE the audit fixes. Known defects of that
+generation: beaching grids counted domain exits as strandings (real beaching
+only at Frade), vertical mixing was on, weathering ran at 10 °C, spill was
+1 m³, old too-small box lost ~16 % of particles, and 4 of 6 field positions
+were off by 28–118 km. **Regeneration pending**: new forcing download
+(CMEMS currents+SST, ERA5 wind; wide box; year 2025 + 2024 as ML hold-out)
+followed by `rebuild_all.ps1 --fresh` (~4 h). Until then treat all committed
+products as superseded baselines, and keep them for comparison.
 
-### 2 — Matplotlib figure accumulation (batch rebuild)
+## Author decisions on record (2026-07-29)
 
-Em batch de 48+ simulações no mesmo processo Python, figuras matplotlib não fechadas acumulam
-memória e causam crash nativo (STATUS_ACCESS_VIOLATION, exit code 5 no PowerShell).
-
-**Correção** já aplicada em `run_open_oil.py`: `plt.close("all")` após cada `o.plot()`
-(agora num bloco `finally`, ver fix #4).
-
-### 4 — Plot do cartopy baixa shapefile de costa ONLINE (rede instável)
-
-`o.plot()` desenha um mapa cartopy cujos shapefiles de costa são **baixados da internet**
-(`cartopy/io/shapereader.py acquire_all_resources → urlopen`). Com rede bloqueada/flaky o
-download falha e a exceção **abortava o membro inteiro**. Como o `.nc` é gravado no `o.run()`
-ANTES do plot, e `compute_risk_grids.py`/`compute_beaching.py` leem só do `manifest.json` (que
-NÃO é atualizado em membro com falha), as falhas zeravam os grids dos campos afetados.
-Observado: ~60% do ensemble falhando (marlim 38/40, peregrino 11).
-
-**Correção** aplicada em `run_open_oil.py`: `o.plot()` num `try/except` (vira warning, não
-aborta) com `plt.close("all")` no `finally`. O .png do ensemble é descartável (não usado pelo app).
-
-### 3 — Captura de output do subprocess
-
-Ao chamar `powershell -File script.ps1` como subprocess com `*>` redirect, a saída de
-processos nativos (Python) pode não ser capturada. Usar sempre o `python.exe` diretamente:
-```powershell
-& "path\to\python.exe" "main\scripts\rebuild_all.py" --fresh *> rebuild_all.log
-```
-
-## Dados de entrada (`main/inputs/`, versionados no git, ~39 MB)
-
-- Correntes diárias e vento horário cobrindo o **ano inteiro de 2025**
-  (`currents.nc`, `wind_cf.nc` + os `_raw`).
-- **Ondas (`waves_cf.nc`) NÃO existem** — o toggle de Stokes drift no app exige rodar
-  `download_era5_waves.py` + `prep_era5_waves.py` antes.
-
-## Estado atual dos outputs (2026-06-05) — PIPELINE 100% COMPLETO ✓
-
-Todos os produtos re-computados com oil-type correto por campo + budget, **0 falhas**:
-- **48 cenários** (`main/outputs/scenarios/`): + sidecar `_budget.npz`. Manifest OK.
-- **240 ensemble** (`main/outputs/ensemble/`): 240 .nc + 240 `_budget.npz` + manifest (240 membros).
-- **24 risk grids** (`main/outputs/risk_grids/`): + manifest.
-- **24 beaching grids** (`main/outputs/beaching/`): + manifest. (campos offshore p/ algumas
-  estações dão `stranded 0% / median nan` — correto: óleo não encalhou, não é erro.)
-
-Rebuild rodado em 94,5 min (sequencial), pausável/resumível via manifest (`--resume`).
-
-### Como re-rodar o rebuild (referência)
-
-Da **raiz do repo** (`Opendrift/`):
-
-```powershell
-# Mostra o plano sem alterar nada:
-.\main\rebuild_all.ps1
-
-# Rebuild só do ensemble + grids dependentes (~3 h):
-$env:PYTHONUNBUFFERED = "1"; $env:PYTHONUTF8 = "1"
-& "C:\Users\<user>\miniforge3\envs\opendrift\python.exe" `
-    "main\scripts\rebuild_all.py" --resume --only ensemble,risk,beaching `
-    *>> "main\rebuild_all.log"
-```
-
-Ou usando o wrapper portátil (mas redirecionar output para log, não via `powershell -File`):
-```powershell
-# EVITAR: powershell -File main\rebuild_all.ps1  (captura de output não confiável)
-# PREFERIR: python.exe direto como acima
-```
-
-Para background numa sessão do Claude: usar `run_in_background` do PowerShell com o comando
-`python.exe` direto (NÃO `powershell -File`).
-
-**Rebuild completo do zero** (se necessário):
-```powershell
-.\main\rebuild_all.ps1 --fresh         # ~3,5–4h total
-.\main\rebuild_all.ps1 --resume        # continua interrompido
-```
-
-Estágios em ordem: **scenarios → ensemble → risk → beaching**. 1 cenário ≈ 59s, 1 ensemble ≈ 45s.
-
-## Correções já aplicadas e validadas
-
-- Bug `resolve_oil_type` (API morta do `adios_db`) corrigido → tipo de óleo por campo aplicado.
-- Bug `st.toggle` sem `key` (quebrava no Streamlit 1.58 com 2 abas com dados) → key único.
-- Ondas/Stokes via `drift:use_tabularised_stokes_drift` (do vento, sem ERA5).
-- Oil budget: `run_open_oil` exporta massa + `_budget.npz`; painel `show_budget` no app.
-- Beaching: `compute_beaching.py` → 24 grids em `outputs/beaching/` + aba no app (0–89%, sazonal).
-- Scripts em lote fazem `sys.stdout.reconfigure(encoding="utf-8")` (consoles Windows cp1252).
-- App validado headless via `streamlit.testing.v1.AppTest` (4 abas, zero exceções).
-- `streamlit`+`plotly` adicionados ao `environment.yml`.
-- `rebuild_all.ps1` portátil: busca `python.exe` em locais padrão de conda sem path hardcoded.
-- `plt.close("all")` em `finally` após cada plot em `run_simulation` (acúmulo de memória).
-- `o.plot()` em `try/except` — falha de download do cartopy não aborta mais o membro (fix #4).
-
-## Possíveis próximos passos
-
-1. Deploy do Streamlit.
-2. Confirmar no app que o painel de oil budget aparece para cenários e ensemble.
-3. Waves nos cenários/ensemble pré-computados (hoje só wind on/off, waves off).
+See `docs/auditoria/PERGUNTAS_ABERTAS.md` for all 18. Highlights: outputs
+stay in git; app is a final deliverable (UI polish after science+ML);
+deploy platform flexible; waves = optional UI toggle; English standardised;
+ML targets (a) patch-transport surrogate and (b) scenario summary stats;
+2024 = hold-out year; metrics Liu–Weisberg SS + IoU + Brier.

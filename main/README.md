@@ -1,90 +1,94 @@
 # Campos Basin Oil Spill Dispersion
 
-Oil-spill trajectory, fate and risk modelling for six Campos/Espírito Santo
-Basin oil fields, built on **OpenDrift / OpenOil**. Everything in this `main/`
-folder is the project layer on top of OpenDrift (which is used in-place from the
-repo, not pip-installed).
+Oil-spill trajectory, fate and risk modelling for six **Campos Basin** oil
+fields, built on **OpenDrift / OpenOil** (used in-place from this repo, not
+pip-installed). Everything in `main/` is the project layer on top of OpenDrift.
+
+> A full technical audit (2026-07-29) lives in `docs/auditoria/` — read
+> `DIAGNOSTICO.md` and `PLANO_DE_ACAO.md` before touching the science.
 
 ```
 main/
 ├── app.py                 Streamlit app — 4 tabs (scenarios, risk, beaching, custom run)
-├── fields_config.py       The 6 oil fields (lon/lat, API, ADIOS oil type)
+├── fields_config.py       The 6 fields (official ANP/EPE polygon centres, API, ADIOS oil)
+├── domain_config.py       Single source of truth: forcing box, grid, seasons
+├── status_utils.py        Safe per-file decoding of OpenDrift status flags
 ├── run_open_oil.py        Simulation engine: run_simulation() → OpenOil
-├── rebuild_all.ps1        Convenience wrapper for the rebuild pipeline (Windows)
+├── rebuild_all.ps1        Windows wrapper for the rebuild pipeline
 ├── inputs/                Forcing data (NetCDF, CF-renamed)
-│   ├── currents.nc        CMEMS surface currents, daily, full-year 2025
-│   └── wind_cf.nc         ERA5 10 m wind, hourly, full-year 2025
-├── outputs/
-│   ├── scenarios/         48 precomputed runs (6 fields × 4 seasons × wind on/off)
-│   ├── ensemble/          240 runs (6 × 4 × 10 start dates) — feeds risk & beaching
-│   ├── risk_grids/        24 exposure/persistence probability grids
-│   └── beaching/          24 coastal stranding grids
-└── scripts/               Data download/prep + batch + analysis
+├── outputs/               scenarios/ ensemble/ risk_grids/ beaching/ (+ manifests)
+├── scripts/               Download/prep + batch + aggregation + orchestrator
+└── tests/                 pytest suite (run: python -m pytest main/tests -o addopts="")
 ```
+
+## Fields
+
+Peregrino, Marlim, Roncador, Papa-Terra, Frade, Albacora. Coordinates are the
+centres of the official ANP production polygons (EPE Webmap layer 59,
+consulted 2026-07-29). Oil type derives from API gravity via
+`oil_type_for_api()`: <15° → GENERIC HEAVY CRUDE, 15–22° → MEDIUM, >22° → LIGHT.
+
+## Model configuration (declared, tested in `main/tests/`)
+
+- 2D surface transport (`drift:vertical_mixing=False` by default; enable with
+  `run_simulation(vertical_mixing=True)`), NOAA weathering, RK4 advection.
+- Reference spill: **10 m³ instantaneous** (`spill_m3` parameter).
+- Spreading comes from the declared stochastic uncertainties
+  (current 0.05 m/s, wind 0.5 m/s); horizontal diffusivity 0.
+- SST from CMEMS `thetao` (merged into `currents.nc`); declared 24 °C fallback.
+- Stokes drift: parameterised from wind when waves are enabled (no wave
+  dataset needed); real ERA5 waves remain optional via `waves_cf.nc`.
+- Forcing box lon −45..−36 / lat −27..−19 (`domain_config.py`);
+  `run_simulation` warns if >2 % of particles exit the forcing coverage.
+- **Status flags are per-file**: always decode with `status_utils` — never
+  hard-code `1 == stranded`.
 
 ## Environment
 
-Conda env `opendrift` (miniforge). The app additionally needs `streamlit` and
-`plotly` (now in `environment.yml`).
-
-> **Windows / BLAS gotcha.** numpy linked against Intel **MKL** crashed natively
-> on this machine (`Windows fatal exception 0xc06d007f`, even `np.dot`).
-> Fixed by switching the BLAS backend to **OpenBLAS**:
-> ```
-> conda install -n opendrift -c conda-forge "blas=*=openblas" --force-reinstall
-> ```
-> `environment.yml` now pins `libblas=*=*openblas` so a fresh env avoids this.
-> Also keep `adios_db < 1.2.7` (1.2.7 changed the API used here).
-
-Python in this env: `C:\Users\nfreitas\AppData\Local\miniforge3\envs\opendrift\python.exe`
+Conda env `opendrift` (miniforge, Python 3.14). Recreate from
+`environment.yml`. **Windows/BLAS gotcha**: numpy against Intel MKL crashes
+natively — keep the OpenBLAS build (see the pin in `environment.yml`, and
+force-reinstall `blas=*=openblas` if conda resolves MKL).
 
 ## Run the app
 
-From the repo root, with the env active:
+From the repo root, env active:
 
 ```
 python -m streamlit run main/app.py
 ```
 
-- **Pre-computed Scenarios** — browse the 48 runs; animation + density + oil budget.
-- **Risk Maps** — ensemble exposure/persistence probability grids.
-- **Beaching** — where/when oil reaches the coast (strongly seasonal, 0–89 %).
-- **Custom Run** — live simulation; oil budget is computed on the fly.
-
 ## Rebuild the precomputed products
 
-The committed `outputs/` were generated before recent fixes (per-field oil type,
-oil-budget sidecars). Regenerate everything with one command:
+⚠ The currently committed `outputs/` predate the audit fixes (status
+decoding, 2D transport, SST, 10 m³, official coordinates, wide box) — the
+beaching products in particular are invalid until regenerated.
 
 ```powershell
-# Windows wrapper (handles env python + UTF-8 console):
 .\main\rebuild_all.ps1                 # show the plan, change nothing
 .\main\rebuild_all.ps1 --fresh         # rebuild ALL (~3.5–4 h)
-.\main\rebuild_all.ps1 --fresh --only scenarios   # just the 48 scenarios (~47 min)
 .\main\rebuild_all.ps1 --resume        # continue an interrupted rebuild
 ```
 
-or call the orchestrator directly:
+Stages: **scenarios** (48 runs) → **ensemble** (240 runs) → **risk** →
+**beaching**. Safe to Ctrl-C and `--resume`.
+
+## Refresh the forcing data (needs CMEMS + CDS credentials)
 
 ```
-python main/scripts/rebuild_all.py [--fresh|--resume] [--only scenarios,ensemble,risk,beaching]
+python main/scripts/download_cmems_currents.py   # currents_raw.nc + sst_raw.nc
+python main/scripts/prep_cmems_currents.py        # → inputs/currents.nc (uo/vo + thetao, CF)
+python main/scripts/download_era5_wind.py         # → inputs/wind_raw.nc (~/.cdsapirc)
+python main/scripts/prep_era5_wind.py             # → inputs/wind_cf.nc (one step)
 ```
 
-Stages, in order: **scenarios** (~47 min) → **ensemble** (~3 h) →
-**risk** (~min) → **beaching** (~min). One scenario ≈ 1 min. Safe to Ctrl-C and
-resume. `--fresh` deletes the scenario/ensemble manifests so runs are recomputed
-and the NetCDFs overwritten in place.
+Pass a year to download other years (e.g. `... download_era5_wind.py 2024`);
+2024 is reserved as the future ML hold-out year.
 
-## Data pipeline (only if refreshing the forcing data)
+## Tests
 
 ```
-python main/scripts/download_cmems_currents.py   # → inputs/currents_raw.nc  (CMEMS creds)
-python main/scripts/prep_cmems_currents.py        # → inputs/currents.nc      (CF names)
-python main/scripts/download_era5_wind.py         # → inputs/wind_raw.nc       (CDS creds, ~/.cdsapirc)
-python main/scripts/prep_era5_wind.py             # → inputs/wind.nc
-python main/scripts/patch_wind_cf.py              # → inputs/wind_cf.nc        (CF attrs)
+python -m pytest main/tests -o addopts=""
 ```
 
-Wave (Stokes drift) data is **not** required: when waves are enabled the model
-parameterises Stokes drift from the wind field
-(`drift:use_tabularised_stokes_drift`).
+(`-o addopts=""` neutralises upstream OpenDrift pytest options.)

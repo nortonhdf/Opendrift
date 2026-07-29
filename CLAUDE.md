@@ -18,7 +18,17 @@ mas ainda inexistente.
 - `PLANO_DE_ACAO.md` — Fase 8 (correções) com decisões já aprovadas
 - `PERGUNTAS_ABERTAS.md` — decisões pendentes do autor
 
-### Fatos críticos que invalidam partes de `main/CLAUDE.md` (não corrigido ainda)
+### Status da Fase 8 (2026-07-29): CORREÇÕES DE CÓDIGO APLICADAS
+
+A branch `audit/revisao-completa` contém todos os fixes (status por
+flag_meanings, mixing OFF, SST, caixa larga, spill 10 m³, campos ANP,
+Papa-Terra, RK4, limpeza) com suíte pytest verde (`main/tests/`).
+`main/CLAUDE.md` e `main/README.md` foram reescritos e estão corretos.
+**Pendente**: re-download das forçantes (caixa nova + SST + 2024) e
+`rebuild_all.ps1 --fresh` — até lá os `outputs/` commitados continuam sendo
+os antigos, com os defeitos abaixo (mantidos como baseline de comparação).
+
+### Fatos críticos sobre os outputs ANTIGOS (pré-regeneração)
 
 1. 🔴 `outputs/beaching/` está **cientificamente inválido**: `compute_beaching.py` hardcoda
    `status==1` como "stranded", mas em 48/240 arquivos código 1 = `missing_data` (saída do
