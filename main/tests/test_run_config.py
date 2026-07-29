@@ -9,7 +9,7 @@ import pytest
 
 from opendrift.models.openoil import OpenOil
 
-from main.run_open_oil import configure_physics
+from main.run_open_oil import configure_physics, configure_spill
 
 
 @pytest.fixture(scope="module")
@@ -32,3 +32,15 @@ def test_waves_enable_tabularised_stokes(model):
     configure_physics(model, use_wind=True, use_waves=True, vertical_mixing=False)
     assert model.get_config("drift:stokes_drift") is True
     assert model.get_config("drift:use_tabularised_stokes_drift") is True
+
+
+def test_sst_fallback_is_campos_not_10C(model):
+    configure_physics(model, use_wind=True, use_waves=False, vertical_mixing=False)
+    assert model.get_config("environment:fallback:sea_water_temperature") == 24.0
+
+
+def test_spill_volume_is_declared(model):
+    configure_spill(model, 10.0)
+    assert model.get_config("seed:m3_per_hour") == 10.0
+    configure_spill(model, 2.5)
+    assert model.get_config("seed:m3_per_hour") == 2.5

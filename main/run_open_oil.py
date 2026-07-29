@@ -61,6 +61,13 @@ EXPORT_VARIABLES = [
 
 OIL_TYPE = None   # None → OpenOil default (GENERIC BUNKER C); pass ADIOS name to override
 
+# Declared reference spill volume. The audit found every run silently used
+# OpenOil's default seed:m3_per_hour=1 (i.e. a 1 m3 instantaneous spill,
+# finding grave #6). 10 m3 is the project's declared reference scenario —
+# the spill *type* is intentionally out of scope (author decision 2026-07-29);
+# override per run via run_simulation(spill_m3=...).
+SPILL_M3 = 10.0
+
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
@@ -134,6 +141,16 @@ def add_smoke_test_reader(o: OpenOil) -> None:
     })
     o.add_reader(r)
     print("\n[INFO] Rodando em modo SMOKE TEST (reader constante).")
+
+
+def configure_spill(o: OpenOil, spill_m3: float) -> None:
+    """Declare the released oil volume.
+
+    For an instantaneous point release (single seed time) OpenOil computes the
+    total volume as seed:m3_per_hour x 1 h, so this maps 1:1 to m3 spilled
+    (verified empirically: mass_total = oil_density x m3).
+    """
+    o.set_config("seed:m3_per_hour", float(spill_m3))
 
 
 def configure_physics(o: OpenOil, use_wind: bool, use_waves: bool,
@@ -226,6 +243,7 @@ def run_simulation(
     use_wind: bool = True,
     use_waves: bool = True,
     vertical_mixing: bool = VERTICAL_MIXING,
+    spill_m3: float = SPILL_M3,
     smoke_test: bool = False,
     currents_file: Optional[str] = CURRENTS_FILE,
     wind_file: Optional[str] = WIND_FILE,
@@ -259,6 +277,7 @@ def run_simulation(
 
     configure_physics(o, use_wind=use_wind, use_waves=use_waves,
                       vertical_mixing=vertical_mixing)
+    configure_spill(o, spill_m3)
 
     # Readers — a real waves file is optional; absence is fine when use_waves
     # relies on the wind-based parameterisation above.
