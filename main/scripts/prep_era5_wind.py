@@ -49,9 +49,12 @@ def prep(ds: xr.Dataset) -> xr.Dataset:
 
 
 def main() -> None:
-    out = prep(xr.open_dataset(INP))
+    out = prep(xr.open_dataset(INP)).load()
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    out.to_netcdf(OUT)
+    # NETCDF3: no HDF5 layer (see prep_cmems_currents.py — same-process
+    # repeated opens of HDF5 inputs crashed the 2026-07-29 rebuild).
+    out.to_netcdf(OUT, format="NETCDF3_64BIT",
+                  encoding={c: {"_FillValue": None} for c in out.coords})
     print("OK ->", OUT.resolve())
     print("Vars:", list(out.data_vars))
 

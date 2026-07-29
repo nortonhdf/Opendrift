@@ -62,9 +62,12 @@ def main() -> None:
               "weathering will use the declared 24 degC fallback. Run "
               "download_cmems_currents.py to fetch thetao.")
 
-    out = prep(ds_cur, ds_sst)
+    out = prep(ds_cur, ds_sst).load()
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    out.to_netcdf(OUT)
+    # NETCDF3: no HDF5 layer. Repeated same-process opens of an HDF5 file
+    # corrupted netCDF state and segfaulted the 288-run rebuild (2026-07-29).
+    out.to_netcdf(OUT, format="NETCDF3_64BIT",
+                  encoding={c: {"_FillValue": None} for c in out.coords})
     print("OK ->", OUT.resolve())
     print("Vars:", list(out.data_vars))
 

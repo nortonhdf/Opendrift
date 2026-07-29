@@ -122,7 +122,14 @@ def add_real_readers(
             readers.append(r)
             print(f"\n[OK] Reader de {label} carregado: {ref}")
         except Exception as e:
-            print(f"\n[ERRO] Falha ao carregar reader de {label} '{ref}':\n  {e}")
+            # A requested forcing file EXISTS but cannot be read: fail fast.
+            # Swallowing this used to let a wind_on run continue reader-less
+            # and die 30 lines later with a confusing seed-time ValueError
+            # (observed with 'NetCDF: HDF error' during the 2026-07-29 rebuild).
+            raise RuntimeError(
+                f"Failed to load {label} reader from existing file '{ref}': "
+                f"{type(e).__name__}: {e}"
+            ) from e
 
     if readers:
         o.add_reader(readers)
