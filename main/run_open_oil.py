@@ -146,6 +146,12 @@ def configure_physics(o: OpenOil, use_wind: bool, use_waves: bool,
     """
     o.set_config("drift:vertical_mixing", bool(vertical_mixing))
 
+    # SST safety net: OpenOil's default fallback is 10 degC, which badly
+    # under-weathers oil in Campos Basin surface waters (~22-27 degC; audit
+    # finding grave #3). Real SST from currents.nc takes precedence whenever
+    # the file carries sea_water_temperature.
+    o.set_config("environment:fallback:sea_water_temperature", 24.0)
+
     # Stokes drift — must be explicitly disabled when not using waves;
     # OpenOil defaults to True and will demand wave variables otherwise.
     o.set_config("drift:stokes_drift", use_waves)
