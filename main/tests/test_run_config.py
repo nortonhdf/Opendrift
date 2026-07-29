@@ -34,6 +34,13 @@ def test_waves_enable_tabularised_stokes(model):
     assert model.get_config("drift:use_tabularised_stokes_drift") is True
 
 
+def test_rk4_and_declared_uncertainties(model):
+    configure_physics(model, use_wind=True, use_waves=False, vertical_mixing=False)
+    assert model.get_config("drift:advection_scheme") == "runge-kutta4"
+    assert model.get_config("drift:current_uncertainty") == 0.05
+    assert model.get_config("drift:wind_uncertainty") == 0.5
+
+
 def test_sst_fallback_is_campos_not_10C(model):
     configure_physics(model, use_wind=True, use_waves=False, vertical_mixing=False)
     assert model.get_config("environment:fallback:sea_water_temperature") == 24.0

@@ -26,6 +26,7 @@ try:
 except Exception:
     pass
 
+from main.domain_config import SEASONS as SEASON_KEYS, season_date
 from main.fields_config import CAMPOS_FIELDS
 from main.run_open_oil import run_simulation
 
@@ -34,12 +35,7 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 MANIFEST = OUT_DIR / "manifest.json"
 
-SEASONS = {
-    "jan": datetime(2025, 1, 15),
-    "apr": datetime(2025, 4, 15),
-    "jul": datetime(2025, 7, 15),
-    "oct": datetime(2025, 10, 15),
-}
+SEASONS = {s: season_date(s) for s in SEASON_KEYS}
 
 WIND_STATES = {"wind_on": True, "wind_off": False}
 

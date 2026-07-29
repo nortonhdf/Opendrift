@@ -163,6 +163,17 @@ def configure_physics(o: OpenOil, use_wind: bool, use_waves: bool,
     """
     o.set_config("drift:vertical_mixing", bool(vertical_mixing))
 
+    # 4th-order Runge-Kutta advection (literature-recommended; the implicit
+    # 'euler' default is less accurate for the same 600 s step — audit #16).
+    o.set_config("drift:advection_scheme", "runge-kutta4")
+
+    # Declared stochastic spreading (audit #15): these are OpenOil's defaults,
+    # made explicit here because with horizontal_diffusivity=0 they are the
+    # ONLY source of particle spreading — a methodological choice, not an
+    # accident. Random-walk std-dev in m/s added to currents/wind per step.
+    o.set_config("drift:current_uncertainty", 0.05)
+    o.set_config("drift:wind_uncertainty", 0.5)
+
     # SST safety net: OpenOil's default fallback is 10 degC, which badly
     # under-weathers oil in Campos Basin surface waters (~22-27 degC; audit
     # finding grave #3). Real SST from currents.nc takes precedence whenever

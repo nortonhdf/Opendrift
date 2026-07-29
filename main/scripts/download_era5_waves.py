@@ -8,10 +8,17 @@ Usage:
 
 import sys
 from pathlib import Path
+
 import cdsapi
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from main.domain_config import (  # noqa: E402
+    FORCING_LAT_MAX, FORCING_LAT_MIN, FORCING_LON_MAX, FORCING_LON_MIN,
+)
+
 YEAR  = sys.argv[1] if len(sys.argv) > 1 else "2025"
-AREA  = [-19.0, -45.0, -27.0, -36.0]   # [North, West, South, East] — audit-approved wide box (grave #4)
+# [North, West, South, East] — audit-approved wide box (grave #4)
+AREA  = [FORCING_LAT_MAX, FORCING_LON_MIN, FORCING_LAT_MIN, FORCING_LON_MAX]
 
 def main():
     out = Path("main/inputs/waves_raw.nc")

@@ -11,8 +11,12 @@ import numpy as np
 import xarray as xr
 
 from main.scripts.compute_beaching import compute_beaching, stranding_events
-from main.scripts.compute_risk_grids import particles_to_grid
+from main.scripts.compute_risk_grids import make_grid, particles_to_grid
 from main.status_utils import STRANDED, code_of
+
+# particles_to_grid bins against the module-level domain constants, so tests
+# must use the same shared grid (domain_config), not a hand-rolled one.
+LONS, LATS = make_grid()
 
 
 def _write_run(path, lon, lat, status, meanings):
@@ -100,8 +104,7 @@ def test_stranding_decoded_per_file_and_counts_final_step(tmp_path):
 def test_compute_beaching_end_to_end(tmp_path):
     p1 = _missing_data_run(tmp_path / "md.nc")
     p2 = _stranded_run(tmp_path / "st.nc")
-    lons = np.arange(-43.0, -38.5, 0.1)
-    lats = np.arange(-25.0, -21.0, 0.1)
+    lons, lats = LONS, LATS
     r = compute_beaching([str(p1), str(p2)], lons, lats)
     assert r["n_particles_total"] == 6
     assert r["n_stranded"] == 2                # old code reported 3 (1 fake)
@@ -113,8 +116,7 @@ def test_compute_beaching_end_to_end(tmp_path):
 
 
 def test_particles_to_grid_analytic():
-    lons = np.arange(-43.0, -38.5, 0.1)
-    lats = np.arange(-25.0, -21.0, 0.1)
+    lons, lats = LONS, LATS
     # Two particles in the same cell + one NaN -> single cell flagged once.
     g = particles_to_grid(np.array([-41.01, -41.05, np.nan]),
                           np.array([-23.01, -23.05, np.nan]),

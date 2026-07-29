@@ -24,6 +24,7 @@ sys.path.insert(0, str(ROOT))
 
 from main.fields_config import CAMPOS_FIELDS
 from main.run_open_oil import run_simulation
+from main.domain_config import GRID_RES, season_date
 from main.status_utils import ACTIVE, STRANDED, final_status, status_map
 
 SCENARIOS_DIR = ROOT / "main" / "outputs" / "scenarios"
@@ -31,15 +32,9 @@ MANIFEST_PATH = SCENARIOS_DIR / "manifest.json"
 
 RISK_DIR  = ROOT / "main" / "outputs" / "risk_grids"
 BEACH_DIR = ROOT / "main" / "outputs" / "beaching"
-GRID_RES  = 0.1  # degrees — matches compute_risk_grids.py / compute_beaching.py
 
 SEASON_LABELS = {"jan": "January", "apr": "April", "jul": "July", "oct": "October"}
-SEASON_DATES  = {
-    "jan": datetime(2025, 1, 15),
-    "apr": datetime(2025, 4, 15),
-    "jul": datetime(2025, 7, 15),
-    "oct": datetime(2025, 10, 15),
-}
+SEASON_DATES  = {s: season_date(s) for s in SEASON_LABELS}
 
 # ── Page config ───────────────────────────────────────────────────────────────
 

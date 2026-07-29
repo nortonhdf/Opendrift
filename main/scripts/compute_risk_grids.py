@@ -37,11 +37,14 @@ ENSEMBLE_DIR = ROOT / "main" / "outputs" / "ensemble"
 OUT_DIR      = ROOT / "main" / "outputs" / "risk_grids"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-LON_MIN, LON_MAX = -43.0, -38.5
-LAT_MIN, LAT_MAX = -25.0, -21.0
-GRID_RES = 0.1
+# Grid domain/resolution and season keys come from the single source of
+# truth (audit finding #11 — these were re-declared in 4 files).
+from main.domain_config import (
+    GRID_LAT_MAX, GRID_LAT_MIN, GRID_LON_MAX, GRID_LON_MIN, GRID_RES, SEASONS,
+)
 
-SEASONS = ["jan", "apr", "jul", "oct"]
+LON_MIN, LON_MAX = GRID_LON_MIN, GRID_LON_MAX
+LAT_MIN, LAT_MAX = GRID_LAT_MIN, GRID_LAT_MAX
 
 
 def make_grid() -> tuple[np.ndarray, np.ndarray]:

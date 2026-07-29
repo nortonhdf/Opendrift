@@ -16,14 +16,19 @@ Usage:
 
 import sys
 from pathlib import Path
+
 import copernicusmarine
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from main.domain_config import (  # noqa: E402
+    FORCING_LAT_MAX, FORCING_LAT_MIN, FORCING_LON_MAX, FORCING_LON_MIN,
+)
 
 YEAR = sys.argv[1] if len(sys.argv) > 1 else "2025"
 
-# Forcing box approved in the 2026-07-29 audit (old 3.5x3.5 deg box lost
-# ~16% of particles over the boundary within 120 h — finding grave #4).
-LON_MIN, LON_MAX = -45.0, -36.0
-LAT_MIN, LAT_MAX = -27.0, -19.0
+# Forcing box approved in the 2026-07-29 audit (grave #4) — domain_config.
+LON_MIN, LON_MAX = FORCING_LON_MIN, FORCING_LON_MAX
+LAT_MIN, LAT_MAX = FORCING_LAT_MIN, FORCING_LAT_MAX
 
 
 def _subset(dataset_id: str, variables: list[str], filename: str, out_dir: Path):

@@ -29,6 +29,7 @@ try:
 except Exception:
     pass
 
+from main.domain_config import SEASONS as SEASON_KEYS, ensemble_dates
 from main.fields_config import CAMPOS_FIELDS
 from main.run_open_oil import run_simulation
 
@@ -40,14 +41,8 @@ N_MEMBERS   = 10
 N_PARTICLES = 200
 DURATION_H  = 120
 
-# 10 start dates per season, evenly spaced through the month
-_DAYS = [1, 4, 7, 10, 13, 16, 19, 22, 25, 28]
-SEASON_DATES = {
-    "jan": [datetime(2025,  1, d) for d in _DAYS],
-    "apr": [datetime(2025,  4, d) for d in _DAYS],
-    "jul": [datetime(2025,  7, d) for d in _DAYS],
-    "oct": [datetime(2025, 10, d) for d in _DAYS],
-}
+# 10 start dates per season, evenly spaced through the month (domain_config)
+SEASON_DATES = {s: ensemble_dates(s) for s in SEASON_KEYS}
 
 
 def load_manifest() -> dict:
