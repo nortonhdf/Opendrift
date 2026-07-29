@@ -20,3 +20,10 @@ build
 
 # Campos rebuild orchestrator log (regenerated each run).
 main/rebuild_all.log
+
+# Regenerable/debug outputs (audit cleanup, 2026-07-29)
+main/outputs/ensemble/*.png
+main/outputs/openoil_run.nc
+main/outputs/tracks.png
+main/outputs/test_wind_off.*
+main/outputs/_smoke_budget.*
