@@ -11,7 +11,7 @@ from pathlib import Path
 import cdsapi
 
 YEAR  = sys.argv[1] if len(sys.argv) > 1 else "2025"
-AREA  = [-21.0, -42.5, -24.5, -39.0]   # [North, West, South, East] — covers all 6 Campos fields
+AREA  = [-19.0, -45.0, -27.0, -36.0]   # [North, West, South, East] — audit-approved wide box (grave #4)
 
 def main():
     out = Path("main/inputs/wind_raw.nc")

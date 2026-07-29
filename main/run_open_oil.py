@@ -307,6 +307,21 @@ def run_simulation(
         export_variables=EXPORT_VARIABLES,
     )
 
+    # Guard for a too-small forcing domain: elements deactivated as
+    # 'missing_data' drifted outside the forcing coverage and stopped there
+    # (audit finding grave #4 — the old 3.5x3.5 deg box lost ~16% of them).
+    try:
+        from main.status_utils import MISSING_DATA, final_status_counts
+        counts = final_status_counts(o.result)
+        total  = sum(counts.values()) or 1
+        frac_md = counts.get(MISSING_DATA, 0) / total
+        if frac_md > 0.02:
+            print(f"[WARN] {frac_md:.0%} of elements left the forcing-data "
+                  "domain ('missing_data') — boundary-biased results; widen "
+                  "the forcing box (see docs/auditoria/DIAGNOSTICO.md #4).")
+    except Exception as e:
+        print(f"[WARN] domain-exit check failed ({type(e).__name__}: {e})")
+
     # Plotting is cosmetic and must never sink a valid run: o.plot() draws a
     # cartopy map whose coastline shapefiles are fetched online, so it fails on a
     # blocked/flaky network. The trajectory NetCDF and oil budget are already (or

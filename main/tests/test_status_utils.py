@@ -71,3 +71,23 @@ def test_final_status_decodes_per_particle():
     smap = {0: ACTIVE, 1: MISSING_DATA, 2: STRANDED}
     out = final_status(lon, status, smap)
     assert out.tolist() == [ACTIVE, STRANDED, MISSING_DATA]
+
+
+def test_final_status_counts_on_dataset():
+    from main.status_utils import final_status_counts
+    nan = np.nan
+    ds = xr.Dataset(
+        {
+            "lon": (("trajectory", "time"),
+                    np.array([[1.0, 2.0, 3.0],
+                              [1.0, 2.0, nan],
+                              [1.0, 2.0, 3.0]])),
+            "status": (("trajectory", "time"),
+                       np.array([[0, 0, 0],
+                                 [0, 1, 1],
+                                 [0, 0, 0]])),
+        }
+    )
+    ds["status"].attrs["flag_meanings"] = "active missing_data"
+    ds["status"].attrs["flag_values"] = np.array([0, 1])
+    assert final_status_counts(ds) == {ACTIVE: 2, MISSING_DATA: 1}
