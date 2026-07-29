@@ -41,9 +41,14 @@ DURATION_HOURS       = 120  # 5 days — well within the full-year (2025) data w
 TIME_STEP_SEC        = 600
 TIME_STEP_OUTPUT_SEC = 1800
 
-USE_3D                  = False
-DISABLE_VERTICAL_MIXING = True
-MAX_SPEED               = 2.0
+MAX_SPEED = 2.0
+
+# Surface (2D) transport by default: OpenOil ships with vertical mixing ON
+# (drift:vertical_mixing=True), which submerges entrained droplets and removes
+# them from wind drift. The audit found all precomputed products had it
+# silently enabled while the project claimed "2D surface" (finding critical #2).
+# It is now an explicit run_simulation parameter, default off.
+VERTICAL_MIXING = False
 
 # Trajectory variables plus the oil-mass variables needed to reconstruct the
 # weathering budget (get_oil_budget needs status, z, mass_* and density;
@@ -131,6 +136,35 @@ def add_smoke_test_reader(o: OpenOil) -> None:
     print("\n[INFO] Rodando em modo SMOKE TEST (reader constante).")
 
 
+def configure_physics(o: OpenOil, use_wind: bool, use_waves: bool,
+                      vertical_mixing: bool) -> None:
+    """Apply the project's transport-physics choices to a model instance.
+
+    Kept separate from run_simulation so tests can verify the *effective*
+    configuration (the audit caught a dead block that used a non-existent
+    config key and silently left vertical mixing on).
+    """
+    o.set_config("drift:vertical_mixing", bool(vertical_mixing))
+
+    # Stokes drift — must be explicitly disabled when not using waves;
+    # OpenOil defaults to True and will demand wave variables otherwise.
+    o.set_config("drift:stokes_drift", use_waves)
+    if use_waves:
+        # Derive Stokes drift and significant wave height from the wind field
+        # via OpenDrift's tabularised parameterisation — no separate wave
+        # dataset (ERA5) is required. If a real waves file is supplied,
+        # its non-zero values take precedence and the parameterisation is skipped.
+        o.set_config("drift:use_tabularised_stokes_drift", True)
+        o.set_config("drift:tabularised_stokes_drift_fetch", "25000")
+        if not use_wind:
+            print("[WARN] use_waves=True but use_wind=False — parameterised "
+                  "Stokes drift needs wind and will be ~0.")
+    else:
+        o.set_config("environment:fallback:sea_surface_wave_significant_height", 0)
+        o.set_config("environment:fallback:sea_surface_wave_stokes_drift_x_velocity", 0)
+        o.set_config("environment:fallback:sea_surface_wave_stokes_drift_y_velocity", 0)
+
+
 def budget_path_for(outfile: str) -> Path:
     """Sidecar path holding the weathering budget time series for a run."""
     p = Path(outfile)
@@ -185,6 +219,7 @@ def run_simulation(
     oil_type: Optional[str] = OIL_TYPE,
     use_wind: bool = True,
     use_waves: bool = True,
+    vertical_mixing: bool = VERTICAL_MIXING,
     currents_file: Optional[str] = CURRENTS_FILE,
     wind_file: Optional[str] = WIND_FILE,
     waves_file: Optional[str] = WAVES_FILE,
@@ -215,26 +250,8 @@ def run_simulation(
 
     o.max_speed = float(MAX_SPEED)
 
-    if USE_3D and DISABLE_VERTICAL_MIXING:
-        o.set_config("processes:vertical_mixing", False)
-
-    # Stokes drift — must be explicitly disabled when not using waves;
-    # OpenOil defaults to True and will demand wave variables otherwise.
-    o.set_config("drift:stokes_drift", use_waves)
-    if use_waves:
-        # Derive Stokes drift and significant wave height from the wind field
-        # via OpenDrift's tabularised parameterisation — no separate wave
-        # dataset (ERA5) is required. If a real waves file is supplied below,
-        # its non-zero values take precedence and the parameterisation is skipped.
-        o.set_config("drift:use_tabularised_stokes_drift", True)
-        o.set_config("drift:tabularised_stokes_drift_fetch", "25000")
-        if not use_wind:
-            print("[WARN] use_waves=True but use_wind=False — parameterised "
-                  "Stokes drift needs wind and will be ~0.")
-    else:
-        o.set_config("environment:fallback:sea_surface_wave_significant_height", 0)
-        o.set_config("environment:fallback:sea_surface_wave_stokes_drift_x_velocity", 0)
-        o.set_config("environment:fallback:sea_surface_wave_stokes_drift_y_velocity", 0)
+    configure_physics(o, use_wind=use_wind, use_waves=use_waves,
+                      vertical_mixing=vertical_mixing)
 
     # Readers — a real waves file is optional; absence is fine when use_waves
     # relies on the wind-based parameterisation above.
