@@ -71,29 +71,29 @@
     "n_members": 10,
     "npz": "main\\outputs\\risk_grids\\roncador_oct_risk.npz"
   },
-  "jubarte_jan": {
-    "field": "Jubarte",
+  "papa-terra_jan": {
+    "field": "Papa-Terra",
     "season": "jan",
     "n_members": 10,
-    "npz": "main\\outputs\\risk_grids\\jubarte_jan_risk.npz"
+    "npz": "main\\outputs\\risk_grids\\papa-terra_jan_risk.npz"
   },
-  "jubarte_apr": {
-    "field": "Jubarte",
+  "papa-terra_apr": {
+    "field": "Papa-Terra",
     "season": "apr",
     "n_members": 10,
-    "npz": "main\\outputs\\risk_grids\\jubarte_apr_risk.npz"
+    "npz": "main\\outputs\\risk_grids\\papa-terra_apr_risk.npz"
   },
-  "jubarte_jul": {
-    "field": "Jubarte",
+  "papa-terra_jul": {
+    "field": "Papa-Terra",
     "season": "jul",
     "n_members": 10,
-    "npz": "main\\outputs\\risk_grids\\jubarte_jul_risk.npz"
+    "npz": "main\\outputs\\risk_grids\\papa-terra_jul_risk.npz"
   },
-  "jubarte_oct": {
-    "field": "Jubarte",
+  "papa-terra_oct": {
+    "field": "Papa-Terra",
     "season": "oct",
     "n_members": 10,
-    "npz": "main\\outputs\\risk_grids\\jubarte_oct_risk.npz"
+    "npz": "main\\outputs\\risk_grids\\papa-terra_oct_risk.npz"
   },
   "frade_jan": {
     "field": "Frade",

@@ -18,17 +18,16 @@ mas ainda inexistente.
 - `PLANO_DE_ACAO.md` — Fase 8 (correções) com decisões já aprovadas
 - `PERGUNTAS_ABERTAS.md` — decisões pendentes do autor
 
-### Status da Fase 8 (2026-07-29): CORREÇÕES DE CÓDIGO APLICADAS
+### Status da Fase 8 (2026-07-30): CONCLUÍDA — PRODUTOS REGENERADOS ✓
 
-A branch `audit/revisao-completa` contém todos os fixes (status por
-flag_meanings, mixing OFF, SST, caixa larga, spill 10 m³, campos ANP,
-Papa-Terra, RK4, limpeza) com suíte pytest verde (`main/tests/`).
-`main/CLAUDE.md` e `main/README.md` foram reescritos e estão corretos.
-**Pendente**: re-download das forçantes (caixa nova + SST + 2024) e
-`rebuild_all.ps1 --fresh` — até lá os `outputs/` commitados continuam sendo
-os antigos, com os defeitos abaixo (mantidos como baseline de comparação).
+Branch `audit/revisao-completa`: todos os fixes + forçantes novas (caixa
+larga, SST) + **regeneração completa validada** (288 runs, 0 falhas, 0 saídas
+de domínio, 10 m³ em todos; encalhe = 0 em 120 h com as posições oficiais —
+ver `docs/auditoria/REGENERACAO.md`). Convergência: 10 membros de ensemble
+NÃO convergem (usar ≥20–30 para uso quantitativo). Pendente apenas: decisão
+sobre baixar 2024 (holdout do ML).
 
-### Fatos críticos sobre os outputs ANTIGOS (pré-regeneração)
+### Fatos críticos sobre os outputs ANTIGOS (geração pré-auditoria, hoje só no histórico git)
 
 1. 🔴 `outputs/beaching/` está **cientificamente inválido**: `compute_beaching.py` hardcoda
    `status==1` como "stranded", mas em 48/240 arquivos código 1 = `missing_data` (saída do

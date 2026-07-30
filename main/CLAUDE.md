@@ -50,17 +50,25 @@ orchestrator), `tests/` (pytest).
 3. **Subprocess logging**: call the env's `python.exe` directly, not
    `powershell -File`; note `*>` redirects produce UTF-16 logs.
 
-## State of outputs (2026-07-29)
+## State of outputs (2026-07-30) — REGENERATED ✓
 
-The committed `outputs/` (48 scenarios + 240 ensemble + 24 risk + 24
-beaching) were generated BEFORE the audit fixes. Known defects of that
-generation: beaching grids counted domain exits as strandings (real beaching
-only at Frade), vertical mixing was on, weathering ran at 10 °C, spill was
-1 m³, old too-small box lost ~16 % of particles, and 4 of 6 field positions
-were off by 28–118 km. **Regeneration pending**: new forcing download
-(CMEMS currents+SST, ERA5 wind; wide box; year 2025 + 2024 as ML hold-out)
-followed by `rebuild_all.ps1 --fresh` (~4 h). Until then treat all committed
-products as superseded baselines, and keep them for comparison.
+All products were regenerated with the corrected code and new forcing
+(wide box, SST, official coordinates): 48 scenarios + 240 ensemble + 24 risk
++ 24 beaching, **0 failures, 0 domain exits, 10 m³ in every run**, validated
+by sweep (`docs/auditoria/REGENERACAO.md` has the full numbers and the two
+incidents hit during regeneration — HDF5 inputs and a --fresh manifest bug,
+both fixed and tested).
+
+Key facts about the current generation:
+- **Beaching is ZERO in all 24 (field × month)** — scientifically coherent:
+  the old "0–89%" came from domain-exit artifacts plus Frade's position being
+  ~118 km too close to the coast. The app's Beaching tab correctly reports
+  "negligible beaching" everywhere.
+- Ensemble convergence: 10 members are NOT converged (IoU 0.63–0.73 for
+  5-vs-10 prob_any). Risk maps are indicative; use ≥20–30 members before
+  quantitative/ML use.
+- Scenario/ensemble PNGs are no longer generated (cartopy coastline 404) nor
+  versioned; the app never used them.
 
 ## Author decisions on record (2026-07-29)
 
