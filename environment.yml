@@ -40,6 +40,8 @@ dependencies:
   - streamlit>=1.30
   - plotly>=5.18
   - pandas
+  # ML layer (main/ml/) — author-approved 2026-07-30
+  - scikit-learn
   - pip
   - git
   - pip:
