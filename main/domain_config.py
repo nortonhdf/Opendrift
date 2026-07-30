@@ -25,8 +25,11 @@ FORCING_YEAR = 2025
 SEASON_MONTHS = {"jan": 1, "apr": 4, "jul": 7, "oct": 10}
 SEASONS = list(SEASON_MONTHS)
 
-# Ensemble start days: 10 dates spread through each month
-ENSEMBLE_DAYS = [1, 4, 7, 10, 13, 16, 19, 22, 25, 28]
+# Ensemble start days: one member per day, 1..28 (28 members/month).
+# The audit convergence experiment (docs/auditoria/REGENERACAO.md) showed the
+# old 10-member ensemble was NOT converged (IoU 0.63-0.73 for 5-vs-10
+# prob_any); 28 daily members sits in the recommended >=20-30 range.
+ENSEMBLE_DAYS = list(range(1, 29))
 
 
 def season_date(season: str, year: int = FORCING_YEAR, day: int = 15) -> datetime:

@@ -32,6 +32,7 @@ def test_aggregation_scripts_share_the_domain():
 def test_season_and_ensemble_dates():
     assert dc.season_date("jul") == datetime(2025, 7, 15)
     dates = dc.ensemble_dates("oct")
-    assert len(dates) == 10
+    assert len(dates) == 28              # one member per day, 1..28
     assert dates[0] == datetime(2025, 10, 1)
     assert dates[-1] == datetime(2025, 10, 28)
+    assert len(set(dates)) == 28         # valid in every month (Feb included)

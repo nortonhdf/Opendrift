@@ -1,7 +1,7 @@
 """
 Run ensemble of simulations for each (field, season) pair.
 
-10 start dates spread evenly through each month capture seasonal variability
+28 start dates (one per day, 1..28) per month capture seasonal variability
 in currents and wind without needing to perturb physics parameters.
 
 Usage (from repo root, opendrift env active):
@@ -37,7 +37,7 @@ OUT_DIR  = ROOT / "main" / "outputs" / "ensemble"
 MANIFEST = OUT_DIR / "manifest.json"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-N_MEMBERS   = 10
+N_MEMBERS   = 28
 N_PARTICLES = 200
 DURATION_H  = 120
 

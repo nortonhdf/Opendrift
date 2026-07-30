@@ -4,7 +4,7 @@ One-shot rebuild of every precomputed product with the *current* model code
 
 Stages, in dependency order:
   1. scenarios  — 48 runs   (~47 min)   precompute_scenarios   → outputs/scenarios/
-  2. ensemble   — 240 runs  (~3 h)      run_ensemble           → outputs/ensemble/
+  2. ensemble   — 672 runs  (~7 h)      run_ensemble           → outputs/ensemble/
   3. risk       — 24 grids  (~min)      compute_risk_grids     → outputs/risk_grids/
   4. beaching   — 24 grids  (~min)      compute_beaching       → outputs/beaching/
 
@@ -45,7 +45,7 @@ STAGES = ["scenarios", "ensemble", "risk", "beaching"]
 
 ESTIMATES = {
     "scenarios": "~47 min  (48 runs)",
-    "ensemble":  "~3 h     (240 runs)",
+    "ensemble":  "~7 h     (672 runs)",
     "risk":      "~minutes (24 grids)",
     "beaching":  "~minutes (24 grids)",
 }
