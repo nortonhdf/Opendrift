@@ -63,13 +63,25 @@ def banner(msg: str) -> None:
     print("=" * 64, flush=True)
 
 
+def wipe_manifests(stages: list) -> None:
+    """Delete the manifests of every selected stage UP FRONT.
+
+    --fresh used to delete each manifest only when its stage started; a crash
+    in an earlier stage left later manifests intact, and a subsequent --resume
+    silently skipped every member listed in the stale manifest — mixing output
+    generations (observed 2026-07-30: 200 old-physics ensemble members were
+    reused next to 40 new ones).
+    """
+    for name in stages:
+        m = MANIFESTS.get(name)
+        if m is not None and m.exists():
+            m.unlink()
+            print(f"  [fresh] removed {m.relative_to(ROOT)} — full recompute")
+
+
 def run_stage(name: str, fresh: bool) -> None:
     banner(f"STAGE: {name}   ({ESTIMATES[name]})")
     t0 = time.time()
-
-    if fresh and name in MANIFESTS and MANIFESTS[name].exists():
-        MANIFESTS[name].unlink()
-        print(f"  [fresh] removed {MANIFESTS[name].relative_to(ROOT)} — full recompute")
 
     if name == "scenarios":
         from main.scripts import precompute_scenarios
@@ -117,6 +129,8 @@ def main() -> None:
 
     fresh = args.fresh
     banner(f"REBUILD START  ({'FRESH' if fresh else 'RESUME'})  stages: {', '.join(stages)}")
+    if fresh:
+        wipe_manifests(stages)
     t0 = time.time()
     for s in stages:
         run_stage(s, fresh)
