@@ -193,6 +193,18 @@ def evaluate() -> dict:
     def advection_fn(F):
         return predict_advection(F, DT_HOURS)
 
+    candidates = [("surrogate", surrogate_fn), ("advection", advection_fn)]
+
+    model_res_path = MODEL.with_name("surrogate_hgb_residual.joblib")
+    if model_res_path.exists():
+        models_res = joblib.load(model_res_path)
+
+        def residual_fn(F):
+            corr = np.column_stack([m.predict(F) for m in models_res])
+            return predict_advection(F, DT_HOURS) + corr
+
+        candidates.append(("adv+corr", residual_fn))
+
     sampler = ForcingSampler(CUR_2024, WND_2024)
     manifest = json.loads(MANIFEST.read_text())
 
@@ -208,7 +220,7 @@ def evaluate() -> dict:
         truth_occ = _occupancy(flon, flat)
 
         res = {"key": key}
-        for name, fn in [("surrogate", surrogate_fn), ("advection", advection_fn)]:
+        for name, fn in candidates:
             ml, mb, msp = rollout(fn, sampler, tl[0], tb[0], t0, n_steps)
             res[name] = {
                 "lw_ss": liu_weisberg_ss(tl, tb, ml, mb),
@@ -223,7 +235,7 @@ def evaluate() -> dict:
     sampler.close()
 
     summary = {}
-    for name in ["surrogate", "advection"]:
+    for name, _ in candidates:
         summary[name] = {
             "lw_ss_median": float(np.median([r[name]["lw_ss"] for r in rows])),
             "lw_ss_mean": float(np.mean([r[name]["lw_ss"] for r in rows])),

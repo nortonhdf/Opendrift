@@ -1,0 +1,1320 @@
+{
+  "runs": [
+    {
+      "key": "albacora_apr_d05",
+      "surrogate": {
+        "lw_ss": 0.964311517329798,
+        "final_err_km": 15.455599585313855,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.971028271595039,
+        "final_err_km": 5.504457150000589,
+        "iou": 0.25
+      },
+      "adv+corr": {
+        "lw_ss": 0.9377640820147218,
+        "final_err_km": 24.661590235554364,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "albacora_apr_d15",
+      "surrogate": {
+        "lw_ss": 0.9450312786858226,
+        "final_err_km": 11.89188943558438,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9832588910715769,
+        "final_err_km": 7.416858979728182,
+        "iou": 1.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.9380074852153114,
+        "final_err_km": 15.04574382548275,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "albacora_apr_d25",
+      "surrogate": {
+        "lw_ss": 0.9552822435995167,
+        "final_err_km": 9.01178262718396,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9396163929259999,
+        "final_err_km": 19.279109808454823,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.9302516435462733,
+        "final_err_km": 28.836136131067743,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "albacora_jan_d05",
+      "surrogate": {
+        "lw_ss": 0.8364097796844729,
+        "final_err_km": 5.639317452811116,
+        "iou": 0.25
+      },
+      "advection": {
+        "lw_ss": 0.8435787512195982,
+        "final_err_km": 8.037313049396865,
+        "iou": 0.25
+      },
+      "adv+corr": {
+        "lw_ss": 0.8147011630060422,
+        "final_err_km": 9.470614906285164,
+        "iou": 0.25
+      }
+    },
+    {
+      "key": "albacora_jan_d15",
+      "surrogate": {
+        "lw_ss": 0.9656455998544583,
+        "final_err_km": 8.932983189576609,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9496351094910034,
+        "final_err_km": 15.172208673091026,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.9601062310469801,
+        "final_err_km": 11.594432039852826,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "albacora_jan_d25",
+      "surrogate": {
+        "lw_ss": 0.884942990763364,
+        "final_err_km": 17.821862202722755,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.8997856920982381,
+        "final_err_km": 23.41565842695258,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.9403213736498722,
+        "final_err_km": 3.0233996669384395,
+        "iou": 0.5
+      }
+    },
+    {
+      "key": "albacora_jul_d05",
+      "surrogate": {
+        "lw_ss": 0.9444325553817374,
+        "final_err_km": 16.737093956092828,
+        "iou": 0.2
+      },
+      "advection": {
+        "lw_ss": 0.9044172336458153,
+        "final_err_km": 21.829645845265908,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.9504126729209258,
+        "final_err_km": 2.0572179274294164,
+        "iou": 0.2
+      }
+    },
+    {
+      "key": "albacora_jul_d15",
+      "surrogate": {
+        "lw_ss": 0.8802138333549507,
+        "final_err_km": 15.90883568805666,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9734462569278363,
+        "final_err_km": 2.0371714861357066,
+        "iou": 1.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.8872739021177135,
+        "final_err_km": 15.290904665027185,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "albacora_jul_d25",
+      "surrogate": {
+        "lw_ss": 0.9286918183323423,
+        "final_err_km": 26.399782291727824,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9650829175602721,
+        "final_err_km": 12.58498528944886,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.9358196537709902,
+        "final_err_km": 24.091705502988763,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "albacora_oct_d05",
+      "surrogate": {
+        "lw_ss": 0.8007929746104857,
+        "final_err_km": 27.000909706937563,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.7872784395443321,
+        "final_err_km": 34.06781351521489,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.8437163896090218,
+        "final_err_km": 10.113578680525077,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "albacora_oct_d15",
+      "surrogate": {
+        "lw_ss": 0.9405457917820291,
+        "final_err_km": 7.376730954787002,
+        "iou": 0.3333333333333333
+      },
+      "advection": {
+        "lw_ss": 0.8149693952273694,
+        "final_err_km": 47.71673808040691,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.8412053055920546,
+        "final_err_km": 39.43977434073378,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "albacora_oct_d25",
+      "surrogate": {
+        "lw_ss": 0.7700277423076847,
+        "final_err_km": 44.87480610363206,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.823681150251469,
+        "final_err_km": 34.615875018909286,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.8398668743154478,
+        "final_err_km": 34.379998903776524,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "frade_apr_d05",
+      "surrogate": {
+        "lw_ss": 0.9503856899545238,
+        "final_err_km": 13.246180284376523,
+        "iou": 0.3333333333333333
+      },
+      "advection": {
+        "lw_ss": 0.9646747710417868,
+        "final_err_km": 4.705068940693195,
+        "iou": 0.3333333333333333
+      },
+      "adv+corr": {
+        "lw_ss": 0.9487802529151558,
+        "final_err_km": 11.674143645722479,
+        "iou": 0.3333333333333333
+      }
+    },
+    {
+      "key": "frade_apr_d15",
+      "surrogate": {
+        "lw_ss": 0.939162592661413,
+        "final_err_km": 12.94991198517919,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9704977508158844,
+        "final_err_km": 10.678926371938813,
+        "iou": 0.3333333333333333
+      },
+      "adv+corr": {
+        "lw_ss": 0.9307469244802978,
+        "final_err_km": 17.555416700031355,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "frade_apr_d25",
+      "surrogate": {
+        "lw_ss": 0.9188557550352905,
+        "final_err_km": 20.548847373903584,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.932067732200206,
+        "final_err_km": 18.586758324084162,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.9232296626126624,
+        "final_err_km": 19.696153710482307,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "frade_jan_d05",
+      "surrogate": {
+        "lw_ss": 0.9443421134651597,
+        "final_err_km": 3.5210362402719517,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.8950204132270492,
+        "final_err_km": 7.093186842725282,
+        "iou": 0.5
+      },
+      "adv+corr": {
+        "lw_ss": 0.9346908647850263,
+        "final_err_km": 6.031931076240604,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "frade_jan_d15",
+      "surrogate": {
+        "lw_ss": 0.8997825496456857,
+        "final_err_km": 20.459412624745706,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9540946594070698,
+        "final_err_km": 5.672949058619801,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.8760060191869987,
+        "final_err_km": 25.491048328981712,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "frade_jan_d25",
+      "surrogate": {
+        "lw_ss": 0.5592594348836784,
+        "final_err_km": 77.48122209489108,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.8709810653240081,
+        "final_err_km": 15.343689728966153,
+        "iou": 0.2
+      },
+      "adv+corr": {
+        "lw_ss": 0.3910792417685982,
+        "final_err_km": 97.96662154009786,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "frade_jul_d05",
+      "surrogate": {
+        "lw_ss": 0.918708896150819,
+        "final_err_km": 19.766321172584618,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.98359099908686,
+        "final_err_km": 0.7034106210336937,
+        "iou": 1.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.9032277811829079,
+        "final_err_km": 23.677534362998145,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "frade_jul_d15",
+      "surrogate": {
+        "lw_ss": 0.7988523509809158,
+        "final_err_km": 22.93867753923945,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9043466085869771,
+        "final_err_km": 7.266662197295953,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.7882914198518802,
+        "final_err_km": 24.012199175739607,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "frade_jul_d25",
+      "surrogate": {
+        "lw_ss": 0.9407497701465013,
+        "final_err_km": 19.92276687242083,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9544392187712646,
+        "final_err_km": 2.5855654596203728,
+        "iou": 0.5
+      },
+      "adv+corr": {
+        "lw_ss": 0.9336683728589875,
+        "final_err_km": 14.785610805725431,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "frade_oct_d05",
+      "surrogate": {
+        "lw_ss": 0.868437417974726,
+        "final_err_km": 14.36223443483616,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.8666218854335745,
+        "final_err_km": 10.416038158587819,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.8577288858060244,
+        "final_err_km": 17.5234649023654,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "frade_oct_d15",
+      "surrogate": {
+        "lw_ss": 0.8847704577551244,
+        "final_err_km": 37.82385283890923,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.7680710591950692,
+        "final_err_km": 120.68047136245092,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.9073073458129982,
+        "final_err_km": 31.867756027160084,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "frade_oct_d25",
+      "surrogate": {
+        "lw_ss": 0.8633298843619297,
+        "final_err_km": 34.816013973833456,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.929364839872845,
+        "final_err_km": 16.424719065728873,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.9187682698969137,
+        "final_err_km": 16.552929387301734,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "marlim_apr_d05",
+      "surrogate": {
+        "lw_ss": 0.9607868530527899,
+        "final_err_km": 10.663982000599686,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9768244292779978,
+        "final_err_km": 4.166670556130098,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.9661466664549605,
+        "final_err_km": 7.567442790864296,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "marlim_apr_d15",
+      "surrogate": {
+        "lw_ss": 0.8723184016524002,
+        "final_err_km": 19.992855399273438,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9260447117733823,
+        "final_err_km": 31.878967327861176,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.8929950258145258,
+        "final_err_km": 16.567851492114706,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "marlim_apr_d25",
+      "surrogate": {
+        "lw_ss": 0.9233931117082446,
+        "final_err_km": 42.47465109854506,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.955588337528876,
+        "final_err_km": 11.537638329001865,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.9619001954084984,
+        "final_err_km": 17.00680481285797,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "marlim_jan_d05",
+      "surrogate": {
+        "lw_ss": 0.8517142361886192,
+        "final_err_km": 24.469480982480654,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.8334346838393978,
+        "final_err_km": 21.881594609369994,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.8909084796934419,
+        "final_err_km": 17.349854477654972,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "marlim_jan_d15",
+      "surrogate": {
+        "lw_ss": 0.9347732808096354,
+        "final_err_km": 21.23020452230765,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.964228350729083,
+        "final_err_km": 12.80855379069981,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.89525399570389,
+        "final_err_km": 27.92568930133707,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "marlim_jan_d25",
+      "surrogate": {
+        "lw_ss": 0.9714611309517485,
+        "final_err_km": 0.8608512339691016,
+        "iou": 0.5
+      },
+      "advection": {
+        "lw_ss": 0.9623291637973077,
+        "final_err_km": 15.416686372380273,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.9706030283803818,
+        "final_err_km": 2.12015381153344,
+        "iou": 0.5
+      }
+    },
+    {
+      "key": "marlim_jul_d05",
+      "surrogate": {
+        "lw_ss": 0.8786109025989235,
+        "final_err_km": 15.950630753203459,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.898806584527741,
+        "final_err_km": 16.283467227506705,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.8815297801537634,
+        "final_err_km": 6.971268682126569,
+        "iou": 0.25
+      }
+    },
+    {
+      "key": "marlim_jul_d15",
+      "surrogate": {
+        "lw_ss": 0.8730056537431814,
+        "final_err_km": 13.277673201859319,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9390920276069176,
+        "final_err_km": 4.927694757717078,
+        "iou": 0.3333333333333333
+      },
+      "adv+corr": {
+        "lw_ss": 0.8515068584410931,
+        "final_err_km": 14.667497233592329,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "marlim_jul_d25",
+      "surrogate": {
+        "lw_ss": 0.8906274757105572,
+        "final_err_km": 33.864712374690065,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9251923000990177,
+        "final_err_km": 24.18689146024012,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.8931908871990596,
+        "final_err_km": 32.8296333550232,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "marlim_oct_d05",
+      "surrogate": {
+        "lw_ss": 0.5042832511540566,
+        "final_err_km": 92.37930873239506,
+        "iou": 0.047619047619047616
+      },
+      "advection": {
+        "lw_ss": 0.2112801166274031,
+        "final_err_km": 99.41370254876908,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.4365251063239235,
+        "final_err_km": 100.3361715608543,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "marlim_oct_d15",
+      "surrogate": {
+        "lw_ss": 0.6560279933369476,
+        "final_err_km": 59.13468355978418,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.7785239161260284,
+        "final_err_km": 38.22441508976995,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.8197757546231574,
+        "final_err_km": 28.007239564016302,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "marlim_oct_d25",
+      "surrogate": {
+        "lw_ss": 0.8902186365399509,
+        "final_err_km": 14.395932007289428,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9668855858636751,
+        "final_err_km": 12.154835775611609,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.9325264006350893,
+        "final_err_km": 9.901764057570832,
+        "iou": 0.5
+      }
+    },
+    {
+      "key": "papa-terra_apr_d05",
+      "surrogate": {
+        "lw_ss": 0.88934848252365,
+        "final_err_km": 20.908811759464253,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9310346994747012,
+        "final_err_km": 9.658375389466016,
+        "iou": 0.3333333333333333
+      },
+      "adv+corr": {
+        "lw_ss": 0.8497904287437567,
+        "final_err_km": 29.506612274707326,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "papa-terra_apr_d15",
+      "surrogate": {
+        "lw_ss": 0.8895518965369584,
+        "final_err_km": 35.79771934110631,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9661565296947145,
+        "final_err_km": 13.658299202305844,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.9119291960272451,
+        "final_err_km": 29.576600561210615,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "papa-terra_apr_d25",
+      "surrogate": {
+        "lw_ss": 0.9763003253637474,
+        "final_err_km": 1.6822473024135636,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.8068760216181909,
+        "final_err_km": 60.45063589742863,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.981677321466299,
+        "final_err_km": 1.862951999465777,
+        "iou": 0.5
+      }
+    },
+    {
+      "key": "papa-terra_jan_d05",
+      "surrogate": {
+        "lw_ss": 0.8859670843512175,
+        "final_err_km": 3.894669319112643,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9239744488381485,
+        "final_err_km": 6.06721910704999,
+        "iou": 0.5
+      },
+      "adv+corr": {
+        "lw_ss": 0.9184375461364063,
+        "final_err_km": 2.516793745888875,
+        "iou": 0.5
+      }
+    },
+    {
+      "key": "papa-terra_jan_d15",
+      "surrogate": {
+        "lw_ss": 0.8771261376202344,
+        "final_err_km": 14.787693664058388,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9187255786145759,
+        "final_err_km": 21.496714574964322,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.8564599589839786,
+        "final_err_km": 22.30978073322891,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "papa-terra_jan_d25",
+      "surrogate": {
+        "lw_ss": 0.7833933465461993,
+        "final_err_km": 19.509642833022003,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.8709468472088945,
+        "final_err_km": 10.539168468292416,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.597738393274309,
+        "final_err_km": 49.56749980589867,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "papa-terra_jul_d05",
+      "surrogate": {
+        "lw_ss": 0.8009085176472227,
+        "final_err_km": 25.633532947989856,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9707226625246491,
+        "final_err_km": 2.482012688340014,
+        "iou": 1.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.7989502443459549,
+        "final_err_km": 22.694759877973485,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "papa-terra_jul_d15",
+      "surrogate": {
+        "lw_ss": 0.5622852148950737,
+        "final_err_km": 61.17948314023256,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9339686405572649,
+        "final_err_km": 6.26283547931132,
+        "iou": 0.5
+      },
+      "adv+corr": {
+        "lw_ss": 0.5504277461992801,
+        "final_err_km": 61.75285264906307,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "papa-terra_jul_d25",
+      "surrogate": {
+        "lw_ss": 0.9184225375372298,
+        "final_err_km": 16.06604649881329,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.967539984045964,
+        "final_err_km": 12.420718465779757,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.9385058129648863,
+        "final_err_km": 9.729758456216313,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "papa-terra_oct_d05",
+      "surrogate": {
+        "lw_ss": 0.9055967876811786,
+        "final_err_km": 15.141564485023705,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9687811670470314,
+        "final_err_km": 4.535589443159058,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.9054834403628437,
+        "final_err_km": 14.779639842617959,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "papa-terra_oct_d15",
+      "surrogate": {
+        "lw_ss": 0.814421619272697,
+        "final_err_km": 43.25104747681544,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.722176425138196,
+        "final_err_km": 63.62181718668767,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.8080026082009407,
+        "final_err_km": 48.660056174664454,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "papa-terra_oct_d25",
+      "surrogate": {
+        "lw_ss": 0.9290511152692834,
+        "final_err_km": 9.919318562228632,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9378554589248412,
+        "final_err_km": 17.975647738373432,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.9124933912880642,
+        "final_err_km": 20.688989442640658,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "peregrino_apr_d05",
+      "surrogate": {
+        "lw_ss": 0.9185924305257827,
+        "final_err_km": 12.31459335120005,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9727450756033846,
+        "final_err_km": 5.1824594326591145,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.9599864427931835,
+        "final_err_km": 4.724369040438701,
+        "iou": 1.0
+      }
+    },
+    {
+      "key": "peregrino_apr_d15",
+      "surrogate": {
+        "lw_ss": 0.9149546470475654,
+        "final_err_km": 24.304374828189147,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9373547986960965,
+        "final_err_km": 14.453513655571266,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.904748312877533,
+        "final_err_km": 27.054539148689,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "peregrino_apr_d25",
+      "surrogate": {
+        "lw_ss": 0.9498647993781606,
+        "final_err_km": 6.954233766317918,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9531439242331472,
+        "final_err_km": 3.599265798437124,
+        "iou": 0.6666666666666666
+      },
+      "adv+corr": {
+        "lw_ss": 0.9668335258636255,
+        "final_err_km": 5.489390681102295,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "peregrino_jan_d05",
+      "surrogate": {
+        "lw_ss": 0.8742275746166922,
+        "final_err_km": 21.130985335507535,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.8239304253640285,
+        "final_err_km": 21.67386165989232,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.8602396356399228,
+        "final_err_km": 23.082736821061278,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "peregrino_jan_d15",
+      "surrogate": {
+        "lw_ss": 0.9009777222203219,
+        "final_err_km": 17.0779669775492,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9328105104183138,
+        "final_err_km": 10.876758435154088,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.8980109305135127,
+        "final_err_km": 15.276675649200442,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "peregrino_jan_d25",
+      "surrogate": {
+        "lw_ss": 0.9303371035549604,
+        "final_err_km": 8.737021284587499,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.8047747739138204,
+        "final_err_km": 42.091908432068614,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.9209615010664309,
+        "final_err_km": 8.539570521071646,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "peregrino_jul_d05",
+      "surrogate": {
+        "lw_ss": 0.8581293885899406,
+        "final_err_km": 9.209092001906823,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.8632114541128507,
+        "final_err_km": 22.71830482875635,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.9386446588847499,
+        "final_err_km": 3.7350978725504587,
+        "iou": 1.0
+      }
+    },
+    {
+      "key": "peregrino_jul_d15",
+      "surrogate": {
+        "lw_ss": 0.6542143830255753,
+        "final_err_km": 12.376033756631141,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.8299557759968786,
+        "final_err_km": 5.011544712954788,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.6875609951882882,
+        "final_err_km": 9.477608676076203,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "peregrino_jul_d25",
+      "surrogate": {
+        "lw_ss": 0.9530152720528595,
+        "final_err_km": 2.6668433550954536,
+        "iou": 0.5
+      },
+      "advection": {
+        "lw_ss": 0.9667346147616014,
+        "final_err_km": 3.7742553214184995,
+        "iou": 0.5
+      },
+      "adv+corr": {
+        "lw_ss": 0.9643431011352295,
+        "final_err_km": 4.664602056365392,
+        "iou": 0.5
+      }
+    },
+    {
+      "key": "peregrino_oct_d05",
+      "surrogate": {
+        "lw_ss": 0.9716253613608784,
+        "final_err_km": 7.383794006885751,
+        "iou": 0.5
+      },
+      "advection": {
+        "lw_ss": 0.9703676653819809,
+        "final_err_km": 2.5587624947178575,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.9478547327413638,
+        "final_err_km": 10.030681185984829,
+        "iou": 0.5
+      }
+    },
+    {
+      "key": "peregrino_oct_d15",
+      "surrogate": {
+        "lw_ss": 0.9587855089775464,
+        "final_err_km": 4.887839593301684,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9310648734630679,
+        "final_err_km": 10.883137931263661,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.9613293285411283,
+        "final_err_km": 8.269755701750936,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "peregrino_oct_d25",
+      "surrogate": {
+        "lw_ss": 0.9480811753841258,
+        "final_err_km": 3.124028308518622,
+        "iou": 0.3333333333333333
+      },
+      "advection": {
+        "lw_ss": 0.9592235288890121,
+        "final_err_km": 3.876197499738341,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.9486835633876288,
+        "final_err_km": 2.7350963169274514,
+        "iou": 0.5
+      }
+    },
+    {
+      "key": "roncador_apr_d05",
+      "surrogate": {
+        "lw_ss": 0.9444132341833594,
+        "final_err_km": 9.377001801976482,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9491668493598064,
+        "final_err_km": 8.785908775391503,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.943119813603559,
+        "final_err_km": 6.457804459679805,
+        "iou": 0.5
+      }
+    },
+    {
+      "key": "roncador_apr_d15",
+      "surrogate": {
+        "lw_ss": 0.8803496882345424,
+        "final_err_km": 48.87385052426389,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9731094595418665,
+        "final_err_km": 7.126752146897687,
+        "iou": 0.5
+      },
+      "adv+corr": {
+        "lw_ss": 0.8656054600368213,
+        "final_err_km": 54.80185002749648,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "roncador_apr_d25",
+      "surrogate": {
+        "lw_ss": 0.9543284626277944,
+        "final_err_km": 5.8414711097040355,
+        "iou": 0.6666666666666666
+      },
+      "advection": {
+        "lw_ss": 0.9487476957457581,
+        "final_err_km": 14.948913494829222,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.9741264991610411,
+        "final_err_km": 3.6061264118217626,
+        "iou": 0.3333333333333333
+      }
+    },
+    {
+      "key": "roncador_jan_d05",
+      "surrogate": {
+        "lw_ss": 0.9471569531806008,
+        "final_err_km": 4.105471500430257,
+        "iou": 0.5
+      },
+      "advection": {
+        "lw_ss": 0.92441986297197,
+        "final_err_km": 4.878847520459375,
+        "iou": 0.5
+      },
+      "adv+corr": {
+        "lw_ss": 0.9239611747420207,
+        "final_err_km": 7.204938490798452,
+        "iou": 0.5
+      }
+    },
+    {
+      "key": "roncador_jan_d15",
+      "surrogate": {
+        "lw_ss": 0.8400833476700442,
+        "final_err_km": 31.656645701113757,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9337801462800516,
+        "final_err_km": 6.598621484919013,
+        "iou": 0.5
+      },
+      "adv+corr": {
+        "lw_ss": 0.8647123128431946,
+        "final_err_km": 26.877929674492776,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "roncador_jan_d25",
+      "surrogate": {
+        "lw_ss": 0.7908745086504751,
+        "final_err_km": 20.50037959684644,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9028290677738622,
+        "final_err_km": 6.103608079354152,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.8362002541692254,
+        "final_err_km": 14.916469650330281,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "roncador_jul_d05",
+      "surrogate": {
+        "lw_ss": 0.9222710301460614,
+        "final_err_km": 7.477692318673253,
+        "iou": 0.3333333333333333
+      },
+      "advection": {
+        "lw_ss": 0.9720382240663152,
+        "final_err_km": 3.4915194665793874,
+        "iou": 0.5
+      },
+      "adv+corr": {
+        "lw_ss": 0.9064619597786729,
+        "final_err_km": 12.20066801486874,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "roncador_jul_d15",
+      "surrogate": {
+        "lw_ss": 0.7837309631408781,
+        "final_err_km": 18.962954238765338,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.8746414273662704,
+        "final_err_km": 8.671389470790785,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.7938158653858028,
+        "final_err_km": 18.278363231785875,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "roncador_jul_d25",
+      "surrogate": {
+        "lw_ss": 0.9277185270811721,
+        "final_err_km": 15.393682316107432,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9503627562460968,
+        "final_err_km": 13.262650643411021,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.9389413601097892,
+        "final_err_km": 14.38660558147495,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "roncador_oct_d05",
+      "surrogate": {
+        "lw_ss": 0.9157709444644759,
+        "final_err_km": 15.614874482925751,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.8698386230513491,
+        "final_err_km": 11.333705668695506,
+        "iou": 0.0
+      },
+      "adv+corr": {
+        "lw_ss": 0.9182978868192586,
+        "final_err_km": 14.718377989486333,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "roncador_oct_d15",
+      "surrogate": {
+        "lw_ss": 0.8725037058533184,
+        "final_err_km": 46.872887811140515,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9531327950474464,
+        "final_err_km": 5.621526525530346,
+        "iou": 0.16666666666666666
+      },
+      "adv+corr": {
+        "lw_ss": 0.9040736525546049,
+        "final_err_km": 44.6062687729245,
+        "iou": 0.0
+      }
+    },
+    {
+      "key": "roncador_oct_d25",
+      "surrogate": {
+        "lw_ss": 0.8676940632952508,
+        "final_err_km": 35.962555164276694,
+        "iou": 0.0
+      },
+      "advection": {
+        "lw_ss": 0.9616857988362989,
+        "final_err_km": 1.507273926000255,
+        "iou": 0.5
+      },
+      "adv+corr": {
+        "lw_ss": 0.8828193294337471,
+        "final_err_km": 33.350132295323405,
+        "iou": 0.0
+      }
+    }
+  ],
+  "summary": {
+    "surrogate": {
+      "lw_ss_median": 0.9003801359330038,
+      "lw_ss_mean": 0.8780869420368966,
+      "final_err_km_median": 16.008338626008374,
+      "iou_mean": 0.06246693121693122
+    },
+    "advection": {
+      "lw_ss_median": 0.9338743934186582,
+      "lw_ss_mean": 0.9064667819878669,
+      "final_err_km_median": 10.879948183208874,
+      "iou_mean": 0.16481481481481483
+    },
+    "adv+corr": {
+      "lw_ss_median": 0.9068846527958356,
+      "lw_ss_mean": 0.8787091997508318,
+      "final_err_km_median": 15.92191702616446,
+      "iou_mean": 0.11620370370370371
+    }
+  }
+}

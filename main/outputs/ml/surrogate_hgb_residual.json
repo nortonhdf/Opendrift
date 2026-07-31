@@ -1,0 +1,64 @@
+{
+  "mode": "residual_over_advection",
+  "trained": "2026-07-31T20:50:58.791546+00:00",
+  "dataset": "main\\outputs\\ml\\patch_dataset.npz",
+  "dataset_sha256_16": "e975b2f36233f5c3",
+  "n_samples": 14400,
+  "n_blocks": 24,
+  "dt_hours": 6.0,
+  "seed": 42,
+  "sklearn": "1.8.0",
+  "params": {
+    "max_iter": 300,
+    "learning_rate": 0.05,
+    "max_depth": null,
+    "min_samples_leaf": 10,
+    "l2_regularization": 1.0,
+    "random_state": 42
+  },
+  "features": [
+    "lon_c",
+    "lat_c",
+    "spread_km",
+    "age_h",
+    "u_cur",
+    "v_cur",
+    "u_wind",
+    "v_wind",
+    "sst"
+  ],
+  "targets": [
+    "dx_km",
+    "dy_km",
+    "dspread_km"
+  ],
+  "lobo_metrics": {
+    "baselines": {
+      "persistence": {
+        "mae_dx": 5.948640296856563,
+        "mae_dy": 6.649282346169154,
+        "mean_disp_err_km": 9.695737143357595,
+        "mae_dspread": 0.07796498372529943
+      },
+      "advection": {
+        "mae_dx": 0.9887133861581484,
+        "mae_dy": 1.1192580113808315,
+        "mean_disp_err_km": 1.658536583185196,
+        "mae_dspread": 0.07796498372529943
+      },
+      "nearest": {
+        "mae_dx": 1.57137164970239,
+        "mae_dy": 1.7916682213544846,
+        "mean_disp_err_km": 2.6454736590385437,
+        "mae_dspread": 0.04990931980622312
+      }
+    },
+    "hgb": {
+      "mae_dx": 0.8225492363174757,
+      "mae_dy": 0.8969687869151434,
+      "mean_disp_err_km": 1.3492231518030167,
+      "mae_dspread": 0.03948929447991153
+    }
+  },
+  "beats_best_baseline": true
+}

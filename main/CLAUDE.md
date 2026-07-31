@@ -75,11 +75,16 @@ Key facts about the current generation (updated 2026-07-31):
 Patch-transport surrogate (target a): metrics (Liu–Weisberg SS, IoU, Brier),
 dataset builder (6-h patch transitions + local forcing; block key = field ×
 season), baselines, HGB training with leave-one-block-out evaluation.
-Current table (14,400 samples, 24 blocks): persistence 9.70 km / advection
-1.66 km / nearest 2.65 km / **HGB 1.40 km** mean displacement error (and
-half the spread MAE). Artefact + full metadata in `main/outputs/ml/`.
-Rules: split by block only; 2024 = frozen hold-out; every model reported
-against the baselines. scikit-learn is in environment.yml.
+In-year LOBO (14,400 samples, 24 blocks): persistence 9.70 / advection 1.66
+/ nearest 2.65 / HGB direct 1.40 / HGB residual 1.35 km per 6-h step.
+**BLIND 2024 ROLLOUT (72 runs, 120 h): passive advection still wins**
+(SS 0.93 / 10.9 km vs residual 0.91 / 15.9 km) — the learned correction is
+training-year-specific (position-feature ablation ruled out as main cause).
+v3 agenda: multi-year training (2022-2023 downloads) before any surrogate
+claim; full record in docs/auditoria/CAMADA_IA.md §5b. Artefacts + hold-out
+report in `main/outputs/ml/`. Rules: split by block only; 2024 = frozen
+hold-out (reused ONLY for final evaluations); every model reported against
+the baselines. scikit-learn is in environment.yml.
 
 ## Author decisions on record (2026-07-29)
 

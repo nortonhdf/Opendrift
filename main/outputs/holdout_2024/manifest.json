@@ -1,0 +1,506 @@
+{
+  "peregrino_jan_d05": {
+    "field": "Peregrino",
+    "season": "jan",
+    "day": 5,
+    "start": "2024-01-05T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\peregrino_jan_d05.nc"
+  },
+  "peregrino_jan_d15": {
+    "field": "Peregrino",
+    "season": "jan",
+    "day": 15,
+    "start": "2024-01-15T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\peregrino_jan_d15.nc"
+  },
+  "peregrino_jan_d25": {
+    "field": "Peregrino",
+    "season": "jan",
+    "day": 25,
+    "start": "2024-01-25T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\peregrino_jan_d25.nc"
+  },
+  "peregrino_apr_d05": {
+    "field": "Peregrino",
+    "season": "apr",
+    "day": 5,
+    "start": "2024-04-05T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\peregrino_apr_d05.nc"
+  },
+  "peregrino_apr_d15": {
+    "field": "Peregrino",
+    "season": "apr",
+    "day": 15,
+    "start": "2024-04-15T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\peregrino_apr_d15.nc"
+  },
+  "peregrino_apr_d25": {
+    "field": "Peregrino",
+    "season": "apr",
+    "day": 25,
+    "start": "2024-04-25T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\peregrino_apr_d25.nc"
+  },
+  "peregrino_jul_d05": {
+    "field": "Peregrino",
+    "season": "jul",
+    "day": 5,
+    "start": "2024-07-05T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\peregrino_jul_d05.nc"
+  },
+  "peregrino_jul_d15": {
+    "field": "Peregrino",
+    "season": "jul",
+    "day": 15,
+    "start": "2024-07-15T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\peregrino_jul_d15.nc"
+  },
+  "peregrino_jul_d25": {
+    "field": "Peregrino",
+    "season": "jul",
+    "day": 25,
+    "start": "2024-07-25T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\peregrino_jul_d25.nc"
+  },
+  "peregrino_oct_d05": {
+    "field": "Peregrino",
+    "season": "oct",
+    "day": 5,
+    "start": "2024-10-05T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\peregrino_oct_d05.nc"
+  },
+  "peregrino_oct_d15": {
+    "field": "Peregrino",
+    "season": "oct",
+    "day": 15,
+    "start": "2024-10-15T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\peregrino_oct_d15.nc"
+  },
+  "peregrino_oct_d25": {
+    "field": "Peregrino",
+    "season": "oct",
+    "day": 25,
+    "start": "2024-10-25T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\peregrino_oct_d25.nc"
+  },
+  "marlim_jan_d05": {
+    "field": "Marlim",
+    "season": "jan",
+    "day": 5,
+    "start": "2024-01-05T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\marlim_jan_d05.nc"
+  },
+  "marlim_jan_d15": {
+    "field": "Marlim",
+    "season": "jan",
+    "day": 15,
+    "start": "2024-01-15T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\marlim_jan_d15.nc"
+  },
+  "marlim_jan_d25": {
+    "field": "Marlim",
+    "season": "jan",
+    "day": 25,
+    "start": "2024-01-25T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\marlim_jan_d25.nc"
+  },
+  "marlim_apr_d05": {
+    "field": "Marlim",
+    "season": "apr",
+    "day": 5,
+    "start": "2024-04-05T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\marlim_apr_d05.nc"
+  },
+  "marlim_apr_d15": {
+    "field": "Marlim",
+    "season": "apr",
+    "day": 15,
+    "start": "2024-04-15T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\marlim_apr_d15.nc"
+  },
+  "marlim_apr_d25": {
+    "field": "Marlim",
+    "season": "apr",
+    "day": 25,
+    "start": "2024-04-25T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\marlim_apr_d25.nc"
+  },
+  "marlim_jul_d05": {
+    "field": "Marlim",
+    "season": "jul",
+    "day": 5,
+    "start": "2024-07-05T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\marlim_jul_d05.nc"
+  },
+  "marlim_jul_d15": {
+    "field": "Marlim",
+    "season": "jul",
+    "day": 15,
+    "start": "2024-07-15T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\marlim_jul_d15.nc"
+  },
+  "marlim_jul_d25": {
+    "field": "Marlim",
+    "season": "jul",
+    "day": 25,
+    "start": "2024-07-25T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\marlim_jul_d25.nc"
+  },
+  "marlim_oct_d05": {
+    "field": "Marlim",
+    "season": "oct",
+    "day": 5,
+    "start": "2024-10-05T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\marlim_oct_d05.nc"
+  },
+  "marlim_oct_d15": {
+    "field": "Marlim",
+    "season": "oct",
+    "day": 15,
+    "start": "2024-10-15T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\marlim_oct_d15.nc"
+  },
+  "marlim_oct_d25": {
+    "field": "Marlim",
+    "season": "oct",
+    "day": 25,
+    "start": "2024-10-25T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\marlim_oct_d25.nc"
+  },
+  "roncador_jan_d05": {
+    "field": "Roncador",
+    "season": "jan",
+    "day": 5,
+    "start": "2024-01-05T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\roncador_jan_d05.nc"
+  },
+  "roncador_jan_d15": {
+    "field": "Roncador",
+    "season": "jan",
+    "day": 15,
+    "start": "2024-01-15T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\roncador_jan_d15.nc"
+  },
+  "roncador_jan_d25": {
+    "field": "Roncador",
+    "season": "jan",
+    "day": 25,
+    "start": "2024-01-25T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\roncador_jan_d25.nc"
+  },
+  "roncador_apr_d05": {
+    "field": "Roncador",
+    "season": "apr",
+    "day": 5,
+    "start": "2024-04-05T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\roncador_apr_d05.nc"
+  },
+  "roncador_apr_d15": {
+    "field": "Roncador",
+    "season": "apr",
+    "day": 15,
+    "start": "2024-04-15T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\roncador_apr_d15.nc"
+  },
+  "roncador_apr_d25": {
+    "field": "Roncador",
+    "season": "apr",
+    "day": 25,
+    "start": "2024-04-25T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\roncador_apr_d25.nc"
+  },
+  "roncador_jul_d05": {
+    "field": "Roncador",
+    "season": "jul",
+    "day": 5,
+    "start": "2024-07-05T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\roncador_jul_d05.nc"
+  },
+  "roncador_jul_d15": {
+    "field": "Roncador",
+    "season": "jul",
+    "day": 15,
+    "start": "2024-07-15T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\roncador_jul_d15.nc"
+  },
+  "roncador_jul_d25": {
+    "field": "Roncador",
+    "season": "jul",
+    "day": 25,
+    "start": "2024-07-25T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\roncador_jul_d25.nc"
+  },
+  "roncador_oct_d05": {
+    "field": "Roncador",
+    "season": "oct",
+    "day": 5,
+    "start": "2024-10-05T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\roncador_oct_d05.nc"
+  },
+  "roncador_oct_d15": {
+    "field": "Roncador",
+    "season": "oct",
+    "day": 15,
+    "start": "2024-10-15T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\roncador_oct_d15.nc"
+  },
+  "roncador_oct_d25": {
+    "field": "Roncador",
+    "season": "oct",
+    "day": 25,
+    "start": "2024-10-25T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\roncador_oct_d25.nc"
+  },
+  "papa-terra_jan_d05": {
+    "field": "Papa-Terra",
+    "season": "jan",
+    "day": 5,
+    "start": "2024-01-05T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\papa-terra_jan_d05.nc"
+  },
+  "papa-terra_jan_d15": {
+    "field": "Papa-Terra",
+    "season": "jan",
+    "day": 15,
+    "start": "2024-01-15T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\papa-terra_jan_d15.nc"
+  },
+  "papa-terra_jan_d25": {
+    "field": "Papa-Terra",
+    "season": "jan",
+    "day": 25,
+    "start": "2024-01-25T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\papa-terra_jan_d25.nc"
+  },
+  "papa-terra_apr_d05": {
+    "field": "Papa-Terra",
+    "season": "apr",
+    "day": 5,
+    "start": "2024-04-05T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\papa-terra_apr_d05.nc"
+  },
+  "papa-terra_apr_d15": {
+    "field": "Papa-Terra",
+    "season": "apr",
+    "day": 15,
+    "start": "2024-04-15T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\papa-terra_apr_d15.nc"
+  },
+  "papa-terra_apr_d25": {
+    "field": "Papa-Terra",
+    "season": "apr",
+    "day": 25,
+    "start": "2024-04-25T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\papa-terra_apr_d25.nc"
+  },
+  "papa-terra_jul_d05": {
+    "field": "Papa-Terra",
+    "season": "jul",
+    "day": 5,
+    "start": "2024-07-05T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\papa-terra_jul_d05.nc"
+  },
+  "papa-terra_jul_d15": {
+    "field": "Papa-Terra",
+    "season": "jul",
+    "day": 15,
+    "start": "2024-07-15T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\papa-terra_jul_d15.nc"
+  },
+  "papa-terra_jul_d25": {
+    "field": "Papa-Terra",
+    "season": "jul",
+    "day": 25,
+    "start": "2024-07-25T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\papa-terra_jul_d25.nc"
+  },
+  "papa-terra_oct_d05": {
+    "field": "Papa-Terra",
+    "season": "oct",
+    "day": 5,
+    "start": "2024-10-05T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\papa-terra_oct_d05.nc"
+  },
+  "papa-terra_oct_d15": {
+    "field": "Papa-Terra",
+    "season": "oct",
+    "day": 15,
+    "start": "2024-10-15T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\papa-terra_oct_d15.nc"
+  },
+  "papa-terra_oct_d25": {
+    "field": "Papa-Terra",
+    "season": "oct",
+    "day": 25,
+    "start": "2024-10-25T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\papa-terra_oct_d25.nc"
+  },
+  "frade_jan_d05": {
+    "field": "Frade",
+    "season": "jan",
+    "day": 5,
+    "start": "2024-01-05T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\frade_jan_d05.nc"
+  },
+  "frade_jan_d15": {
+    "field": "Frade",
+    "season": "jan",
+    "day": 15,
+    "start": "2024-01-15T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\frade_jan_d15.nc"
+  },
+  "frade_jan_d25": {
+    "field": "Frade",
+    "season": "jan",
+    "day": 25,
+    "start": "2024-01-25T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\frade_jan_d25.nc"
+  },
+  "frade_apr_d05": {
+    "field": "Frade",
+    "season": "apr",
+    "day": 5,
+    "start": "2024-04-05T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\frade_apr_d05.nc"
+  },
+  "frade_apr_d15": {
+    "field": "Frade",
+    "season": "apr",
+    "day": 15,
+    "start": "2024-04-15T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\frade_apr_d15.nc"
+  },
+  "frade_apr_d25": {
+    "field": "Frade",
+    "season": "apr",
+    "day": 25,
+    "start": "2024-04-25T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\frade_apr_d25.nc"
+  },
+  "frade_jul_d05": {
+    "field": "Frade",
+    "season": "jul",
+    "day": 5,
+    "start": "2024-07-05T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\frade_jul_d05.nc"
+  },
+  "frade_jul_d15": {
+    "field": "Frade",
+    "season": "jul",
+    "day": 15,
+    "start": "2024-07-15T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\frade_jul_d15.nc"
+  },
+  "frade_jul_d25": {
+    "field": "Frade",
+    "season": "jul",
+    "day": 25,
+    "start": "2024-07-25T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\frade_jul_d25.nc"
+  },
+  "frade_oct_d05": {
+    "field": "Frade",
+    "season": "oct",
+    "day": 5,
+    "start": "2024-10-05T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\frade_oct_d05.nc"
+  },
+  "frade_oct_d15": {
+    "field": "Frade",
+    "season": "oct",
+    "day": 15,
+    "start": "2024-10-15T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\frade_oct_d15.nc"
+  },
+  "frade_oct_d25": {
+    "field": "Frade",
+    "season": "oct",
+    "day": 25,
+    "start": "2024-10-25T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\frade_oct_d25.nc"
+  },
+  "albacora_jan_d05": {
+    "field": "Albacora",
+    "season": "jan",
+    "day": 5,
+    "start": "2024-01-05T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\albacora_jan_d05.nc"
+  },
+  "albacora_jan_d15": {
+    "field": "Albacora",
+    "season": "jan",
+    "day": 15,
+    "start": "2024-01-15T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\albacora_jan_d15.nc"
+  },
+  "albacora_jan_d25": {
+    "field": "Albacora",
+    "season": "jan",
+    "day": 25,
+    "start": "2024-01-25T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\albacora_jan_d25.nc"
+  },
+  "albacora_apr_d05": {
+    "field": "Albacora",
+    "season": "apr",
+    "day": 5,
+    "start": "2024-04-05T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\albacora_apr_d05.nc"
+  },
+  "albacora_apr_d15": {
+    "field": "Albacora",
+    "season": "apr",
+    "day": 15,
+    "start": "2024-04-15T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\albacora_apr_d15.nc"
+  },
+  "albacora_apr_d25": {
+    "field": "Albacora",
+    "season": "apr",
+    "day": 25,
+    "start": "2024-04-25T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\albacora_apr_d25.nc"
+  },
+  "albacora_jul_d05": {
+    "field": "Albacora",
+    "season": "jul",
+    "day": 5,
+    "start": "2024-07-05T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\albacora_jul_d05.nc"
+  },
+  "albacora_jul_d15": {
+    "field": "Albacora",
+    "season": "jul",
+    "day": 15,
+    "start": "2024-07-15T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\albacora_jul_d15.nc"
+  },
+  "albacora_jul_d25": {
+    "field": "Albacora",
+    "season": "jul",
+    "day": 25,
+    "start": "2024-07-25T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\albacora_jul_d25.nc"
+  },
+  "albacora_oct_d05": {
+    "field": "Albacora",
+    "season": "oct",
+    "day": 5,
+    "start": "2024-10-05T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\albacora_oct_d05.nc"
+  },
+  "albacora_oct_d15": {
+    "field": "Albacora",
+    "season": "oct",
+    "day": 15,
+    "start": "2024-10-15T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\albacora_oct_d15.nc"
+  },
+  "albacora_oct_d25": {
+    "field": "Albacora",
+    "season": "oct",
+    "day": 25,
+    "start": "2024-10-25T00:00:00",
+    "nc": "main\\outputs\\holdout_2024\\albacora_oct_d25.nc"
+  }
+}

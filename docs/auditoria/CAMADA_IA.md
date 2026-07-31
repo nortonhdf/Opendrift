@@ -70,6 +70,36 @@ objeto hoje** — viram requisitos de projeto abaixo.
 4. Baselines → modelo simples (GBM/MLP) → só depois arquiteturas de sequência/campo
    (LSTM/U-Net/GNN), sempre com split por bloco e teste em ano não visto.
 
+## 5b. Resultados empíricos — CV interna vs holdout cego (2026-07-31)
+
+Surrogate v1 (HGB direto) e v2 (HGB residual sobre advecção), treinados nos
+720 runs de 2025 (14.400 transições de 6 h), avaliação leave-one-block-out;
+depois **rollout cego de 120 h em 72 runs de 2024** (ano congelado, jamais
+visto), contra a advecção passiva:
+
+| Modelo | CV 2025 (err 6 h) | Cego 2024: LW-SS med | err 120 h med | IoU |
+|---|---|---|---|---|
+| Advecção passiva | 1,66 km | **0,93** | **10,9 km** | **0,16** |
+| HGB direto (v1) | 1,40 km | 0,90 | 16,0 km | 0,06 |
+| HGB residual (v2) | **1,35 km** | 0,91 | 15,9 km | 0,12 |
+| v2 sem lon/lat (ablação) | — | 0,91 | 15,5 km | 0,10 |
+
+**Leitura honesta:** o ganho em validação cruzada dentro do ano de treino
+NÃO sobrevive ao teste cego — o viés aprendido acumula em 20 passos de
+rollout e a advecção (sem viés) vence. A ablação descarta a memorização de
+posição como causa principal: **a correção aprendida é específica do ano de
+treino**. Nota positiva: ambos os modelos atingem LW-SS ≥0,90 (escala em que
+>0,5 já é considerado bom na literatura) — o problema é vencer um baseline
+físico forte, não a qualidade absoluta.
+
+**Agenda v3 (pré-requisitos antes de reivindicar o surrogate):**
+1. **Treino multi-ano** — baixar 2022–2023 (scripts prontos, aceitam o ano)
+   e treinar com ≥2–3 anos; validar em ano deixado fora. É a causa provável
+   dominante e a correção mais barata.
+2. Features espaciais (vizinhança do campo de correntes, não só o ponto).
+3. Treino com rollout/scheduled sampling (mitiga acúmulo de erro).
+4. Só então: reavaliar no cego 2024 — que permanece intocado para isso.
+
 ## 6. Decisões tomadas pelo autor (2026-07-29)
 
 - **Alvos**: (a) surrogate de transporte de patch **e** (b) estatísticas-resumo por cenário —
