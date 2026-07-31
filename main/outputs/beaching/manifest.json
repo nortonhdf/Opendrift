@@ -3,168 +3,168 @@
     "field": "Peregrino",
     "season": "jan",
     "stranded_fraction": 0.0,
-    "n_members": 10,
+    "n_members": 28,
     "npz": "main\\outputs\\beaching\\peregrino_jan_beaching.npz"
   },
   "peregrino_apr": {
     "field": "Peregrino",
     "season": "apr",
     "stranded_fraction": 0.0,
-    "n_members": 10,
+    "n_members": 28,
     "npz": "main\\outputs\\beaching\\peregrino_apr_beaching.npz"
   },
   "peregrino_jul": {
     "field": "Peregrino",
     "season": "jul",
     "stranded_fraction": 0.0,
-    "n_members": 10,
+    "n_members": 28,
     "npz": "main\\outputs\\beaching\\peregrino_jul_beaching.npz"
   },
   "peregrino_oct": {
     "field": "Peregrino",
     "season": "oct",
     "stranded_fraction": 0.0,
-    "n_members": 10,
+    "n_members": 28,
     "npz": "main\\outputs\\beaching\\peregrino_oct_beaching.npz"
   },
   "marlim_jan": {
     "field": "Marlim",
     "season": "jan",
     "stranded_fraction": 0.0,
-    "n_members": 10,
+    "n_members": 28,
     "npz": "main\\outputs\\beaching\\marlim_jan_beaching.npz"
   },
   "marlim_apr": {
     "field": "Marlim",
     "season": "apr",
     "stranded_fraction": 0.0,
-    "n_members": 10,
+    "n_members": 28,
     "npz": "main\\outputs\\beaching\\marlim_apr_beaching.npz"
   },
   "marlim_jul": {
     "field": "Marlim",
     "season": "jul",
     "stranded_fraction": 0.0,
-    "n_members": 10,
+    "n_members": 28,
     "npz": "main\\outputs\\beaching\\marlim_jul_beaching.npz"
   },
   "marlim_oct": {
     "field": "Marlim",
     "season": "oct",
     "stranded_fraction": 0.0,
-    "n_members": 10,
+    "n_members": 28,
     "npz": "main\\outputs\\beaching\\marlim_oct_beaching.npz"
   },
   "roncador_jan": {
     "field": "Roncador",
     "season": "jan",
     "stranded_fraction": 0.0,
-    "n_members": 10,
+    "n_members": 28,
     "npz": "main\\outputs\\beaching\\roncador_jan_beaching.npz"
   },
   "roncador_apr": {
     "field": "Roncador",
     "season": "apr",
     "stranded_fraction": 0.0,
-    "n_members": 10,
+    "n_members": 28,
     "npz": "main\\outputs\\beaching\\roncador_apr_beaching.npz"
   },
   "roncador_jul": {
     "field": "Roncador",
     "season": "jul",
     "stranded_fraction": 0.0,
-    "n_members": 10,
+    "n_members": 28,
     "npz": "main\\outputs\\beaching\\roncador_jul_beaching.npz"
   },
   "roncador_oct": {
     "field": "Roncador",
     "season": "oct",
     "stranded_fraction": 0.0,
-    "n_members": 10,
+    "n_members": 28,
     "npz": "main\\outputs\\beaching\\roncador_oct_beaching.npz"
   },
   "papa-terra_jan": {
     "field": "Papa-Terra",
     "season": "jan",
-    "stranded_fraction": 0.0,
-    "n_members": 10,
+    "stranded_fraction": 0.03410714285714286,
+    "n_members": 28,
     "npz": "main\\outputs\\beaching\\papa-terra_jan_beaching.npz"
   },
   "papa-terra_apr": {
     "field": "Papa-Terra",
     "season": "apr",
     "stranded_fraction": 0.0,
-    "n_members": 10,
+    "n_members": 28,
     "npz": "main\\outputs\\beaching\\papa-terra_apr_beaching.npz"
   },
   "papa-terra_jul": {
     "field": "Papa-Terra",
     "season": "jul",
     "stranded_fraction": 0.0,
-    "n_members": 10,
+    "n_members": 28,
     "npz": "main\\outputs\\beaching\\papa-terra_jul_beaching.npz"
   },
   "papa-terra_oct": {
     "field": "Papa-Terra",
     "season": "oct",
     "stranded_fraction": 0.0,
-    "n_members": 10,
+    "n_members": 28,
     "npz": "main\\outputs\\beaching\\papa-terra_oct_beaching.npz"
   },
   "frade_jan": {
     "field": "Frade",
     "season": "jan",
     "stranded_fraction": 0.0,
-    "n_members": 10,
+    "n_members": 28,
     "npz": "main\\outputs\\beaching\\frade_jan_beaching.npz"
   },
   "frade_apr": {
     "field": "Frade",
     "season": "apr",
     "stranded_fraction": 0.0,
-    "n_members": 10,
+    "n_members": 28,
     "npz": "main\\outputs\\beaching\\frade_apr_beaching.npz"
   },
   "frade_jul": {
     "field": "Frade",
     "season": "jul",
     "stranded_fraction": 0.0,
-    "n_members": 10,
+    "n_members": 28,
     "npz": "main\\outputs\\beaching\\frade_jul_beaching.npz"
   },
   "frade_oct": {
     "field": "Frade",
     "season": "oct",
     "stranded_fraction": 0.0,
-    "n_members": 10,
+    "n_members": 28,
     "npz": "main\\outputs\\beaching\\frade_oct_beaching.npz"
   },
   "albacora_jan": {
     "field": "Albacora",
     "season": "jan",
     "stranded_fraction": 0.0,
-    "n_members": 10,
+    "n_members": 28,
     "npz": "main\\outputs\\beaching\\albacora_jan_beaching.npz"
   },
   "albacora_apr": {
     "field": "Albacora",
     "season": "apr",
     "stranded_fraction": 0.0,
-    "n_members": 10,
+    "n_members": 28,
     "npz": "main\\outputs\\beaching\\albacora_apr_beaching.npz"
   },
   "albacora_jul": {
     "field": "Albacora",
     "season": "jul",
     "stranded_fraction": 0.0,
-    "n_members": 10,
+    "n_members": 28,
     "npz": "main\\outputs\\beaching\\albacora_jul_beaching.npz"
   },
   "albacora_oct": {
     "field": "Albacora",
     "season": "oct",
     "stranded_fraction": 0.0,
-    "n_members": 10,
+    "n_members": 28,
     "npz": "main\\outputs\\beaching\\albacora_oct_beaching.npz"
   }
 }

@@ -1,8 +1,8 @@
 {
-  "trained": "2026-07-30T21:04:18.704845+00:00",
+  "trained": "2026-07-31T16:32:42.019768+00:00",
   "dataset": "main\\outputs\\ml\\patch_dataset.npz",
-  "dataset_sha256_16": "e4f9912a68b539d8",
-  "n_samples": 960,
+  "dataset_sha256_16": "e975b2f36233f5c3",
+  "n_samples": 14400,
   "n_blocks": 24,
   "dt_hours": 6.0,
   "seed": 42,
@@ -34,29 +34,29 @@
   "lobo_metrics": {
     "baselines": {
       "persistence": {
-        "mae_dx": 5.63768669962883,
-        "mae_dy": 6.935227115948995,
-        "mean_disp_err_km": 9.595405568679174,
-        "mae_dspread": 0.08706789370626211
+        "mae_dx": 5.948640296856563,
+        "mae_dy": 6.649282346169154,
+        "mean_disp_err_km": 9.695737143357595,
+        "mae_dspread": 0.07796498372529943
       },
       "advection": {
-        "mae_dx": 1.6425081938505173,
-        "mae_dy": 1.930883268515269,
-        "mean_disp_err_km": 2.815501948197683,
-        "mae_dspread": 0.08706789370626211
+        "mae_dx": 0.9887133861581484,
+        "mae_dy": 1.1192580113808315,
+        "mean_disp_err_km": 1.658536583185196,
+        "mae_dspread": 0.07796498372529943
       },
       "nearest": {
-        "mae_dx": 2.435702552398046,
-        "mae_dy": 2.804010639588038,
-        "mean_disp_err_km": 4.105650881926219,
-        "mae_dspread": 0.05556633393280208
+        "mae_dx": 1.57137164970239,
+        "mae_dy": 1.7916682213544846,
+        "mean_disp_err_km": 2.6454736590385437,
+        "mae_dspread": 0.04990931980622312
       }
     },
     "hgb": {
-      "mae_dx": 1.3563793922464054,
-      "mae_dy": 1.661791297296683,
-      "mean_disp_err_km": 2.381805340449015,
-      "mae_dspread": 0.04100751554748664
+      "mae_dx": 0.853467213610808,
+      "mae_dy": 0.9333698377013206,
+      "mean_disp_err_km": 1.4035422851641972,
+      "mae_dspread": 0.03948929447991153
     }
   },
   "beats_best_baseline": true

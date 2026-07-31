@@ -58,6 +58,33 @@ os mapas de risco são indicativos, não estatisticamente estáveis. Recomendaç
 antes de uso quantitativo/ML: ≥20–30 membros por (campo, mês) — custo ~2× a
 4,5× o ensemble atual (152 min) — ou declarar explicitamente a incerteza.
 
+## Atualização 2026-07-31 — ensemble 28 membros/mês + primeira IA
+
+**Ensemble ampliado** (decisão pós-convergência): 672 runs (28 inícios diários,
+dias 1–28, × 6 campos × 4 meses), 6,1 h, **0 falhas, 0 saídas de domínio,
+10 m³ em 672/672**. Convergência melhorou: IoU 14↔28 = **0,78–0,82**
+(era 0,63–0,73 em 5↔10), Δprob máx 0,14–0,18 (era 0,30).
+
+**Encalhe real detectado**: a amostragem diária revelou o que a de 3 em 3 dias
+perdia — `papa-terra_jan` com **3,41%** de partículas encalhadas (3 células
+costeiras; campo mais próximo da costa). Demais 23 blocos: 0%. O produto de
+beaching agora carrega sinal físico genuíno, raro e localizado.
+
+**Camada de IA (main/ml/)** — surrogate de transporte de patch (alvo a),
+avaliação leave-one-block-out (24 blocos campo×mês), horizonte 6 h,
+dataset de 14.400 amostras (720 runs):
+
+| modelo | erro médio de deslocamento | MAE espalhamento |
+|---|---|---|
+| persistência | 9,70 km | 0,08 |
+| advecção passiva (correntes+3% vento) | 1,66 km | 0,08 |
+| vizinho-mais-próximo | 2,65 km | 0,05 |
+| **HGB (surrogate v1)** | **1,40 km** | **0,04** |
+
+Artefato + metadados (hash do dataset, seed, sklearn, tabela completa) em
+`main/outputs/ml/`. Próxima geração: features espaciais, horizonte
+multi-passo, teste cego no holdout 2024.
+
 ## Pendências
 
 - **2024 (holdout do ML)**: download aprovado em princípio, aguardando o "sim"

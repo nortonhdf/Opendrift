@@ -59,16 +59,27 @@ by sweep (`docs/auditoria/REGENERACAO.md` has the full numbers and the two
 incidents hit during regeneration — HDF5 inputs and a --fresh manifest bug,
 both fixed and tested).
 
-Key facts about the current generation:
-- **Beaching is ZERO in all 24 (field × month)** — scientifically coherent:
-  the old "0–89%" came from domain-exit artifacts plus Frade's position being
-  ~118 km too close to the coast. The app's Beaching tab correctly reports
-  "negligible beaching" everywhere.
-- Ensemble convergence: 10 members are NOT converged (IoU 0.63–0.73 for
-  5-vs-10 prob_any). Risk maps are indicative; use ≥20–30 members before
-  quantitative/ML use.
+Key facts about the current generation (updated 2026-07-31):
+- **Ensemble = 672 runs** (28 daily start dates 1..28 per month × 6 fields ×
+  4 months). Convergence: IoU 0.78–0.82 for 14-vs-28 prob_any (much better
+  than the old 10-member 0.63–0.73; residual uncertainty documented).
+- **Beaching is near-zero and real**: only papa-terra_jan strands (3.41% of
+  particles, 3 coastal cells) — a rare event only visible with daily
+  sampling. The old "0–89%" was artifacts (domain exits + Frade's position
+  ~118 km too close to shore).
 - Scenario/ensemble PNGs are no longer generated (cartopy coastline 404) nor
   versioned; the app never used them.
+
+## ML layer (main/ml/, since 2026-07-31)
+
+Patch-transport surrogate (target a): metrics (Liu–Weisberg SS, IoU, Brier),
+dataset builder (6-h patch transitions + local forcing; block key = field ×
+season), baselines, HGB training with leave-one-block-out evaluation.
+Current table (14,400 samples, 24 blocks): persistence 9.70 km / advection
+1.66 km / nearest 2.65 km / **HGB 1.40 km** mean displacement error (and
+half the spread MAE). Artefact + full metadata in `main/outputs/ml/`.
+Rules: split by block only; 2024 = frozen hold-out; every model reported
+against the baselines. scikit-learn is in environment.yml.
 
 ## Author decisions on record (2026-07-29)
 
