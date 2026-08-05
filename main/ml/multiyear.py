@@ -54,7 +54,22 @@ SEED = 42
 
 CMEMS_ANFC = {"cur": "cmems_mod_glo_phy-cur_anfc_0.083deg_P1D-m",
               "sst": "cmems_mod_glo_phy-thetao_anfc_0.083deg_P1D-m"}
-CMEMS_MY = "cmems_mod_glo_phy_my_0.083deg_P1D-m"     # GLORYS reanalysis
+# GLORYS reanalysis fallbacks: 'myint' (interim, 2021-07 onward), 'my'
+# (1993..~2021-06). The anfc analysis product starts mid-2022 and the CMEMS
+# API silently CLIPS out-of-coverage requests instead of raising — coverage
+# must be verified on the downloaded file (2022 lesson: jan-may were missing
+# and 80 training runs failed before this check existed).
+CMEMS_FALLBACKS = ["cmems_mod_glo_phy_myint_0.083deg_P1D-m",
+                   "cmems_mod_glo_phy_my_0.083deg_P1D-m"]
+
+
+def _coverage_ok(path: Path, year: int) -> bool:
+    """Whole requested year present (allowing a couple of days of slack)?"""
+    ds = xr.open_dataset(path)
+    t = ds["time"].values
+    ds.close()
+    return bool(t[0] <= np.datetime64(f"{year}-01-03")
+                and t[-1] >= np.datetime64(f"{year}-12-29"))
 
 
 def forcing_paths(year: int) -> tuple[Path, Path]:
@@ -89,37 +104,35 @@ def download(year: int) -> None:
     import copernicusmarine
 
     sources = {}
-    for tag, variables, anfc_id in [("currents", ["uo", "vo"], CMEMS_ANFC["cur"]),
-                                    ("sst", ["thetao"], CMEMS_ANFC["sst"])]:
-        fname = f"{tag}_raw_{year}.nc" if tag != "currents" else f"currents_raw_{year}.nc"
-        fname = f"sst_raw_{year}.nc" if tag == "sst" else fname
+    for tag, variables in [("currents", ["uo", "vo"]), ("sst", ["thetao"])]:
+        fname = f"{tag}_raw_{year}.nc"
         target = INPUTS / fname
-        if target.exists():
-            target.unlink()
-        used = anfc_id
-        try:
-            copernicusmarine.subset(
-                dataset_id=anfc_id, variables=variables,
-                minimum_longitude=FORCING_LON_MIN, maximum_longitude=FORCING_LON_MAX,
-                minimum_latitude=FORCING_LAT_MIN, maximum_latitude=FORCING_LAT_MAX,
-                start_datetime=f"{year}-01-01T00:00:00",
-                end_datetime=f"{year}-12-31T23:00:00",
-                minimum_depth=0, maximum_depth=1,
-                output_filename=fname, output_directory=str(INPUTS),
-            )
-        except Exception as e:
-            print(f"[INFO] {anfc_id} sem cobertura para {year} "
-                  f"({type(e).__name__}) — usando reanálise GLORYS.")
-            used = CMEMS_MY
-            copernicusmarine.subset(
-                dataset_id=CMEMS_MY, variables=variables,
-                minimum_longitude=FORCING_LON_MIN, maximum_longitude=FORCING_LON_MAX,
-                minimum_latitude=FORCING_LAT_MIN, maximum_latitude=FORCING_LAT_MAX,
-                start_datetime=f"{year}-01-01T00:00:00",
-                end_datetime=f"{year}-12-31T23:00:00",
-                minimum_depth=0, maximum_depth=1,
-                output_filename=fname, output_directory=str(INPUTS),
-            )
+        used = None
+        for dataset_id in [CMEMS_ANFC["cur" if tag == "currents" else "sst"],
+                           *CMEMS_FALLBACKS]:
+            if target.exists():
+                target.unlink()
+            try:
+                copernicusmarine.subset(
+                    dataset_id=dataset_id, variables=variables,
+                    minimum_longitude=FORCING_LON_MIN, maximum_longitude=FORCING_LON_MAX,
+                    minimum_latitude=FORCING_LAT_MIN, maximum_latitude=FORCING_LAT_MAX,
+                    start_datetime=f"{year}-01-01T00:00:00",
+                    end_datetime=f"{year}-12-31T23:00:00",
+                    minimum_depth=0, maximum_depth=1,
+                    output_filename=fname, output_directory=str(INPUTS),
+                )
+            except Exception as e:
+                print(f"[INFO] {dataset_id}: {type(e).__name__} — tentando fallback.")
+                continue
+            if _coverage_ok(target, year):
+                used = dataset_id
+                break
+            print(f"[INFO] {dataset_id}: cobertura INCOMPLETA para {year} "
+                  "(recorte silencioso) — tentando fallback.")
+        if used is None:
+            raise RuntimeError(
+                f"Nenhum produto CMEMS cobre {year} inteiro para {tag}.")
         sources[tag] = used
         print(f"OK: {fname}  (fonte: {used})")
 
