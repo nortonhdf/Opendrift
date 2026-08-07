@@ -28,7 +28,11 @@ from pathlib import Path
 import numpy as np
 from scipy import stats
 from sklearn.ensemble import HistGradientBoostingRegressor
+from sklearn.impute import SimpleImputer
 from sklearn.inspection import permutation_importance
+from sklearn.linear_model import RidgeCV
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
@@ -42,8 +46,13 @@ HOLDOUT = ML_OUT / "scenario_dataset_2024.npz"
 REPORT = ML_OUT / "forecast_report.json"
 SEED = 42
 
+# loss='absolute_error' fits the CONDITIONAL MEDIAN, matching the median
+# position error we report. The squared-error default fits the mean and is
+# pulled by the long tail of eddy-dominated scenarios.
 HGB = dict(max_iter=400, learning_rate=0.05, min_samples_leaf=8,
-           l2_regularization=1.0, random_state=SEED)
+           l2_regularization=1.0, loss="absolute_error", random_state=SEED)
+# Uncertainty envelope: same trees, pinball loss at the tails.
+QUANTILES = (0.1, 0.9)
 
 # Target layout: 4 quantities per horizon (dx, dy, dist, spread)
 Q = ["dx_km", "dy_km", "dist_km", "spread_km"]
@@ -103,18 +112,97 @@ def predict_analogue(X_tr, Y_tr, X_te) -> np.ndarray:
     return out
 
 
-def fit_hgb(X, Y):
+def make_ridge():
+    """Linear baseline: does the trees' nonlinearity actually earn its place?
+
+    Ridge cannot consume NaN, so lookback windows that fall outside the year
+    are median-imputed here (the trees instead learn a split direction for
+    missingness). Standardised inputs, L2 penalty chosen by internal CV.
+    """
+    return make_pipeline(
+        SimpleImputer(strategy="median"),
+        StandardScaler(),
+        RidgeCV(alphas=np.logspace(-3, 3, 13)),
+    )
+
+
+def fit_ridge(X, Y):
     models = []
     for k in range(Y.shape[1]):
         ok = np.isfinite(Y[:, k])
-        m = HistGradientBoostingRegressor(**HGB)
+        m = make_ridge()
         m.fit(X[ok], Y[ok, k])
         models.append(m)
     return models
 
 
-def predict_hgb(models, X):
+def fit_hgb(X, Y, **over):
+    params = {**HGB, **over}
+    models = []
+    for k in range(Y.shape[1]):
+        ok = np.isfinite(Y[:, k])
+        m = HistGradientBoostingRegressor(**params)
+        m.fit(X[ok], Y[ok, k])
+        models.append(m)
+    return models
+
+
+def predict_models(models, X):
     return np.column_stack([m.predict(X) for m in models]).astype(np.float32)
+
+
+# Backwards-compatible alias used across the module/tests.
+predict_hgb = predict_models
+
+
+def derive_dist(P: np.ndarray) -> np.ndarray:
+    """Force dist_km = |(dx, dy)| instead of predicting it independently.
+
+    Fitting one booster per target let the model output a distance that
+    contradicted its own displacement vector. Deriving it removes that
+    inconsistency for free and cannot hurt: the vector carries the
+    information the scalar was estimating.
+    """
+    P = P.copy()
+    for hi in range(len(HORIZONS_D)):
+        P[:, tcol(hi, "dist_km")] = np.hypot(P[:, tcol(hi, "dx_km")],
+                                             P[:, tcol(hi, "dy_km")])
+    return P
+
+
+def fit_quantile_envelope(X, Y):
+    """P10/P90 boosters for the travelled distance at each horizon.
+
+    A predicted slick position without a confidence envelope is not
+    operationally usable — responders need "how far could it plausibly be",
+    not just a point estimate.
+    """
+    out = {}
+    for hi, h in enumerate(HORIZONS_D):
+        k = tcol(hi, "dist_km")
+        ok = np.isfinite(Y[:, k])
+        out[h] = {}
+        for q in QUANTILES:
+            m = HistGradientBoostingRegressor(
+                **{**HGB, "loss": "quantile", "quantile": q})
+            m.fit(X[ok], Y[ok, k])
+            out[h][q] = m
+    return out
+
+
+def envelope_coverage(models_q, X, Y) -> dict:
+    """Empirical coverage of the P10-P90 band — should sit near 80%."""
+    res = {}
+    for hi, h in enumerate(HORIZONS_D):
+        k = tcol(hi, "dist_km")
+        ok = np.isfinite(Y[:, k])
+        lo = models_q[h][QUANTILES[0]].predict(X[ok])
+        hi_ = models_q[h][QUANTILES[1]].predict(X[ok])
+        inside = (Y[ok, k] >= lo) & (Y[ok, k] <= hi_)
+        res[f"D+{h}"] = {"coverage": float(inside.mean()),
+                         "nominal": QUANTILES[1] - QUANTILES[0],
+                         "median_width_km": float(np.median(hi_ - lo))}
+    return res
 
 
 # ── scoring ──────────────────────────────────────────────────────────────────
@@ -145,13 +233,19 @@ def pos_errors(Y_true, Y_pred, hi: int) -> np.ndarray:
 
 # ── evaluation ───────────────────────────────────────────────────────────────
 
+MODELS = ["climatology", "persistence", "analogue", "ridge", "HGB"]
+
+
 def all_predictions(X_tr, Y_tr, b_tr, X_te, feat_names):
     clim = fit_climatology(Y_tr, b_tr)
     return {
         "climatology": lambda b_te: predict_climatology(clim, b_te),
         "persistence": lambda b_te: predict_persistence(X_te, feat_names),
         "analogue": lambda b_te: predict_analogue(X_tr, Y_tr, X_te),
-        "HGB": lambda b_te, m=fit_hgb(X_tr, Y_tr): predict_hgb(m, X_te),
+        "ridge": lambda b_te, m=fit_ridge(X_tr, Y_tr): derive_dist(
+            predict_models(m, X_te)),
+        "HGB": lambda b_te, m=fit_hgb(X_tr, Y_tr): derive_dist(
+            predict_models(m, X_te)),
     }
 
 
@@ -165,7 +259,7 @@ def leave_one_year_out(X, Y, blocks, years, feat_names) -> dict:
         for h in (HORIZONS_D[0], HORIZONS_D[-1]):
             line = "  ".join(
                 f"{n}={res[str(held)][n][f'D+{h}']['pos_err_km_median']:6.1f}"
-                for n in ["climatology", "persistence", "analogue", "HGB"])
+                for n in MODELS)
             print(f"  {held}  D+{h} (km): {line}", flush=True)
     return res
 
@@ -192,7 +286,7 @@ def leave_one_field_out(X, Y, blocks, fields, feat_names) -> dict:
                  for s in np.unique(seasons_tr)}
         glob = Y[tr].mean(axis=0)
         P_clim = np.array([table.get(s, glob) for s in seasons_te])
-        P_hgb = predict_hgb(fit_hgb(X[tr], Y[tr]), X[te])
+        P_hgb = derive_dist(predict_models(fit_hgb(X[tr], Y[tr]), X[te]))
 
         s_clim, s_hgb = score(Y[te], P_clim), score(Y[te], P_hgb)
         res[held] = {"climatology_season": s_clim, "HGB": s_hgb}
@@ -257,7 +351,7 @@ def main() -> None:
 
     hdr = f"{'modelo':12s}" + "".join(f"{'D+'+str(x):>10s}" for x in HORIZONS_D)
     print(hdr)
-    for name in ["climatology", "persistence", "analogue", "HGB"]:
+    for name in MODELS:
         row = "".join(f"{blind[name][f'D+{x}']['pos_err_km_median']:10.1f}"
                       for x in HORIZONS_D)
         print(f"{name:12s}{row}")
@@ -271,7 +365,7 @@ def main() -> None:
         e_hgb = pos_errors(Yh, pred_arrays["HGB"], hi)
         tests[f"D+{h}"] = {}
         parts = []
-        for name in ["climatology", "persistence", "analogue"]:
+        for name in [m for m in MODELS if m != "HGB"]:
             e_b = pos_errors(Yh, pred_arrays[name], hi)
             ok = np.isfinite(e_hgb) & np.isfinite(e_b)
             p = float(stats.wilcoxon(e_hgb[ok], e_b[ok]).pvalue)
@@ -288,9 +382,18 @@ def main() -> None:
 
     # Spread (patch size) — the quantity advection never modelled
     print(f"\nEspalhamento da mancha (MAE km) em D+{HORIZONS_D[hi]}:")
-    for name in ["climatology", "analogue", "HGB"]:
+    for name in ["climatology", "analogue", "ridge", "HGB"]:
         v = blind[name][f"D+{HORIZONS_D[hi]}"]["spread_mae_km"]
         print(f"  {name:12s} {v:.2f}" if v is not None else f"  {name:12s}  n/a")
+
+    # Uncertainty envelope (P10-P90) on the travelled distance
+    print("\n=== Envelope de incerteza P10–P90 (distância), no cego ===")
+    q_models = fit_quantile_envelope(X, Y)
+    cov = envelope_coverage(q_models, Xh, Yh)
+    for h in HORIZONS_D:
+        c = cov[f"D+{h}"]
+        print(f"  D+{h}: cobertura {c['coverage']:.0%} (nominal "
+              f"{c['nominal']:.0%})  largura mediana {c['median_width_km']:.0f} km")
 
     # Trend analysis: what actually drives the outcome?
     print("\n=== Tendências: importância por permutação (D+5, distância) ===")
@@ -312,6 +415,7 @@ def main() -> None:
     REPORT.write_text(json.dumps({
         "loyo": loyo, "lofo_new_location": lofo,
         "blind_2024": blind, "paired_tests_by_horizon": tests,
+        "uncertainty_envelope": cov,
         "horizons_d": HORIZONS_D,
         "top_features_d5_dist": [
             {"feature": str(feat_names[i]),

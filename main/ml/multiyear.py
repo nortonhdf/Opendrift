@@ -49,7 +49,11 @@ ML_OUT = ROOT / "main" / "outputs" / "ml"
 TRAIN_YEARS = [2022, 2023, 2025]
 START_DAYS = [1, 4, 7, 10, 13, 16, 19, 22, 25, 28]
 N_PARTICLES = 200
-DURATION_H = 120
+# 168 h = D+7, the working forecast scope (author decision 2026-08-07).
+# The legacy 120-h archives (training_YYYY, ensemble/, scenarios/) are kept
+# untouched as the record behind CAMADA_IA.md 5a-5d.
+DURATION_H = 168
+TRAIN_DIR_TMPL = "training168_{year}"
 SEED = 42
 
 CMEMS_ANFC = {"cur": "cmems_mod_glo_phy-cur_anfc_0.083deg_P1D-m",
@@ -176,10 +180,12 @@ def prep(year: int) -> None:
 # ── training trajectories ────────────────────────────────────────────────────
 
 def generate(year: int) -> None:
+    # 2024 may be GENERATED (it is the blind evaluation set); only training
+    # on it is forbidden. download(2024) still refuses.
     from main.run_open_oil import run_simulation
 
     cur, wnd = forcing_paths(year)
-    out_dir = ROOT / "main" / "outputs" / f"training_{year}"
+    out_dir = ROOT / "main" / "outputs" / TRAIN_DIR_TMPL.format(year=year)
     out_dir.mkdir(parents=True, exist_ok=True)
     mpath = out_dir / "manifest.json"
     manifest = json.loads(mpath.read_text()) if mpath.exists() else {}

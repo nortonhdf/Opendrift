@@ -43,8 +43,9 @@ ML_OUT = ROOT / "main" / "outputs" / "ml"
 
 # Antecedent windows: "últimos dias / semanas / meses"
 LOOKBACKS_D = [3, 7, 30, 90]
-# Forecast horizons in days (archive is 120 h -> D+5 max today)
-HORIZONS_D = [1, 2, 3, 5]
+# Forecast horizons in days. 168-h archives support D+7, the working scope
+# (author decision 2026-08-07); D+14 deferred.
+HORIZONS_D = [1, 2, 3, 5, 7]
 
 TARGET_NAMES = [f"{q}_d{h}" for h in HORIZONS_D
                 for q in ("dx_km", "dy_km", "dist_km", "spread_km")]
@@ -140,16 +141,19 @@ def targets_from_run(nc_path: Path) -> tuple[list[float], float, float]:
 
 
 def _archives(holdout: bool) -> list[tuple[int, Path]]:
-    if holdout:
-        return [(2024, ROOT / "main/outputs/holdout_2024/manifest.json")]
-    out = [(2025, ROOT / "main/outputs/scenarios/manifest.json"),
-           (2025, ROOT / "main/outputs/ensemble/manifest.json")]
-    for y in TRAIN_YEARS:
-        if y == 2025:
-            continue
-        m = ROOT / "main" / "outputs" / f"training_{y}" / "manifest.json"
+    """168-h archives (D+7 scope), one balanced set per year."""
+    from main.ml.multiyear import TRAIN_DIR_TMPL
+    years = [2024] if holdout else TRAIN_YEARS
+    out = []
+    for y in years:
+        m = (ROOT / "main" / "outputs"
+             / TRAIN_DIR_TMPL.format(year=y) / "manifest.json")
         if m.exists():
             out.append((y, m))
+    if not out:
+        raise SystemExit(
+            "Nenhum arquivo de 168 h encontrado. Gere com: "
+            "python -m main.ml.multiyear generate <ano>")
     return out
 
 

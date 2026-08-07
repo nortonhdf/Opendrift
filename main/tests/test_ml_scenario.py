@@ -68,9 +68,9 @@ def test_short_window_at_year_start_is_nan_not_zero(tmp_path, monkeypatch):
     s.close()
 
 
-def test_targets_measure_displacement_from_release(tmp_path):
-    """Patch drifting exactly 0.1 deg east per day -> known dx at each D+n."""
-    n_t = 241                                   # 120 h at 30-min output
+def _drifting_run(tmp_path, hours: int):
+    """Patch drifting exactly 0.1 deg east per day, 30-min output."""
+    n_t = hours * 2 + 1
     times = np.array([np.datetime64("2025-01-01") +
                       np.timedelta64(30 * i, "m") for i in range(n_t)])
     days = np.arange(n_t) * 0.5 / 24.0
@@ -82,9 +82,13 @@ def test_targets_measure_displacement_from_release(tmp_path):
          "status": (("trajectory", "time"), np.zeros((5, n_t), int))},
         coords={"time": times},
     )
-    p = tmp_path / "run.nc"
+    p = tmp_path / f"run{hours}.nc"
     ds.to_netcdf(p)
+    return p
 
+
+def test_targets_measure_displacement_from_release(tmp_path):
+    p = _drifting_run(tmp_path, hours=168)      # D+7 scope
     targs, lon0, lat0 = scenario.targets_from_run(p)
     assert lon0 == pytest.approx(-41.0)
     for hi, h in enumerate(HORIZONS_D):
@@ -92,6 +96,18 @@ def test_targets_measure_displacement_from_release(tmp_path):
         expected = 0.1 * h * scenario.KM_PER_DEG * np.cos(np.radians(-23.0))
         assert dx == pytest.approx(expected, rel=0.01), f"D+{h}"
         assert targs[tcol(hi, "dy_km")] == pytest.approx(0.0, abs=1e-6)
+
+
+def test_horizons_beyond_the_run_are_nan_not_extrapolated(tmp_path):
+    """A 120-h run cannot answer D+7 — it must yield NaN, never a guess."""
+    p = _drifting_run(tmp_path, hours=120)
+    targs, _, _ = scenario.targets_from_run(p)
+    for hi, h in enumerate(HORIZONS_D):
+        dx = targs[tcol(hi, "dx_km")]
+        if h <= 5:
+            assert np.isfinite(dx), f"D+{h} deveria existir"
+        else:
+            assert np.isnan(dx), f"D+{h} deveria ser NaN num run de 120 h"
 
 
 def test_climatology_predicts_block_means():
