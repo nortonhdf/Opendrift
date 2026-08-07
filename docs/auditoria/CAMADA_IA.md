@@ -100,6 +100,87 @@ físico forte, não a qualidade absoluta.
 3. Treino com rollout/scheduled sampling (mitiga acúmulo de erro).
 4. Só então: reavaliar no cego 2024 — que permanece intocado para isso.
 
+## 5c. v3 multi-ano e o diagnóstico decisivo (2026-08-07)
+
+### O experimento
+
+Hipótese da v3: o fracasso da v2 no cego vinha de **um único ano de treino**.
+Baixamos 2022 e 2023 (240 runs de treino cada), formando um dataset de
+**24.328 transições de 1.200 runs em 3 anos** (2022, 2023, 2025).
+
+> Nota de proveniência: 2022 vem da reanálise GLORYS (`my`) porque o produto
+> de análise `anfc` só começa em meados de 2022 — e a API do CMEMS **recorta
+> silenciosamente** o pedido em vez de falhar. Detectado porque 80 runs
+> morreram com "missing variables"; hoje o `download()` verifica cobertura e
+> percorre uma cadeia de fallback (commit `e397a3d2`).
+
+### Resultado 1 — mais anos consertam o *overfitting*, mas não geram ganho
+
+Leave-one-year-out (treina em 2 anos, rollout de 120 h no ano de fora):
+
+| Ano deixado de fora | adv+corr (SS / err) | advecção (SS / err) |
+|---|---|---|
+| 2022 | 0,94 / 13,3 km | 0,95 / 11,5 km |
+| 2023 | 0,89 / 20,3 km | 0,90 / 23,0 km |
+| 2025 | 0,92 / 14,0 km | 0,93 / 10,7 km |
+
+Cego 2024 (72 runs, modelo final treinado nos 3 anos), com **teste pareado
+de Wilcoxon**:
+
+| Métrica | adv+corr | advecção | p | veredito |
+|---|---|---|---|---|
+| erro 120 h | 10,70 km | 10,88 km | 0,78 | indistinguível |
+| Liu–Weisberg SS | 0,939 | 0,934 | 0,49 | indistinguível |
+| IoU | — | — | 0,88 | indistinguível |
+
+O treino multi-ano **reparou o dano da v2** (que era claramente pior:
+15,9 km) e trouxe o modelo à paridade — mas o surrogate vence em apenas
+39/72 runs, o equivalente a cara-ou-coroa. **Nenhum ganho estatístico.**
+
+### Resultado 2 — a causa: o resíduo é erro de integração, não física oculta
+
+Se o modelo aprende `deslocamento_real − advecção_de_ponto_único`, o que
+sobra é dominado por **estrutura de integral de caminho**: em 6 h o patch
+percorre ~15 km, cruzando 1–2 células da grade de correntes (1/12° ≈ 9 km),
+e o esquema de ponto único ignora como o campo muda ao longo do trajeto.
+Features amostradas num só ponto **não podem** representar isso.
+
+Teste: trocar o esquema numérico por **ponto-médio (RK2)** — zero parâmetros,
+zero treino — nos mesmos 72 runs cegos:
+
+| modelo | LW-SS med | err 120 h med | IoU médio |
+|---|---|---|---|
+| persistência | — | — | — |
+| HGB direto (v1) | 0,90 | 16,0 km | 0,06 |
+| HGB residual 1 ano (v2) | 0,91 | 15,9 km | 0,12 |
+| HGB residual 3 anos (v3) | 0,94 | 10,7 km | 0,15 |
+| advecção ponto único | 0,93 | 10,9 km | 0,16 |
+| **advecção ponto-médio (RK2)** | **0,97** | **4,6 km** | **0,35** |
+
+Redução de **57% no erro** (p = 8,6×10⁻⁷), melhor em 54/72 runs, IoU mais
+que dobrado. **Uma correção numérica de duas linhas superou todos os modelos
+de ML por larga margem.**
+
+### Leitura para a defesa
+
+O ML não falhou por falta de dados nem de capacidade: ele estava resolvendo
+o **problema errado** — tentando aprender, a partir de features pontuais, um
+erro de truncamento numérico que a matemática resolve exatamente. É um
+resultado positivo disfarçado de negativo: sabemos agora onde está o sinal.
+
+### Agenda v4 (reformulação, não mais dados)
+
+1. **RK2 vira o baseline oficial** (já em `holdout.rollout_rk2`, testado).
+   Qualquer surrogate futuro deve superar 4,6 km, não 10,9 km.
+2. **Features espaciais obrigatórias**: estêncil do campo de correntes ao
+   redor do patch (∂u/∂x, ∂u/∂y, ∂v/∂x, ∂v/∂y) e amostragem em t e t+Δt —
+   exatamente a informação que o RK2 explora e o modelo atual não vê.
+3. **Resíduo sobre o RK2**, não sobre o ponto único: se o ML não agregar
+   nem sobre o RK2, a conclusão científica é forte — o transporte de patch
+   nesta escala é advecção pura, e o resto é dispersão estocástica
+   irredutível (as incertezas declaradas de 0,05/0,5 m/s).
+4. Só então reavaliar no cego 2024.
+
 ## 6. Decisões tomadas pelo autor (2026-07-29)
 
 - **Alvos**: (a) surrogate de transporte de patch **e** (b) estatísticas-resumo por cenário —

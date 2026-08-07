@@ -75,16 +75,32 @@ Key facts about the current generation (updated 2026-07-31):
 Patch-transport surrogate (target a): metrics (Liu–Weisberg SS, IoU, Brier),
 dataset builder (6-h patch transitions + local forcing; block key = field ×
 season), baselines, HGB training with leave-one-block-out evaluation.
-In-year LOBO (14,400 samples, 24 blocks): persistence 9.70 / advection 1.66
-/ nearest 2.65 / HGB direct 1.40 / HGB residual 1.35 km per 6-h step.
-**BLIND 2024 ROLLOUT (72 runs, 120 h): passive advection still wins**
-(SS 0.93 / 10.9 km vs residual 0.91 / 15.9 km) — the learned correction is
-training-year-specific (position-feature ablation ruled out as main cause).
-v3 agenda: multi-year training (2022-2023 downloads) before any surrogate
-claim; full record in docs/auditoria/CAMADA_IA.md §5b. Artefacts + hold-out
-report in `main/outputs/ml/`. Rules: split by block only; 2024 = frozen
-hold-out (reused ONLY for final evaluations); every model reported against
-the baselines. scikit-learn is in environment.yml.
+Training data: 1,200 runs across 2022/2023/2025 -> 24,328 patch transitions
+(`patch_dataset_multi.npz`). 2022 comes from the GLORYS `my` reanalysis (the
+`anfc` analysis starts mid-2022 and CMEMS silently clips — `download()` now
+verifies coverage).
+
+**BLIND 2024 (72 runs, 120-h rollout) — the decisive table:**
+
+| model | LW-SS | err 120 h | IoU |
+|---|---|---|---|
+| HGB direct (v1) | 0.90 | 16.0 km | 0.06 |
+| HGB residual, 1 year (v2) | 0.91 | 15.9 km | 0.12 |
+| HGB residual, 3 years (v3) | 0.94 | 10.7 km | 0.15 |
+| single-point advection | 0.93 | 10.9 km | 0.16 |
+| **midpoint advection (RK2)** | **0.97** | **4.6 km** | **0.35** |
+
+v3 is statistically INDISTINGUISHABLE from advection (paired Wilcoxon
+p=0.78/0.49/0.88; wins 39/72 runs). The diagnosis: the residual the model
+was asked to learn is numerical path-integral error, not hidden physics —
+switching to midpoint integration cuts the error 57% (p=8.6e-07) with zero
+parameters. **RK2 is now the baseline any surrogate must beat (4.6 km, not
+10.9 km).** v4 needs spatial features (current stencil, t and t+dt) and must
+learn the residual over RK2. Full record: docs/auditoria/CAMADA_IA.md §5c.
+
+Rules: split by block/year only; 2024 = frozen hold-out (final evaluations
+only); every model reported against the baselines with a paired test.
+scikit-learn is in environment.yml.
 
 ## Author decisions on record (2026-07-29)
 

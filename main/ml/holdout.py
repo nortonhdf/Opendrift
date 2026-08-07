@@ -34,7 +34,9 @@ from main.domain_config import (  # noqa: E402
     GRID_LAT_MIN, GRID_LON_MIN, GRID_RES, SEASON_MONTHS,
 )
 from main.fields_config import CAMPOS_FIELDS  # noqa: E402
-from main.ml.baselines import predict_advection  # noqa: E402
+from main.ml.baselines import (  # noqa: E402
+    KM_PER_H_PER_MS, WIND_DRIFT_FACTOR, predict_advection,
+)
 from main.ml.dataset import (  # noqa: E402
     DT_HOURS, KM_PER_DEG, ForcingSampler, patch_state,
 )
@@ -122,6 +124,45 @@ def _features(lon_c, lat_c, spread, age_h, env) -> np.ndarray:
     return np.array([[lon_c, lat_c, spread, age_h,
                       env["u_cur"], env["v_cur"],
                       env["u_wind"], env["v_wind"], env["sst"]]], np.float32)
+
+
+def _drift_km(env: dict, hours: float) -> tuple[float, float]:
+    """Passive displacement (km) from currents + 3% wind over ``hours``."""
+    u = env["u_cur"] + WIND_DRIFT_FACTOR * env["u_wind"]
+    v = env["v_cur"] + WIND_DRIFT_FACTOR * env["v_wind"]
+    return u * KM_PER_H_PER_MS * hours, v * KM_PER_H_PER_MS * hours
+
+
+def rollout_rk2(sampler, lon0: float, lat0: float, t0: np.datetime64,
+                n_steps: int = N_STEPS):
+    """Midpoint (RK2) advection — the strongest parameter-free baseline.
+
+    Single-point advection evaluates the forcing only at the start of each
+    6-h step, so its error is dominated by how much the current field changes
+    over the ~15 km the patch travels (the 1/12 deg grid is ~9 km). Sampling
+    at the midpoint in space AND time halves that truncation error: on the
+    blind 2024 set this alone cuts the 120-h centroid error from 10.9 km to
+    4.6 km (p<1e-6) — more than any learned model achieved. See
+    docs/auditoria/CAMADA_IA.md §5c.
+    """
+    lon_c, lat_c = float(lon0), float(lat0)
+    lons, lats = [lon_c], [lat_c]
+    when = t0
+    half_dt = np.timedelta64(int(DT_HOURS * 1800), "s")
+    for _ in range(n_steps):
+        env = sampler.at(lon_c, lat_c, when)
+        dxh, dyh = _drift_km(env, DT_HOURS / 2)
+        lon_m = lon_c + dxh / (KM_PER_DEG * np.cos(np.radians(lat_c)))
+        lat_m = lat_c + dyh / KM_PER_DEG
+        env_mid = sampler.at(lon_m, lat_m, when + half_dt)
+        dx, dy = _drift_km(env_mid, DT_HOURS)
+        lon_c += dx / (KM_PER_DEG * np.cos(np.radians(lat_c)))
+        lat_c += dy / KM_PER_DEG
+        when = when + np.timedelta64(int(DT_HOURS * 3600), "s")
+        lons.append(lon_c)
+        lats.append(lat_c)
+    # Spread is not modelled by the physical baselines.
+    return np.array(lons), np.array(lats), np.zeros(len(lons))
 
 
 def rollout(predict_fn, sampler: ForcingSampler, lon0: float, lat0: float,
@@ -220,8 +261,11 @@ def evaluate() -> dict:
         truth_occ = _occupancy(flon, flat)
 
         res = {"key": key}
-        for name, fn in candidates:
-            ml, mb, msp = rollout(fn, sampler, tl[0], tb[0], t0, n_steps)
+        for name, fn in candidates + [("advection_rk2", None)]:
+            if fn is None:
+                ml, mb, msp = rollout_rk2(sampler, tl[0], tb[0], t0, n_steps)
+            else:
+                ml, mb, msp = rollout(fn, sampler, tl[0], tb[0], t0, n_steps)
             res[name] = {
                 "lw_ss": liu_weisberg_ss(tl, tb, ml, mb),
                 "final_err_km": float(haversine_km(tl[-1], tb[-1], ml[-1], mb[-1])),
@@ -235,7 +279,7 @@ def evaluate() -> dict:
     sampler.close()
 
     summary = {}
-    for name, _ in candidates:
+    for name in [n for n, _ in candidates] + ["advection_rk2"]:
         summary[name] = {
             "lw_ss_median": float(np.median([r[name]["lw_ss"] for r in rows])),
             "lw_ss_mean": float(np.mean([r[name]["lw_ss"] for r in rows])),
