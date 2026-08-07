@@ -181,6 +181,126 @@ resultado positivo disfarçado de negativo: sabemos agora onde está o sinal.
    irredutível (as incertezas declaradas de 0,05/0,5 m/s).
 4. Só então reavaliar no cego 2024.
 
+## 5d. v4 — reformulação para o objetivo real, e o primeiro ganho robusto (2026-08-07)
+
+### A reformulação
+
+O autor explicitou o objetivo final: **dado local, tipo de óleo, estação e as
+condições de corrente dos últimos dias/semanas/meses, projetar a mancha em
+D+1, D+2, D+5, D+14** — sem conhecer as forçantes futuras.
+
+Isso expõe por que v1–v3 estavam numa disputa perdida: o surrogate recebia a
+forçante *verdadeira* a cada passo, logo competia com integração numérica —
+e numérica ganha (§5c). No problema real **não há campo futuro para
+integrar**, então a advecção nem é candidata. Os concorrentes honestos passam
+a ser climatologia, persistência dos antecedentes e análogo histórico.
+
+| | v1–v3 | **v4** |
+|---|---|---|
+| Entrada | estado do patch + forçante instantânea | local, óleo, estação, correntes antecedentes (3/7/30/90 d) |
+| Saída | deslocamento em 6 h, iterado | mancha em D+1…D+5 direto |
+| Concorrente | integração numérica | climatologia / persistência / análogo |
+
+Dataset: **1.200 cenários** (2022, 2023, 2025) × 36 features causais × 16
+alvos; holdout cego de 72 cenários em 2024 (`main/ml/scenario.py`).
+**Regra de causalidade**: toda feature vem de dados estritamente anteriores
+ao instante do derrame; janela indisponível vira NaN (consumido nativamente
+pelo HistGradientBoosting), nunca zero — testado em
+`test_antecedent_features_are_strictly_causal`.
+
+### Resultado 1 — cego 2024, local já conhecido
+
+Erro mediano de posição do centróide (km):
+
+| modelo | D+1 | D+2 | D+3 | D+5 |
+|---|---|---|---|---|
+| climatologia (campo×estação) | 24,6 | 46,7 | 64,3 | 91,7 |
+| persistência (corrente de 7 d) | 25,4 | 48,8 | 72,0 | 106,7 |
+| análogo histórico | 33,7 | 65,6 | 89,4 | 122,3 |
+| **HGB** | **18,5** | **36,4** | **53,4** | **91,3** |
+
+O HGB é o melhor em todos os horizontes, mas contra a climatologia a
+diferença **não** é significativa (Wilcoxon pareado: p = 0,073 em D+1;
+0,80 em D+5) — com n = 72 falta poder estatístico, e em D+5 a
+previsibilidade a partir das condições iniciais já se esgotou. Contra o
+análogo, é significativo em todos os horizontes (p < 0,001).
+
+Detalhe importante: aqui a climatologia é um baseline **artificialmente
+forte**, porque só existem 6 locais fixos e ela já viu aquele campo em
+outros anos. Num vazamento em posição arbitrária — o caso de uso real —
+essa tabela não existe.
+
+### Resultado 2 — local NUNCA visto: o ganho robusto
+
+Leave-one-field-out (treina em 5 campos, prevê no 6º; a climatologia degrada
+para média sazonal entre os outros campos, exatamente como na prática):
+
+| campo retido | D+1 | D+2 | D+3 | D+5 |
+|---|---|---|---|---|
+| Albacora | 17,2 / 26,7 | 34,1 / 45,1 | 43,7 / 59,0 | 60,4 / 84,8 |
+| Frade | 14,9 / 29,4 | 28,1 / 50,0 | 41,9 / 66,9 | 56,9 / 96,8 |
+| Marlim | 19,5 / 30,8 | 34,1 / 47,4 | 50,1 / 60,0 | 70,5 / 79,9 |
+| Papa-Terra | 17,7 / 25,8 | 33,1 / 46,1 | 52,9 / 64,2 | 66,3 / 94,1 |
+| Peregrino | 18,3 / 23,1 | 41,2 / 46,5 | 56,9 / 66,3 | 89,4 / 101,9 |
+| Roncador | 11,8 / 26,0 | 23,9 / 46,7 | 37,5 / 66,5 | 53,0 / 98,4 |
+
+(HGB / climatologia-sazonal, erro mediano em km — **HGB vence nas 24 células**)
+
+Teste pareado agregando os 1.200 cenários retidos:
+
+| horizonte | HGB | climatologia | ganho | vitórias | p |
+|---|---|---|---|---|---|
+| D+1 | 16,5 km | 26,9 km | **+39%** | 914/1200 | ~0 |
+| D+2 | 31,7 km | 47,1 km | **+33%** | 880/1200 | ~0 |
+| D+3 | 48,0 km | 63,9 km | **+25%** | 850/1200 | ~0 |
+| D+5 | 64,7 km | 92,6 km | **+30%** | 860/1200 | ~0 |
+
+**Este é o primeiro ganho estatisticamente robusto do projeto**, e é
+justamente no cenário de implantação: prever a deriva de um vazamento numa
+posição que o modelo nunca viu, com 25–39% menos erro do que a melhor
+alternativa disponível sem ML.
+
+### Resultado 3 — a tendência dominante
+
+Importância por permutação (D+5, distância percorrida), medida no cego:
+
+| feature | impacto |
+|---|---|
+| **`u_mean_3d`** (corrente zonal média dos últimos 3 dias) | **5,85 km** |
+| `lon` | 1,08 km |
+| `u_mean_90d` | 0,83 km |
+| `speed_std_30d` | 0,60 km |
+
+A corrente zonal dos **últimos 3 dias** domina todo o resto por um fator ~5.
+Ou seja: o estado recente do oceano — e não a estação, o tipo de óleo ou a
+profundidade — é o que determina para onde e quão longe a mancha vai. Isso
+responde diretamente ao objetivo imediato do autor ("identificar trends nos
+resultados do OpenDrift") e valida a escolha de features antecedentes.
+
+### Limitações honestas
+
+1. **D+14 não é avaliável hoje**: o arquivo tem runs de 120 h (D+5 é o teto).
+   Estender exige gerar runs de 336 h — ver agenda.
+2. O ganho em D+5 já opera perto do teto de previsibilidade; a extrapolação
+   para D+14 provavelmente convergirá para climatologia. Medir antes de
+   prometer.
+3. Espalhamento (tamanho da mancha) ainda é mal previsto por todos os
+   modelos (MAE ~1,4 km para todos) — não há sinal aproveitável nas features
+   atuais para essa quantidade.
+4. Só 6 locais de treino: a generalização espacial foi demonstrada entre
+   campos vizinhos da mesma bacia, não para geografia arbitrária.
+
+### Agenda v5
+
+1. **Runs de 336 h** (D+14) num subconjunto de cenários — a única forma de
+   medir onde a previsibilidade realmente morre.
+2. Mais locais de semeadura (grade de pontos, não só os 6 campos) para
+   sustentar a generalização espacial em produção.
+3. Prever a **footprint** (grade de ocupação), não só o centróide — é o que
+   o app precisa desenhar.
+4. Quantificação de incerteza (quantile regression) — uma mancha prevista
+   sem envelope de confiança não é operacionalmente utilizável.
+
 ## 6. Decisões tomadas pelo autor (2026-07-29)
 
 - **Alvos**: (a) surrogate de transporte de patch **e** (b) estatísticas-resumo por cenário —

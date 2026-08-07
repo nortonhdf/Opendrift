@@ -102,6 +102,37 @@ Rules: split by block/year only; 2024 = frozen hold-out (final evaluations
 only); every model reported against the baselines with a paired test.
 scikit-learn is in environment.yml.
 
+### v4 — scenario-level forecasting (the project's actual target)
+
+`main/ml/scenario.py` + `main/ml/forecast.py`. Inputs known AT RELEASE ONLY:
+location, oil API, depth, season, and antecedent current statistics over
+3/7/30/90 days. Outputs: slick centroid displacement and spread at D+1, D+2,
+D+3, D+5. No future forcing, so advection is not a competitor — baselines
+are climatology, antecedent persistence and historical analogue.
+**Causality is enforced and tested**: features use only data strictly before
+release; unavailable windows are NaN, never zero.
+
+**Headline result — forecasting at a location never seen in training**
+(leave-one-field-out, 1,200 scenarios, HGB vs season-climatology):
+
+| horizon | HGB | climatology | gain | p |
+|---|---|---|---|---|
+| D+1 | 16.5 km | 26.9 km | +39% | ~0 |
+| D+2 | 31.7 km | 47.1 km | +33% | ~0 |
+| D+3 | 48.0 km | 63.9 km | +25% | ~0 |
+| D+5 | 64.7 km | 92.6 km | +30% | ~0 |
+
+HGB wins in all 24 field x horizon cells. On the blind 2024 set with the
+field already known, HGB leads at every horizon (18.5/36.4/53.4/91.3 km) but
+ties climatology statistically (n=72 lacks power; predictability is spent by
+D+5). Dominant driver by permutation importance: `u_mean_3d` (zonal current
+over the last 3 days), ~5x any other feature.
+
+Not yet possible: **D+14** — the archive is 120 h, so D+5 is the ceiling;
+longer runs are the v5 prerequisite. Spread (patch size) is not predictable
+from current features (MAE ~1.4 km for every model). Full record:
+docs/auditoria/CAMADA_IA.md §5d.
+
 ## Author decisions on record (2026-07-29)
 
 See `docs/auditoria/PERGUNTAS_ABERTAS.md` for all 18. Highlights: outputs
