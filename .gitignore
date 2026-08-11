@@ -18,8 +18,10 @@ build
 .vscode/*
 .ipynb_checkpoints
 
-# Campos rebuild orchestrator log (regenerated each run).
+# Campos batch/eval logs (regenerated each run; the reports are the record).
 main/rebuild_all.log
+main/ml_generate_*.log
+main/ml_forecast_*.log
 
 # Regenerable/debug outputs (audit cleanup, 2026-07-29)
 main/outputs/ensemble/*.png

@@ -31,6 +31,12 @@ orchestrator), `tests/` (pytest).
 - No silent smoke fallback: missing forcing raises (pass `smoke_test=True`).
 - **Status codes vary per output file** — decode via `main/status_utils.py`
   (`flag_meanings`); `active` is always 0; never assume `1 == stranded`.
+- **Runs are deterministic**: OpenDrift seeds numpy's global RNG in its
+  constructor (default 0) and the declared uncertainties draw from it, so a
+  scenario re-run reproduces its archive bit-for-bit. Exposed as
+  `run_simulation(random_seed=0)`; pass None for stochastic replicates.
+  Note the seed must reach the OpenOil *constructor* — calling
+  `np.random.seed()` before it is overwritten and silently does nothing.
 
 ## How to run
 
@@ -107,31 +113,41 @@ scikit-learn is in environment.yml.
 `main/ml/scenario.py` + `main/ml/forecast.py`. Inputs known AT RELEASE ONLY:
 location, oil API, depth, season, and antecedent current statistics over
 3/7/30/90 days. Outputs: slick centroid displacement and spread at D+1, D+2,
-D+3, D+5. No future forcing, so advection is not a competitor — baselines
-are climatology, antecedent persistence and historical analogue.
-**Causality is enforced and tested**: features use only data strictly before
-release; unavailable windows are NaN, never zero.
+D+3, D+5, D+7. No future forcing, so advection is not a competitor —
+baselines are climatology, antecedent persistence, historical analogue and a
+RidgeCV linear control. **Causality is enforced and tested**: features use
+only data strictly before release; unavailable windows are NaN, never zero.
 
-**Headline result — forecasting at a location never seen in training**
-(leave-one-field-out, 1,200 scenarios, HGB vs season-climatology):
+Archive: `training168_{2022,2023,2024,2025}`, 240 runs/year at **168 h**
+(D+7 scope, author decision 2026-08-07). Training = 720 balanced scenarios
+(2022+2023+2025); **blind 2024 = 240** scenarios (was 72 — the old holdout
+lacked power). The 120-h archives stay untouched as the record behind §5a–5d.
 
-| horizon | HGB | climatology | gain | p |
-|---|---|---|---|---|
-| D+1 | 16.5 km | 26.9 km | +39% | ~0 |
-| D+2 | 31.7 km | 47.1 km | +33% | ~0 |
-| D+3 | 48.0 km | 63.9 km | +25% | ~0 |
-| D+5 | 64.7 km | 92.6 km | +30% | ~0 |
+**Headline — forecasting at a location never seen in training**
+(leave-one-field-out, 720 held-out scenarios):
 
-HGB wins in all 24 field x horizon cells. On the blind 2024 set with the
-field already known, HGB leads at every horizon (18.5/36.4/53.4/91.3 km) but
-ties climatology statistically (n=72 lacks power; predictability is spent by
-D+5). Dominant driver by permutation importance: `u_mean_3d` (zonal current
-over the last 3 days), ~5x any other feature.
+| horizon | HGB | ridge | climatology | HGB gain | HGB vs ridge |
+|---|---|---|---|---|---|
+| D+1 | **17.0 km** | 27.1 | 26.6 | +36% | p≈0 |
+| D+3 | **46.9 km** | 69.4 | 62.6 | +25% | p≈0 |
+| D+5 | **69.8 km** | 101.3 | 91.9 | +24% | p≈0 |
+| D+7 | **82.5 km** | 138.4 | 113.8 | +28% | p≈0 |
 
-Not yet possible: **D+14** — the archive is 120 h, so D+5 is the ceiling;
-longer runs are the v5 prerequisite. Spread (patch size) is not predictable
-from current features (MAE ~1.4 km for every model). Full record:
-docs/auditoria/CAMADA_IA.md §5d.
+HGB wins all 30 field × horizon cells. **The linear control is what makes
+this claim sharp**: at a KNOWN location ridge ties HGB (p=0.07–0.74) and both
+tie climatology past D+3, so nonlinearity buys nothing there; at a NEW
+location ridge falls *below* climatology while HGB keeps 24–36%. The
+nonlinearity is not fitting better — it is what transfers in space, which is
+the deployment case.
+
+Uncertainty: raw P10–P90 quantile boosters covered only 35–49% on the blind
+year. Fixed with **split-conformal (CQR) calibrated on a held-out YEAR**
+(fit 2022+2023, calibrate 2025) → 84–89% coverage, at the cost of ~3x wider
+bands (±150 km at D+7 — that is the real uncertainty).
+
+Still not possible: **D+14** (archive is 168 h). Spread is not predictable
+from current features (MAE 1.28–1.38 km, every model). Full record:
+docs/auditoria/CAMADA_IA.md §5e.
 
 ## Author decisions on record (2026-07-29)
 

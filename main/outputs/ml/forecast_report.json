@@ -3,27 +3,33 @@
     "2022": {
       "climatology": {
         "D+1": {
-          "pos_err_km_median": 20.440082550048828,
-          "pos_err_km_mean": 23.519392013549805,
-          "spread_mae_km": 0.03877545893192291,
+          "pos_err_km_median": 19.45747184753418,
+          "pos_err_km_mean": 21.935880661010742,
+          "spread_mae_km": 0.03678007051348686,
           "n": 240
         },
         "D+2": {
-          "pos_err_km_median": 37.876861572265625,
-          "pos_err_km_mean": 44.4529914855957,
-          "spread_mae_km": 0.13284021615982056,
+          "pos_err_km_median": 38.75093078613281,
+          "pos_err_km_mean": 41.4266242980957,
+          "spread_mae_km": 0.13263225555419922,
           "n": 240
         },
         "D+3": {
-          "pos_err_km_median": 53.70832061767578,
-          "pos_err_km_mean": 62.89523696899414,
-          "spread_mae_km": 0.24599282443523407,
+          "pos_err_km_median": 52.00225830078125,
+          "pos_err_km_mean": 59.34614181518555,
+          "spread_mae_km": 0.24823664128780365,
           "n": 240
         },
         "D+5": {
-          "pos_err_km_median": 80.23634338378906,
-          "pos_err_km_mean": 90.54106140136719,
-          "spread_mae_km": 0.5942723751068115,
+          "pos_err_km_median": 82.0478515625,
+          "pos_err_km_mean": 87.50068664550781,
+          "spread_mae_km": 0.6508178114891052,
+          "n": 240
+        },
+        "D+7": {
+          "pos_err_km_median": 100.50423431396484,
+          "pos_err_km_mean": 105.86738586425781,
+          "spread_mae_km": 1.0861111879348755,
           "n": 240
         }
       },
@@ -41,67 +47,117 @@
           "n": 234
         },
         "D+3": {
-          "pos_err_km_median": 76.98838806152344,
-          "pos_err_km_mean": 79.96536254882812,
+          "pos_err_km_median": 79.94297790527344,
+          "pos_err_km_mean": 83.63726043701172,
           "spread_mae_km": null,
           "n": 234
         },
         "D+5": {
-          "pos_err_km_median": 132.3334197998047,
-          "pos_err_km_mean": 138.72787475585938,
+          "pos_err_km_median": 135.12887573242188,
+          "pos_err_km_mean": 142.04446411132812,
+          "spread_mae_km": null,
+          "n": 234
+        },
+        "D+7": {
+          "pos_err_km_median": 196.47402954101562,
+          "pos_err_km_mean": 199.9896240234375,
           "spread_mae_km": null,
           "n": 234
         }
       },
       "analogue": {
         "D+1": {
-          "pos_err_km_median": 23.597652435302734,
-          "pos_err_km_mean": 25.798097610473633,
-          "spread_mae_km": 0.04999125003814697,
+          "pos_err_km_median": 22.91857147216797,
+          "pos_err_km_mean": 25.248159408569336,
+          "spread_mae_km": 0.04867393150925636,
           "n": 240
         },
         "D+2": {
-          "pos_err_km_median": 46.70123291015625,
-          "pos_err_km_mean": 51.07084655761719,
-          "spread_mae_km": 0.2306964099407196,
+          "pos_err_km_median": 45.937828063964844,
+          "pos_err_km_mean": 50.87876510620117,
+          "spread_mae_km": 0.22441139817237854,
           "n": 240
         },
         "D+3": {
           "pos_err_km_median": 69.66874694824219,
-          "pos_err_km_mean": 76.22064971923828,
-          "spread_mae_km": 0.5916082859039307,
+          "pos_err_km_mean": 75.67208862304688,
+          "spread_mae_km": 0.5721644759178162,
           "n": 240
         },
         "D+5": {
-          "pos_err_km_median": 89.18466186523438,
-          "pos_err_km_mean": 105.66964721679688,
-          "spread_mae_km": 1.248120903968811,
+          "pos_err_km_median": 88.06819915771484,
+          "pos_err_km_mean": 103.27942657470703,
+          "spread_mae_km": 1.2370396852493286,
+          "n": 240
+        },
+        "D+7": {
+          "pos_err_km_median": 117.9395751953125,
+          "pos_err_km_mean": 125.86595153808594,
+          "spread_mae_km": 2.1555352210998535,
+          "n": 240
+        }
+      },
+      "ridge": {
+        "D+1": {
+          "pos_err_km_median": 17.633625030517578,
+          "pos_err_km_mean": 18.710790634155273,
+          "spread_mae_km": 0.03847760334610939,
+          "n": 240
+        },
+        "D+2": {
+          "pos_err_km_median": 35.89927673339844,
+          "pos_err_km_mean": 39.00935745239258,
+          "spread_mae_km": 0.13294833898544312,
+          "n": 240
+        },
+        "D+3": {
+          "pos_err_km_median": 54.05122756958008,
+          "pos_err_km_mean": 60.1966552734375,
+          "spread_mae_km": 0.25567591190338135,
+          "n": 240
+        },
+        "D+5": {
+          "pos_err_km_median": 80.11540222167969,
+          "pos_err_km_mean": 88.57405853271484,
+          "spread_mae_km": 0.6500194668769836,
+          "n": 240
+        },
+        "D+7": {
+          "pos_err_km_median": 98.8559799194336,
+          "pos_err_km_mean": 111.57479095458984,
+          "spread_mae_km": 1.105658769607544,
           "n": 240
         }
       },
       "HGB": {
         "D+1": {
-          "pos_err_km_median": 20.01371192932129,
-          "pos_err_km_mean": 21.24407958984375,
-          "spread_mae_km": 0.040431611239910126,
+          "pos_err_km_median": 17.67621612548828,
+          "pos_err_km_mean": 19.05573081970215,
+          "spread_mae_km": 0.03687392920255661,
           "n": 240
         },
         "D+2": {
-          "pos_err_km_median": 38.12552261352539,
-          "pos_err_km_mean": 41.693626403808594,
-          "spread_mae_km": 0.18354246020317078,
+          "pos_err_km_median": 37.09138488769531,
+          "pos_err_km_mean": 39.30913162231445,
+          "spread_mae_km": 0.13535013794898987,
           "n": 240
         },
         "D+3": {
-          "pos_err_km_median": 58.00007629394531,
-          "pos_err_km_mean": 64.60910034179688,
-          "spread_mae_km": 0.3574191927909851,
+          "pos_err_km_median": 57.69458770751953,
+          "pos_err_km_mean": 62.27681350708008,
+          "spread_mae_km": 0.2647179663181305,
           "n": 240
         },
         "D+5": {
-          "pos_err_km_median": 91.98722076416016,
-          "pos_err_km_mean": 100.53126525878906,
-          "spread_mae_km": 0.8295437097549438,
+          "pos_err_km_median": 88.5411376953125,
+          "pos_err_km_mean": 95.00636291503906,
+          "spread_mae_km": 0.6538926959037781,
+          "n": 240
+        },
+        "D+7": {
+          "pos_err_km_median": 107.22247314453125,
+          "pos_err_km_mean": 111.75175476074219,
+          "spread_mae_km": 0.9859641790390015,
           "n": 240
         }
       }
@@ -109,27 +165,33 @@
     "2023": {
       "climatology": {
         "D+1": {
-          "pos_err_km_median": 25.997411727905273,
-          "pos_err_km_mean": 27.808435440063477,
-          "spread_mae_km": 0.043944891542196274,
+          "pos_err_km_median": 24.762676239013672,
+          "pos_err_km_mean": 26.463422775268555,
+          "spread_mae_km": 0.04176948964595795,
           "n": 240
         },
         "D+2": {
-          "pos_err_km_median": 46.137657165527344,
-          "pos_err_km_mean": 49.45029067993164,
-          "spread_mae_km": 0.17184610664844513,
+          "pos_err_km_median": 43.19073486328125,
+          "pos_err_km_mean": 47.09300994873047,
+          "spread_mae_km": 0.17230269312858582,
           "n": 240
         },
         "D+3": {
-          "pos_err_km_median": 61.216224670410156,
-          "pos_err_km_mean": 68.56578063964844,
-          "spread_mae_km": 0.3459228575229645,
+          "pos_err_km_median": 59.65265655517578,
+          "pos_err_km_mean": 65.63002014160156,
+          "spread_mae_km": 0.3337823748588562,
           "n": 240
         },
         "D+5": {
-          "pos_err_km_median": 93.32628631591797,
-          "pos_err_km_mean": 100.88665008544922,
-          "spread_mae_km": 0.6560428738594055,
+          "pos_err_km_median": 90.2788314819336,
+          "pos_err_km_mean": 93.45308685302734,
+          "spread_mae_km": 0.6503454446792603,
+          "n": 240
+        },
+        "D+7": {
+          "pos_err_km_median": 107.6136474609375,
+          "pos_err_km_mean": 113.62871551513672,
+          "spread_mae_km": 1.1372835636138916,
           "n": 240
         }
       },
@@ -147,67 +209,117 @@
           "n": 234
         },
         "D+3": {
-          "pos_err_km_median": 82.24217224121094,
-          "pos_err_km_mean": 89.44392395019531,
+          "pos_err_km_median": 81.32066345214844,
+          "pos_err_km_mean": 89.05084228515625,
           "spread_mae_km": null,
           "n": 234
         },
         "D+5": {
-          "pos_err_km_median": 134.7747039794922,
-          "pos_err_km_mean": 145.7604217529297,
+          "pos_err_km_median": 134.30072021484375,
+          "pos_err_km_mean": 145.4860382080078,
+          "spread_mae_km": null,
+          "n": 234
+        },
+        "D+7": {
+          "pos_err_km_median": 189.34854125976562,
+          "pos_err_km_mean": 202.06414794921875,
           "spread_mae_km": null,
           "n": 234
         }
       },
       "analogue": {
         "D+1": {
-          "pos_err_km_median": 24.42017364501953,
-          "pos_err_km_mean": 28.006074905395508,
-          "spread_mae_km": 0.05547403171658516,
+          "pos_err_km_median": 25.618694305419922,
+          "pos_err_km_mean": 28.393299102783203,
+          "spread_mae_km": 0.05267522484064102,
           "n": 240
         },
         "D+2": {
-          "pos_err_km_median": 53.307708740234375,
-          "pos_err_km_mean": 57.92618942260742,
-          "spread_mae_km": 0.21635392308235168,
+          "pos_err_km_median": 55.45484161376953,
+          "pos_err_km_mean": 57.7481575012207,
+          "spread_mae_km": 0.20741446316242218,
           "n": 240
         },
         "D+3": {
-          "pos_err_km_median": 83.93936157226562,
-          "pos_err_km_mean": 89.24080657958984,
-          "spread_mae_km": 0.42707788944244385,
+          "pos_err_km_median": 81.50245666503906,
+          "pos_err_km_mean": 86.73460388183594,
+          "spread_mae_km": 0.37819570302963257,
           "n": 240
         },
         "D+5": {
-          "pos_err_km_median": 123.62547302246094,
-          "pos_err_km_mean": 131.5997314453125,
-          "spread_mae_km": 0.7850526571273804,
+          "pos_err_km_median": 120.5479965209961,
+          "pos_err_km_mean": 130.49319458007812,
+          "spread_mae_km": 0.7773957848548889,
+          "n": 240
+        },
+        "D+7": {
+          "pos_err_km_median": 142.8391571044922,
+          "pos_err_km_mean": 158.61386108398438,
+          "spread_mae_km": 1.2996290922164917,
+          "n": 240
+        }
+      },
+      "ridge": {
+        "D+1": {
+          "pos_err_km_median": 20.307647705078125,
+          "pos_err_km_mean": 22.758447647094727,
+          "spread_mae_km": 0.04833490028977394,
+          "n": 240
+        },
+        "D+2": {
+          "pos_err_km_median": 40.977210998535156,
+          "pos_err_km_mean": 43.92293930053711,
+          "spread_mae_km": 0.17241118848323822,
+          "n": 240
+        },
+        "D+3": {
+          "pos_err_km_median": 57.871971130371094,
+          "pos_err_km_mean": 63.57743453979492,
+          "spread_mae_km": 0.3269833028316498,
+          "n": 240
+        },
+        "D+5": {
+          "pos_err_km_median": 86.51963806152344,
+          "pos_err_km_mean": 95.15809631347656,
+          "spread_mae_km": 0.6092501282691956,
+          "n": 240
+        },
+        "D+7": {
+          "pos_err_km_median": 112.46144104003906,
+          "pos_err_km_mean": 118.25283813476562,
+          "spread_mae_km": 1.031454086303711,
           "n": 240
         }
       },
       "HGB": {
         "D+1": {
-          "pos_err_km_median": 20.593246459960938,
-          "pos_err_km_mean": 21.68871307373047,
-          "spread_mae_km": 0.044321704655885696,
+          "pos_err_km_median": 20.061309814453125,
+          "pos_err_km_mean": 21.61795997619629,
+          "spread_mae_km": 0.04284585267305374,
           "n": 240
         },
         "D+2": {
-          "pos_err_km_median": 41.840049743652344,
-          "pos_err_km_mean": 45.02931213378906,
-          "spread_mae_km": 0.18145962059497833,
+          "pos_err_km_median": 39.31012725830078,
+          "pos_err_km_mean": 42.93638610839844,
+          "spread_mae_km": 0.17643974721431732,
           "n": 240
         },
         "D+3": {
-          "pos_err_km_median": 60.407867431640625,
-          "pos_err_km_mean": 64.29363250732422,
-          "spread_mae_km": 0.378718763589859,
+          "pos_err_km_median": 54.073692321777344,
+          "pos_err_km_mean": 59.859107971191406,
+          "spread_mae_km": 0.3366751968860626,
           "n": 240
         },
         "D+5": {
-          "pos_err_km_median": 82.72893524169922,
-          "pos_err_km_mean": 91.75093078613281,
-          "spread_mae_km": 0.8027953505516052,
+          "pos_err_km_median": 77.50238037109375,
+          "pos_err_km_mean": 88.52092742919922,
+          "spread_mae_km": 0.6270554661750793,
+          "n": 240
+        },
+        "D+7": {
+          "pos_err_km_median": 100.61505126953125,
+          "pos_err_km_mean": 108.33961486816406,
+          "spread_mae_km": 1.050323247909546,
           "n": 240
         }
       }
@@ -215,106 +327,162 @@
     "2025": {
       "climatology": {
         "D+1": {
-          "pos_err_km_median": 25.2215576171875,
-          "pos_err_km_mean": 28.51551055908203,
-          "spread_mae_km": 0.042110852897167206,
-          "n": 720
+          "pos_err_km_median": 26.275928497314453,
+          "pos_err_km_mean": 29.635318756103516,
+          "spread_mae_km": 0.04335226118564606,
+          "n": 240
         },
         "D+2": {
-          "pos_err_km_median": 45.50322341918945,
-          "pos_err_km_mean": 51.37864685058594,
-          "spread_mae_km": 0.14646589756011963,
-          "n": 720
+          "pos_err_km_median": 48.29920196533203,
+          "pos_err_km_mean": 52.62162780761719,
+          "spread_mae_km": 0.15703341364860535,
+          "n": 240
         },
         "D+3": {
-          "pos_err_km_median": 65.40087890625,
-          "pos_err_km_mean": 69.77883911132812,
-          "spread_mae_km": 0.26306772232055664,
-          "n": 720
+          "pos_err_km_median": 67.05044555664062,
+          "pos_err_km_mean": 72.6875,
+          "spread_mae_km": 0.2935017943382263,
+          "n": 240
         },
         "D+5": {
-          "pos_err_km_median": 90.79649353027344,
-          "pos_err_km_mean": 103.28821563720703,
-          "spread_mae_km": 0.6083242297172546,
-          "n": 720
+          "pos_err_km_median": 95.58423614501953,
+          "pos_err_km_mean": 107.4485855102539,
+          "spread_mae_km": 0.6710147857666016,
+          "n": 240
+        },
+        "D+7": {
+          "pos_err_km_median": 110.71015930175781,
+          "pos_err_km_mean": 133.51406860351562,
+          "spread_mae_km": 1.3382545709609985,
+          "n": 240
         }
       },
       "persistence": {
         "D+1": {
-          "pos_err_km_median": 22.11885643005371,
-          "pos_err_km_mean": 24.47443199157715,
+          "pos_err_km_median": 22.570680618286133,
+          "pos_err_km_mean": 24.932424545288086,
           "spread_mae_km": null,
-          "n": 708
+          "n": 234
         },
         "D+2": {
-          "pos_err_km_median": 46.183929443359375,
-          "pos_err_km_mean": 50.893558502197266,
+          "pos_err_km_median": 45.281246185302734,
+          "pos_err_km_mean": 51.115360260009766,
           "spread_mae_km": null,
-          "n": 708
+          "n": 234
         },
         "D+3": {
-          "pos_err_km_median": 68.78866577148438,
-          "pos_err_km_mean": 78.26505279541016,
+          "pos_err_km_median": 73.31005859375,
+          "pos_err_km_mean": 80.15290069580078,
           "spread_mae_km": null,
-          "n": 708
+          "n": 234
         },
         "D+5": {
-          "pos_err_km_median": 116.98836517333984,
-          "pos_err_km_mean": 133.6275177001953,
+          "pos_err_km_median": 121.61967468261719,
+          "pos_err_km_mean": 136.9281768798828,
           "spread_mae_km": null,
-          "n": 708
+          "n": 234
+        },
+        "D+7": {
+          "pos_err_km_median": 174.97579956054688,
+          "pos_err_km_mean": 193.09426879882812,
+          "spread_mae_km": null,
+          "n": 234
         }
       },
       "analogue": {
         "D+1": {
-          "pos_err_km_median": 29.83285140991211,
-          "pos_err_km_mean": 30.82730484008789,
-          "spread_mae_km": 0.05864860862493515,
-          "n": 720
+          "pos_err_km_median": 29.247314453125,
+          "pos_err_km_mean": 30.37497329711914,
+          "spread_mae_km": 0.060851797461509705,
+          "n": 240
         },
         "D+2": {
-          "pos_err_km_median": 56.65193176269531,
-          "pos_err_km_mean": 58.85491180419922,
-          "spread_mae_km": 0.21343453228473663,
-          "n": 720
+          "pos_err_km_median": 56.61326599121094,
+          "pos_err_km_mean": 56.86555480957031,
+          "spread_mae_km": 0.21954376995563507,
+          "n": 240
         },
         "D+3": {
-          "pos_err_km_median": 75.96392822265625,
-          "pos_err_km_mean": 80.82087707519531,
-          "spread_mae_km": 0.34869346022605896,
-          "n": 720
+          "pos_err_km_median": 76.56629943847656,
+          "pos_err_km_mean": 81.99822235107422,
+          "spread_mae_km": 0.35253608226776123,
+          "n": 240
         },
         "D+5": {
-          "pos_err_km_median": 112.02691650390625,
-          "pos_err_km_mean": 125.76063537597656,
-          "spread_mae_km": 0.6838595271110535,
-          "n": 720
+          "pos_err_km_median": 109.779541015625,
+          "pos_err_km_mean": 129.25619506835938,
+          "spread_mae_km": 0.7519969344139099,
+          "n": 240
+        },
+        "D+7": {
+          "pos_err_km_median": 157.83773803710938,
+          "pos_err_km_mean": 165.10467529296875,
+          "spread_mae_km": 1.4821884632110596,
+          "n": 240
+        }
+      },
+      "ridge": {
+        "D+1": {
+          "pos_err_km_median": 21.800643920898438,
+          "pos_err_km_mean": 23.822998046875,
+          "spread_mae_km": 0.04720339924097061,
+          "n": 240
+        },
+        "D+2": {
+          "pos_err_km_median": 41.161376953125,
+          "pos_err_km_mean": 45.384212493896484,
+          "spread_mae_km": 0.15586954355239868,
+          "n": 240
+        },
+        "D+3": {
+          "pos_err_km_median": 61.313087463378906,
+          "pos_err_km_mean": 65.39757537841797,
+          "spread_mae_km": 0.28753575682640076,
+          "n": 240
+        },
+        "D+5": {
+          "pos_err_km_median": 89.72215270996094,
+          "pos_err_km_mean": 103.77864837646484,
+          "spread_mae_km": 0.6480692028999329,
+          "n": 240
+        },
+        "D+7": {
+          "pos_err_km_median": 120.20907592773438,
+          "pos_err_km_mean": 131.4040069580078,
+          "spread_mae_km": 1.3403598070144653,
+          "n": 240
         }
       },
       "HGB": {
         "D+1": {
-          "pos_err_km_median": 20.998199462890625,
-          "pos_err_km_mean": 23.10750389099121,
-          "spread_mae_km": 0.04610799252986908,
-          "n": 720
+          "pos_err_km_median": 21.59990692138672,
+          "pos_err_km_mean": 23.371782302856445,
+          "spread_mae_km": 0.04573817178606987,
+          "n": 240
         },
         "D+2": {
-          "pos_err_km_median": 41.00818634033203,
-          "pos_err_km_mean": 46.155364990234375,
-          "spread_mae_km": 0.17616868019104004,
-          "n": 720
+          "pos_err_km_median": 42.69243621826172,
+          "pos_err_km_mean": 46.36986541748047,
+          "spread_mae_km": 0.16415053606033325,
+          "n": 240
         },
         "D+3": {
-          "pos_err_km_median": 61.718177795410156,
-          "pos_err_km_mean": 66.56578826904297,
-          "spread_mae_km": 0.31463584303855896,
-          "n": 720
+          "pos_err_km_median": 61.854759216308594,
+          "pos_err_km_mean": 67.0547866821289,
+          "spread_mae_km": 0.2746375501155853,
+          "n": 240
         },
         "D+5": {
-          "pos_err_km_median": 99.38623046875,
-          "pos_err_km_mean": 107.32591247558594,
-          "spread_mae_km": 0.6253611445426941,
-          "n": 720
+          "pos_err_km_median": 95.00318908691406,
+          "pos_err_km_mean": 106.710205078125,
+          "spread_mae_km": 0.6549366116523743,
+          "n": 240
+        },
+        "D+7": {
+          "pos_err_km_median": 121.73174285888672,
+          "pos_err_km_mean": 135.85438537597656,
+          "spread_mae_km": 1.2491577863693237,
+          "n": 240
         }
       }
     }
@@ -323,596 +491,1071 @@
     "Albacora": {
       "climatology_season": {
         "D+1": {
-          "pos_err_km_median": 26.70391082763672,
-          "pos_err_km_mean": 28.521224975585938,
-          "spread_mae_km": 0.05761955305933952,
-          "n": 200
+          "pos_err_km_median": 27.351280212402344,
+          "pos_err_km_mean": 28.352144241333008,
+          "spread_mae_km": 0.06139960139989853,
+          "n": 120
         },
         "D+2": {
-          "pos_err_km_median": 45.10099792480469,
-          "pos_err_km_mean": 48.65281677246094,
-          "spread_mae_km": 0.1824129819869995,
-          "n": 200
+          "pos_err_km_median": 44.75608444213867,
+          "pos_err_km_mean": 48.572628021240234,
+          "spread_mae_km": 0.1932590752840042,
+          "n": 120
         },
         "D+3": {
-          "pos_err_km_median": 58.99537658691406,
-          "pos_err_km_mean": 63.81138229370117,
-          "spread_mae_km": 0.3537400960922241,
-          "n": 200
+          "pos_err_km_median": 59.535179138183594,
+          "pos_err_km_mean": 65.64148712158203,
+          "spread_mae_km": 0.37548625469207764,
+          "n": 120
         },
         "D+5": {
-          "pos_err_km_median": 84.80197143554688,
-          "pos_err_km_mean": 90.2254867553711,
-          "spread_mae_km": 0.7398098707199097,
-          "n": 200
+          "pos_err_km_median": 92.60134887695312,
+          "pos_err_km_mean": 94.9913101196289,
+          "spread_mae_km": 0.6944002509117126,
+          "n": 120
+        },
+        "D+7": {
+          "pos_err_km_median": 109.80680847167969,
+          "pos_err_km_mean": 114.27082061767578,
+          "spread_mae_km": 1.2219964265823364,
+          "n": 120
+        }
+      },
+      "ridge": {
+        "D+1": {
+          "pos_err_km_median": 100.75675964355469,
+          "pos_err_km_mean": 102.55538940429688,
+          "spread_mae_km": 0.05875171720981598,
+          "n": 120
+        },
+        "D+2": {
+          "pos_err_km_median": 200.48486328125,
+          "pos_err_km_mean": 203.7480010986328,
+          "spread_mae_km": 0.19251862168312073,
+          "n": 120
+        },
+        "D+3": {
+          "pos_err_km_median": 253.88241577148438,
+          "pos_err_km_mean": 257.1808776855469,
+          "spread_mae_km": 0.39610254764556885,
+          "n": 120
+        },
+        "D+5": {
+          "pos_err_km_median": 339.95843505859375,
+          "pos_err_km_mean": 343.9421081542969,
+          "spread_mae_km": 0.7712463140487671,
+          "n": 120
+        },
+        "D+7": {
+          "pos_err_km_median": 387.48211669921875,
+          "pos_err_km_mean": 388.6570129394531,
+          "spread_mae_km": 1.3361365795135498,
+          "n": 120
         }
       },
       "HGB": {
         "D+1": {
-          "pos_err_km_median": 17.18700408935547,
-          "pos_err_km_mean": 20.214702606201172,
-          "spread_mae_km": 0.05660503730177879,
-          "n": 200
+          "pos_err_km_median": 18.85732078552246,
+          "pos_err_km_mean": 20.279191970825195,
+          "spread_mae_km": 0.05843551829457283,
+          "n": 120
         },
         "D+2": {
-          "pos_err_km_median": 34.05632019042969,
-          "pos_err_km_mean": 36.33988952636719,
-          "spread_mae_km": 0.20125922560691833,
-          "n": 200
+          "pos_err_km_median": 37.09405517578125,
+          "pos_err_km_mean": 38.6431999206543,
+          "spread_mae_km": 0.19455769658088684,
+          "n": 120
         },
         "D+3": {
-          "pos_err_km_median": 43.65282440185547,
-          "pos_err_km_mean": 48.60585021972656,
-          "spread_mae_km": 0.4074656665325165,
-          "n": 200
+          "pos_err_km_median": 46.64996337890625,
+          "pos_err_km_mean": 51.353416442871094,
+          "spread_mae_km": 0.3799271285533905,
+          "n": 120
         },
         "D+5": {
-          "pos_err_km_median": 60.40632629394531,
-          "pos_err_km_mean": 65.42760467529297,
-          "spread_mae_km": 0.9987907409667969,
-          "n": 200
+          "pos_err_km_median": 70.20426940917969,
+          "pos_err_km_mean": 73.79444885253906,
+          "spread_mae_km": 0.757413923740387,
+          "n": 120
+        },
+        "D+7": {
+          "pos_err_km_median": 77.27696228027344,
+          "pos_err_km_mean": 86.79931640625,
+          "spread_mae_km": 1.176240086555481,
+          "n": 120
         }
       }
     },
     "Frade": {
       "climatology_season": {
         "D+1": {
-          "pos_err_km_median": 29.397958755493164,
-          "pos_err_km_mean": 28.1924991607666,
-          "spread_mae_km": 0.03772540017962456,
-          "n": 200
+          "pos_err_km_median": 27.83224105834961,
+          "pos_err_km_mean": 27.797183990478516,
+          "spread_mae_km": 0.040957268327474594,
+          "n": 120
         },
         "D+2": {
-          "pos_err_km_median": 50.00001907348633,
-          "pos_err_km_mean": 52.2929801940918,
-          "spread_mae_km": 0.1435699462890625,
-          "n": 200
+          "pos_err_km_median": 47.316322326660156,
+          "pos_err_km_mean": 49.89609146118164,
+          "spread_mae_km": 0.1600388139486313,
+          "n": 120
         },
         "D+3": {
-          "pos_err_km_median": 66.87104797363281,
-          "pos_err_km_mean": 70.11781311035156,
-          "spread_mae_km": 0.2884875535964966,
-          "n": 200
+          "pos_err_km_median": 65.8689956665039,
+          "pos_err_km_mean": 66.59676361083984,
+          "spread_mae_km": 0.3234254717826843,
+          "n": 120
         },
         "D+5": {
-          "pos_err_km_median": 96.81697845458984,
-          "pos_err_km_mean": 100.17465209960938,
-          "spread_mae_km": 0.5708768963813782,
-          "n": 200
+          "pos_err_km_median": 95.2406005859375,
+          "pos_err_km_mean": 98.141357421875,
+          "spread_mae_km": 0.6835735440254211,
+          "n": 120
+        },
+        "D+7": {
+          "pos_err_km_median": 126.84929656982422,
+          "pos_err_km_mean": 121.73844146728516,
+          "spread_mae_km": 1.1637003421783447,
+          "n": 120
+        }
+      },
+      "ridge": {
+        "D+1": {
+          "pos_err_km_median": 19.81851577758789,
+          "pos_err_km_mean": 20.188932418823242,
+          "spread_mae_km": 0.041332636028528214,
+          "n": 120
+        },
+        "D+2": {
+          "pos_err_km_median": 35.39008331298828,
+          "pos_err_km_mean": 38.5828857421875,
+          "spread_mae_km": 0.16262656450271606,
+          "n": 120
+        },
+        "D+3": {
+          "pos_err_km_median": 50.06489562988281,
+          "pos_err_km_mean": 55.20271682739258,
+          "spread_mae_km": 0.32424989342689514,
+          "n": 120
+        },
+        "D+5": {
+          "pos_err_km_median": 82.21058654785156,
+          "pos_err_km_mean": 82.783203125,
+          "spread_mae_km": 0.7083627581596375,
+          "n": 120
+        },
+        "D+7": {
+          "pos_err_km_median": 104.43989562988281,
+          "pos_err_km_mean": 104.7025146484375,
+          "spread_mae_km": 1.2328811883926392,
+          "n": 120
         }
       },
       "HGB": {
         "D+1": {
-          "pos_err_km_median": 14.882892608642578,
-          "pos_err_km_mean": 16.39856719970703,
-          "spread_mae_km": 0.03258727490901947,
-          "n": 200
+          "pos_err_km_median": 17.0252685546875,
+          "pos_err_km_mean": 18.147851943969727,
+          "spread_mae_km": 0.04017191752791405,
+          "n": 120
         },
         "D+2": {
-          "pos_err_km_median": 28.066509246826172,
-          "pos_err_km_mean": 31.085844039916992,
-          "spread_mae_km": 0.1240328699350357,
-          "n": 200
+          "pos_err_km_median": 32.468116760253906,
+          "pos_err_km_mean": 34.53395080566406,
+          "spread_mae_km": 0.1411428302526474,
+          "n": 120
         },
         "D+3": {
-          "pos_err_km_median": 41.88228225708008,
-          "pos_err_km_mean": 43.135215759277344,
-          "spread_mae_km": 0.3108047544956207,
-          "n": 200
+          "pos_err_km_median": 43.65019226074219,
+          "pos_err_km_mean": 46.12004470825195,
+          "spread_mae_km": 0.28572696447372437,
+          "n": 120
         },
         "D+5": {
-          "pos_err_km_median": 56.92546081542969,
-          "pos_err_km_mean": 60.231624603271484,
-          "spread_mae_km": 0.715843677520752,
-          "n": 200
+          "pos_err_km_median": 57.9940185546875,
+          "pos_err_km_mean": 67.36388397216797,
+          "spread_mae_km": 0.6773198246955872,
+          "n": 120
+        },
+        "D+7": {
+          "pos_err_km_median": 78.15278625488281,
+          "pos_err_km_mean": 81.24454498291016,
+          "spread_mae_km": 1.1247612237930298,
+          "n": 120
         }
       }
     },
     "Marlim": {
       "climatology_season": {
         "D+1": {
-          "pos_err_km_median": 30.756750106811523,
-          "pos_err_km_mean": 30.835092544555664,
-          "spread_mae_km": 0.045657359063625336,
-          "n": 200
+          "pos_err_km_median": 31.882213592529297,
+          "pos_err_km_mean": 31.465730667114258,
+          "spread_mae_km": 0.04303955286741257,
+          "n": 120
         },
         "D+2": {
-          "pos_err_km_median": 47.399627685546875,
-          "pos_err_km_mean": 50.147216796875,
-          "spread_mae_km": 0.15440362691879272,
-          "n": 200
+          "pos_err_km_median": 46.380828857421875,
+          "pos_err_km_mean": 49.97402572631836,
+          "spread_mae_km": 0.1695779412984848,
+          "n": 120
         },
         "D+3": {
-          "pos_err_km_median": 59.98011016845703,
-          "pos_err_km_mean": 66.289306640625,
-          "spread_mae_km": 0.2567037045955658,
-          "n": 200
+          "pos_err_km_median": 59.94688415527344,
+          "pos_err_km_mean": 66.26624298095703,
+          "spread_mae_km": 0.279169499874115,
+          "n": 120
         },
         "D+5": {
-          "pos_err_km_median": 79.86698913574219,
-          "pos_err_km_mean": 84.90359497070312,
-          "spread_mae_km": 0.585483968257904,
-          "n": 200
+          "pos_err_km_median": 80.89115142822266,
+          "pos_err_km_mean": 88.87242126464844,
+          "spread_mae_km": 0.5682628750801086,
+          "n": 120
+        },
+        "D+7": {
+          "pos_err_km_median": 99.39811706542969,
+          "pos_err_km_mean": 104.55907440185547,
+          "spread_mae_km": 1.0522289276123047,
+          "n": 120
+        }
+      },
+      "ridge": {
+        "D+1": {
+          "pos_err_km_median": 31.67526626586914,
+          "pos_err_km_mean": 33.96903610229492,
+          "spread_mae_km": 0.062037963420152664,
+          "n": 120
+        },
+        "D+2": {
+          "pos_err_km_median": 71.26716613769531,
+          "pos_err_km_mean": 71.48188781738281,
+          "spread_mae_km": 0.20065464079380035,
+          "n": 120
+        },
+        "D+3": {
+          "pos_err_km_median": 51.917564392089844,
+          "pos_err_km_mean": 57.79142379760742,
+          "spread_mae_km": 0.302204966545105,
+          "n": 120
+        },
+        "D+5": {
+          "pos_err_km_median": 68.5009765625,
+          "pos_err_km_mean": 82.3509750366211,
+          "spread_mae_km": 0.5762781500816345,
+          "n": 120
+        },
+        "D+7": {
+          "pos_err_km_median": 150.4551239013672,
+          "pos_err_km_mean": 153.95870971679688,
+          "spread_mae_km": 1.0599029064178467,
+          "n": 120
         }
       },
       "HGB": {
         "D+1": {
-          "pos_err_km_median": 19.484363555908203,
-          "pos_err_km_mean": 20.573183059692383,
-          "spread_mae_km": 0.06040952727198601,
-          "n": 200
+          "pos_err_km_median": 19.650428771972656,
+          "pos_err_km_mean": 21.09656524658203,
+          "spread_mae_km": 0.04855821281671524,
+          "n": 120
         },
         "D+2": {
-          "pos_err_km_median": 34.08267593383789,
-          "pos_err_km_mean": 37.76054382324219,
-          "spread_mae_km": 0.21054744720458984,
-          "n": 200
+          "pos_err_km_median": 36.57114791870117,
+          "pos_err_km_mean": 39.04352951049805,
+          "spread_mae_km": 0.17697429656982422,
+          "n": 120
         },
         "D+3": {
-          "pos_err_km_median": 50.12688446044922,
-          "pos_err_km_mean": 52.50495910644531,
-          "spread_mae_km": 0.3817054033279419,
-          "n": 200
+          "pos_err_km_median": 52.02906799316406,
+          "pos_err_km_mean": 53.84588623046875,
+          "spread_mae_km": 0.2685714364051819,
+          "n": 120
         },
         "D+5": {
-          "pos_err_km_median": 70.51506805419922,
-          "pos_err_km_mean": 73.63884735107422,
-          "spread_mae_km": 0.8072677850723267,
-          "n": 200
+          "pos_err_km_median": 73.69878387451172,
+          "pos_err_km_mean": 74.48235321044922,
+          "spread_mae_km": 0.5574663877487183,
+          "n": 120
+        },
+        "D+7": {
+          "pos_err_km_median": 88.82768249511719,
+          "pos_err_km_mean": 91.38685607910156,
+          "spread_mae_km": 0.9726599454879761,
+          "n": 120
         }
       }
     },
     "Papa-Terra": {
       "climatology_season": {
         "D+1": {
-          "pos_err_km_median": 25.81366729736328,
-          "pos_err_km_mean": 26.0889949798584,
-          "spread_mae_km": 0.0327744260430336,
-          "n": 200
+          "pos_err_km_median": 24.54814910888672,
+          "pos_err_km_mean": 24.959142684936523,
+          "spread_mae_km": 0.034125152975320816,
+          "n": 120
         },
         "D+2": {
-          "pos_err_km_median": 46.13824462890625,
-          "pos_err_km_mean": 46.41357421875,
-          "spread_mae_km": 0.12340408563613892,
-          "n": 200
+          "pos_err_km_median": 45.442787170410156,
+          "pos_err_km_mean": 44.333641052246094,
+          "spread_mae_km": 0.13048125803470612,
+          "n": 120
         },
         "D+3": {
-          "pos_err_km_median": 64.15992736816406,
-          "pos_err_km_mean": 63.659942626953125,
-          "spread_mae_km": 0.21211959421634674,
-          "n": 200
+          "pos_err_km_median": 61.661346435546875,
+          "pos_err_km_mean": 60.57960510253906,
+          "spread_mae_km": 0.23639139533042908,
+          "n": 120
         },
         "D+5": {
-          "pos_err_km_median": 94.07795715332031,
-          "pos_err_km_mean": 88.69168090820312,
-          "spread_mae_km": 0.5388219952583313,
-          "n": 200
+          "pos_err_km_median": 84.31070709228516,
+          "pos_err_km_mean": 85.49315643310547,
+          "spread_mae_km": 0.6043263673782349,
+          "n": 120
+        },
+        "D+7": {
+          "pos_err_km_median": 108.48432159423828,
+          "pos_err_km_mean": 108.0611801147461,
+          "spread_mae_km": 1.1085261106491089,
+          "n": 120
+        }
+      },
+      "ridge": {
+        "D+1": {
+          "pos_err_km_median": 21.779117584228516,
+          "pos_err_km_mean": 24.318286895751953,
+          "spread_mae_km": 0.04622036591172218,
+          "n": 120
+        },
+        "D+2": {
+          "pos_err_km_median": 45.537750244140625,
+          "pos_err_km_mean": 44.97132110595703,
+          "spread_mae_km": 0.10860315710306168,
+          "n": 120
+        },
+        "D+3": {
+          "pos_err_km_median": 65.226318359375,
+          "pos_err_km_mean": 67.23474884033203,
+          "spread_mae_km": 0.17835639417171478,
+          "n": 120
+        },
+        "D+5": {
+          "pos_err_km_median": 92.30081176757812,
+          "pos_err_km_mean": 95.94169616699219,
+          "spread_mae_km": 0.48977145552635193,
+          "n": 120
+        },
+        "D+7": {
+          "pos_err_km_median": 124.93991088867188,
+          "pos_err_km_mean": 125.07429504394531,
+          "spread_mae_km": 0.9175050854682922,
+          "n": 120
         }
       },
       "HGB": {
         "D+1": {
-          "pos_err_km_median": 17.660499572753906,
-          "pos_err_km_mean": 18.28006935119629,
-          "spread_mae_km": 0.03084157407283783,
-          "n": 200
+          "pos_err_km_median": 16.19903564453125,
+          "pos_err_km_mean": 17.900634765625,
+          "spread_mae_km": 0.03177826479077339,
+          "n": 120
         },
         "D+2": {
-          "pos_err_km_median": 33.149566650390625,
-          "pos_err_km_mean": 35.30188751220703,
-          "spread_mae_km": 0.11437749862670898,
-          "n": 200
+          "pos_err_km_median": 32.998748779296875,
+          "pos_err_km_mean": 37.45833206176758,
+          "spread_mae_km": 0.10656467825174332,
+          "n": 120
         },
         "D+3": {
-          "pos_err_km_median": 52.89373016357422,
-          "pos_err_km_mean": 55.325775146484375,
-          "spread_mae_km": 0.20923568308353424,
-          "n": 200
+          "pos_err_km_median": 46.27638626098633,
+          "pos_err_km_mean": 51.315616607666016,
+          "spread_mae_km": 0.18305756151676178,
+          "n": 120
         },
         "D+5": {
-          "pos_err_km_median": 66.32184600830078,
-          "pos_err_km_mean": 71.11161041259766,
-          "spread_mae_km": 0.6130819916725159,
-          "n": 200
+          "pos_err_km_median": 65.84382629394531,
+          "pos_err_km_mean": 72.91386413574219,
+          "spread_mae_km": 0.43611833453178406,
+          "n": 120
+        },
+        "D+7": {
+          "pos_err_km_median": 80.44529724121094,
+          "pos_err_km_mean": 94.57535552978516,
+          "spread_mae_km": 0.799827516078949,
+          "n": 120
         }
       }
     },
     "Peregrino": {
       "climatology_season": {
         "D+1": {
-          "pos_err_km_median": 23.085750579833984,
-          "pos_err_km_mean": 25.1949462890625,
-          "spread_mae_km": 0.040529441088438034,
-          "n": 200
+          "pos_err_km_median": 21.393951416015625,
+          "pos_err_km_mean": 24.270357131958008,
+          "spread_mae_km": 0.0425555594265461,
+          "n": 120
         },
         "D+2": {
-          "pos_err_km_median": 46.534034729003906,
-          "pos_err_km_mean": 49.176395416259766,
-          "spread_mae_km": 0.13326071202754974,
-          "n": 200
+          "pos_err_km_median": 48.42700958251953,
+          "pos_err_km_mean": 49.21369552612305,
+          "spread_mae_km": 0.1472863256931305,
+          "n": 120
         },
         "D+3": {
-          "pos_err_km_median": 66.32183074951172,
-          "pos_err_km_mean": 70.51471710205078,
-          "spread_mae_km": 0.2363104671239853,
-          "n": 200
+          "pos_err_km_median": 70.57891845703125,
+          "pos_err_km_mean": 72.55325317382812,
+          "spread_mae_km": 0.26003819704055786,
+          "n": 120
         },
         "D+5": {
-          "pos_err_km_median": 101.94841003417969,
-          "pos_err_km_mean": 102.58427429199219,
-          "spread_mae_km": 0.5010522603988647,
-          "n": 200
+          "pos_err_km_median": 108.46229553222656,
+          "pos_err_km_mean": 107.31009674072266,
+          "spread_mae_km": 0.5452085733413696,
+          "n": 120
+        },
+        "D+7": {
+          "pos_err_km_median": 134.41018676757812,
+          "pos_err_km_mean": 131.97093200683594,
+          "spread_mae_km": 1.0541943311691284,
+          "n": 120
+        }
+      },
+      "ridge": {
+        "D+1": {
+          "pos_err_km_median": 25.410356521606445,
+          "pos_err_km_mean": 27.286128997802734,
+          "spread_mae_km": 0.05839337408542633,
+          "n": 120
+        },
+        "D+2": {
+          "pos_err_km_median": 46.75566482543945,
+          "pos_err_km_mean": 50.675601959228516,
+          "spread_mae_km": 0.12622304260730743,
+          "n": 120
+        },
+        "D+3": {
+          "pos_err_km_median": 74.07439422607422,
+          "pos_err_km_mean": 80.8465805053711,
+          "spread_mae_km": 0.2190873771905899,
+          "n": 120
+        },
+        "D+5": {
+          "pos_err_km_median": 100.31407165527344,
+          "pos_err_km_mean": 109.78081512451172,
+          "spread_mae_km": 0.3825834393501282,
+          "n": 120
+        },
+        "D+7": {
+          "pos_err_km_median": 131.56402587890625,
+          "pos_err_km_mean": 141.82241821289062,
+          "spread_mae_km": 0.7255564332008362,
+          "n": 120
         }
       },
       "HGB": {
         "D+1": {
-          "pos_err_km_median": 18.259130477905273,
-          "pos_err_km_mean": 20.5679874420166,
-          "spread_mae_km": 0.04746868088841438,
-          "n": 200
+          "pos_err_km_median": 17.03472900390625,
+          "pos_err_km_mean": 21.02008628845215,
+          "spread_mae_km": 0.058092549443244934,
+          "n": 120
         },
         "D+2": {
-          "pos_err_km_median": 41.195594787597656,
-          "pos_err_km_mean": 44.088523864746094,
-          "spread_mae_km": 0.1801557093858719,
-          "n": 200
+          "pos_err_km_median": 37.120887756347656,
+          "pos_err_km_mean": 42.05169677734375,
+          "spread_mae_km": 0.11257769167423248,
+          "n": 120
         },
         "D+3": {
-          "pos_err_km_median": 56.90038299560547,
-          "pos_err_km_mean": 62.25400924682617,
-          "spread_mae_km": 0.20906364917755127,
-          "n": 200
+          "pos_err_km_median": 60.473907470703125,
+          "pos_err_km_mean": 62.78120040893555,
+          "spread_mae_km": 0.2016749083995819,
+          "n": 120
         },
         "D+5": {
-          "pos_err_km_median": 89.40097045898438,
-          "pos_err_km_mean": 92.49356079101562,
-          "spread_mae_km": 0.5229852199554443,
-          "n": 200
+          "pos_err_km_median": 89.03495788574219,
+          "pos_err_km_mean": 89.92041015625,
+          "spread_mae_km": 0.36392414569854736,
+          "n": 120
+        },
+        "D+7": {
+          "pos_err_km_median": 98.86521911621094,
+          "pos_err_km_mean": 105.16941833496094,
+          "spread_mae_km": 0.7091429233551025,
+          "n": 120
         }
       }
     },
     "Roncador": {
       "climatology_season": {
         "D+1": {
-          "pos_err_km_median": 26.016979217529297,
-          "pos_err_km_mean": 26.91031265258789,
-          "spread_mae_km": 0.033158790320158005,
-          "n": 200
+          "pos_err_km_median": 25.563331604003906,
+          "pos_err_km_mean": 27.085979461669922,
+          "spread_mae_km": 0.03452371805906296,
+          "n": 120
         },
         "D+2": {
-          "pos_err_km_median": 46.68303680419922,
-          "pos_err_km_mean": 50.20661163330078,
-          "spread_mae_km": 0.13493679463863373,
-          "n": 200
+          "pos_err_km_median": 45.09185028076172,
+          "pos_err_km_mean": 48.55671310424805,
+          "spread_mae_km": 0.1468742936849594,
+          "n": 120
         },
         "D+3": {
-          "pos_err_km_median": 66.47444152832031,
-          "pos_err_km_mean": 69.9583511352539,
-          "spread_mae_km": 0.2461998015642166,
-          "n": 200
+          "pos_err_km_median": 63.973838806152344,
+          "pos_err_km_mean": 67.46012878417969,
+          "spread_mae_km": 0.28424322605133057,
+          "n": 120
         },
         "D+5": {
-          "pos_err_km_median": 98.390869140625,
-          "pos_err_km_mean": 102.57283020019531,
-          "spread_mae_km": 0.6337795853614807,
-          "n": 200
+          "pos_err_km_median": 95.5923080444336,
+          "pos_err_km_mean": 98.73587036132812,
+          "spread_mae_km": 0.775135338306427,
+          "n": 120
+        },
+        "D+7": {
+          "pos_err_km_median": 124.40478515625,
+          "pos_err_km_mean": 120.95170593261719,
+          "spread_mae_km": 1.516289472579956,
+          "n": 120
+        }
+      },
+      "ridge": {
+        "D+1": {
+          "pos_err_km_median": 19.336681365966797,
+          "pos_err_km_mean": 21.711719512939453,
+          "spread_mae_km": 0.03868032246828079,
+          "n": 120
+        },
+        "D+2": {
+          "pos_err_km_median": 33.287315368652344,
+          "pos_err_km_mean": 40.76210403442383,
+          "spread_mae_km": 0.15693683922290802,
+          "n": 120
+        },
+        "D+3": {
+          "pos_err_km_median": 58.22119903564453,
+          "pos_err_km_mean": 63.553279876708984,
+          "spread_mae_km": 0.32006752490997314,
+          "n": 120
+        },
+        "D+5": {
+          "pos_err_km_median": 92.85370635986328,
+          "pos_err_km_mean": 98.16386413574219,
+          "spread_mae_km": 0.8115158081054688,
+          "n": 120
+        },
+        "D+7": {
+          "pos_err_km_median": 108.65894317626953,
+          "pos_err_km_mean": 117.65973663330078,
+          "spread_mae_km": 1.5795272588729858,
+          "n": 120
         }
       },
       "HGB": {
         "D+1": {
-          "pos_err_km_median": 11.84660530090332,
-          "pos_err_km_mean": 13.932107925415039,
-          "spread_mae_km": 0.032333020120859146,
-          "n": 200
+          "pos_err_km_median": 14.153793334960938,
+          "pos_err_km_mean": 16.300045013427734,
+          "spread_mae_km": 0.032874662429094315,
+          "n": 120
         },
         "D+2": {
-          "pos_err_km_median": 23.87500762939453,
-          "pos_err_km_mean": 27.7299747467041,
-          "spread_mae_km": 0.16185279190540314,
-          "n": 200
+          "pos_err_km_median": 26.35373878479004,
+          "pos_err_km_mean": 30.911537170410156,
+          "spread_mae_km": 0.1436803936958313,
+          "n": 120
         },
         "D+3": {
-          "pos_err_km_median": 37.516876220703125,
-          "pos_err_km_mean": 40.539337158203125,
-          "spread_mae_km": 0.26821139454841614,
-          "n": 200
+          "pos_err_km_median": 37.75751495361328,
+          "pos_err_km_mean": 44.15160369873047,
+          "spread_mae_km": 0.26635077595710754,
+          "n": 120
         },
         "D+5": {
-          "pos_err_km_median": 53.00341033935547,
-          "pos_err_km_mean": 57.8086051940918,
-          "spread_mae_km": 0.7777993679046631,
-          "n": 200
+          "pos_err_km_median": 62.34868240356445,
+          "pos_err_km_mean": 66.62760162353516,
+          "spread_mae_km": 0.7634745240211487,
+          "n": 120
+        },
+        "D+7": {
+          "pos_err_km_median": 74.48068237304688,
+          "pos_err_km_mean": 84.42229461669922,
+          "spread_mae_km": 1.5293848514556885,
+          "n": 120
         }
       }
     },
     "paired": {
       "D+1": {
         "p": 0.0,
-        "n": 1200,
-        "median_hgb_km": 16.548690795898438,
-        "median_clim_km": 26.940998077392578,
-        "gain_pct": 38.57432174682617,
-        "hgb_wins": 914
+        "n": 720,
+        "median_hgb_km": 17.033889770507812,
+        "median_clim_km": 26.59458351135254,
+        "median_ridge_km": 27.117523193359375,
+        "gain_pct": 35.94977951049805,
+        "gain_pct_ridge": -1.9663333892822266,
+        "hgb_wins": 546,
+        "p_ridge_vs_clim": 6.9931475081830285e-06,
+        "p_hgb_vs_ridge": 0.0,
+        "hgb_wins_vs_ridge": 562
       },
       "D+2": {
-        "p": 0.0,
-        "n": 1200,
-        "median_hgb_km": 31.727054595947266,
-        "median_clim_km": 47.109832763671875,
-        "gain_pct": 32.653011322021484,
-        "hgb_wins": 880
+        "p": 8.34613365351861e-42,
+        "n": 720,
+        "median_hgb_km": 33.83123779296875,
+        "median_clim_km": 46.25563430786133,
+        "median_ridge_km": 51.790306091308594,
+        "gain_pct": 26.86029052734375,
+        "gain_pct_ridge": -11.96540641784668,
+        "hgb_wins": 516,
+        "p_ridge_vs_clim": 1.0985042736555428e-10,
+        "p_hgb_vs_ridge": 0.0,
+        "hgb_wins_vs_ridge": 546
       },
       "D+3": {
-        "p": 0.0,
-        "n": 1200,
-        "median_hgb_km": 47.97203826904297,
-        "median_clim_km": 63.92874526977539,
-        "gain_pct": 24.960142135620117,
-        "hgb_wins": 850
+        "p": 3.5832322771557032e-40,
+        "n": 720,
+        "median_hgb_km": 46.92240524291992,
+        "median_clim_km": 62.57062530517578,
+        "median_ridge_km": 69.38922119140625,
+        "gain_pct": 25.008892059326172,
+        "gain_pct_ridge": -10.89743423461914,
+        "hgb_wins": 521,
+        "p_ridge_vs_clim": 1.184581543967056e-09,
+        "p_hgb_vs_ridge": 0.0,
+        "hgb_wins_vs_ridge": 538
       },
       "D+5": {
-        "p": 0.0,
-        "n": 1200,
-        "median_hgb_km": 64.72828674316406,
-        "median_clim_km": 92.6461410522461,
-        "gain_pct": 30.13385581970215,
-        "hgb_wins": 860
+        "p": 1.505173916888287e-39,
+        "n": 720,
+        "median_hgb_km": 69.78157043457031,
+        "median_clim_km": 91.94331359863281,
+        "median_ridge_km": 101.27320861816406,
+        "gain_pct": 24.103700637817383,
+        "gain_pct_ridge": -10.147439956665039,
+        "hgb_wins": 508,
+        "p_ridge_vs_clim": 1.2952302563817852e-09,
+        "p_hgb_vs_ridge": 0.0,
+        "hgb_wins_vs_ridge": 533
+      },
+      "D+7": {
+        "p": 2.490948150183795e-40,
+        "n": 720,
+        "median_hgb_km": 82.52507019042969,
+        "median_clim_km": 113.83904266357422,
+        "median_ridge_km": 138.36599731445312,
+        "gain_pct": 27.507232666015625,
+        "gain_pct_ridge": -21.545291900634766,
+        "hgb_wins": 515,
+        "p_ridge_vs_clim": 4.3983173879270634e-20,
+        "p_hgb_vs_ridge": 0.0,
+        "hgb_wins_vs_ridge": 563
       }
     }
   },
   "blind_2024": {
     "climatology": {
       "D+1": {
-        "pos_err_km_median": 24.574787139892578,
-        "pos_err_km_mean": 27.469112396240234,
-        "spread_mae_km": 0.03479655459523201,
-        "n": 72
+        "pos_err_km_median": 25.672718048095703,
+        "pos_err_km_mean": 26.200510025024414,
+        "spread_mae_km": 0.03757394105195999,
+        "n": 240
       },
       "D+2": {
-        "pos_err_km_median": 46.72437286376953,
-        "pos_err_km_mean": 52.24870300292969,
-        "spread_mae_km": 0.12739723920822144,
-        "n": 72
+        "pos_err_km_median": 42.75811004638672,
+        "pos_err_km_mean": 45.4224967956543,
+        "spread_mae_km": 0.14256931841373444,
+        "n": 240
       },
       "D+3": {
-        "pos_err_km_median": 64.29957580566406,
-        "pos_err_km_mean": 71.37480926513672,
-        "spread_mae_km": 0.29768073558807373,
-        "n": 72
+        "pos_err_km_median": 55.760833740234375,
+        "pos_err_km_mean": 60.17386245727539,
+        "spread_mae_km": 0.30600178241729736,
+        "n": 240
       },
       "D+5": {
-        "pos_err_km_median": 91.65225982666016,
-        "pos_err_km_mean": 93.97248077392578,
-        "spread_mae_km": 1.411017656326294,
-        "n": 71
+        "pos_err_km_median": 81.59527587890625,
+        "pos_err_km_mean": 86.9872817993164,
+        "spread_mae_km": 0.7195557951927185,
+        "n": 239
+      },
+      "D+7": {
+        "pos_err_km_median": 105.41403198242188,
+        "pos_err_km_mean": 109.46165466308594,
+        "spread_mae_km": 1.3771142959594727,
+        "n": 239
       }
     },
     "persistence": {
       "D+1": {
-        "pos_err_km_median": 25.377941131591797,
-        "pos_err_km_mean": 26.022207260131836,
+        "pos_err_km_median": 21.34291648864746,
+        "pos_err_km_mean": 24.136167526245117,
         "spread_mae_km": null,
-        "n": 72
+        "n": 234
       },
       "D+2": {
-        "pos_err_km_median": 48.75562286376953,
-        "pos_err_km_mean": 52.058834075927734,
+        "pos_err_km_median": 41.05453872680664,
+        "pos_err_km_mean": 48.20059585571289,
         "spread_mae_km": null,
-        "n": 72
+        "n": 234
       },
       "D+3": {
-        "pos_err_km_median": 72.04653930664062,
-        "pos_err_km_mean": 75.26651763916016,
+        "pos_err_km_median": 63.322166442871094,
+        "pos_err_km_mean": 71.40904235839844,
         "spread_mae_km": null,
-        "n": 72
+        "n": 234
       },
       "D+5": {
-        "pos_err_km_median": 106.72421264648438,
-        "pos_err_km_mean": 116.38209533691406,
+        "pos_err_km_median": 111.58074188232422,
+        "pos_err_km_mean": 124.07981872558594,
         "spread_mae_km": null,
-        "n": 71
+        "n": 233
+      },
+      "D+7": {
+        "pos_err_km_median": 165.56869506835938,
+        "pos_err_km_mean": 175.78309631347656,
+        "spread_mae_km": null,
+        "n": 233
       }
     },
     "analogue": {
       "D+1": {
-        "pos_err_km_median": 33.72929382324219,
-        "pos_err_km_mean": 34.30133819580078,
-        "spread_mae_km": 0.04418977349996567,
-        "n": 72
+        "pos_err_km_median": 31.003013610839844,
+        "pos_err_km_mean": 32.8089485168457,
+        "spread_mae_km": 0.04613882675766945,
+        "n": 240
       },
       "D+2": {
-        "pos_err_km_median": 65.5541000366211,
-        "pos_err_km_mean": 67.13353729248047,
-        "spread_mae_km": 0.1804346740245819,
-        "n": 72
+        "pos_err_km_median": 59.67595672607422,
+        "pos_err_km_mean": 62.97334671020508,
+        "spread_mae_km": 0.18372240662574768,
+        "n": 240
       },
       "D+3": {
-        "pos_err_km_median": 89.4495849609375,
-        "pos_err_km_mean": 91.45633697509766,
-        "spread_mae_km": 0.4331900477409363,
-        "n": 72
+        "pos_err_km_median": 81.192626953125,
+        "pos_err_km_mean": 86.10675811767578,
+        "spread_mae_km": 0.43945440649986267,
+        "n": 240
       },
       "D+5": {
-        "pos_err_km_median": 122.32372283935547,
-        "pos_err_km_mean": 126.17377471923828,
-        "spread_mae_km": 1.7614332437515259,
-        "n": 71
+        "pos_err_km_median": 121.6512451171875,
+        "pos_err_km_mean": 125.42407989501953,
+        "spread_mae_km": 1.1224868297576904,
+        "n": 239
+      },
+      "D+7": {
+        "pos_err_km_median": 135.95684814453125,
+        "pos_err_km_mean": 152.23570251464844,
+        "spread_mae_km": 2.4082634449005127,
+        "n": 239
+      }
+    },
+    "ridge": {
+      "D+1": {
+        "pos_err_km_median": 21.437116622924805,
+        "pos_err_km_mean": 22.711360931396484,
+        "spread_mae_km": 0.04031813144683838,
+        "n": 240
+      },
+      "D+2": {
+        "pos_err_km_median": 41.63526916503906,
+        "pos_err_km_mean": 43.98655700683594,
+        "spread_mae_km": 0.13792705535888672,
+        "n": 240
+      },
+      "D+3": {
+        "pos_err_km_median": 58.214996337890625,
+        "pos_err_km_mean": 60.59290313720703,
+        "spread_mae_km": 0.30229058861732483,
+        "n": 240
+      },
+      "D+5": {
+        "pos_err_km_median": 83.7845230102539,
+        "pos_err_km_mean": 86.71162414550781,
+        "spread_mae_km": 0.6891234517097473,
+        "n": 239
+      },
+      "D+7": {
+        "pos_err_km_median": 105.41111755371094,
+        "pos_err_km_mean": 112.2008056640625,
+        "spread_mae_km": 1.3491328954696655,
+        "n": 239
       }
     },
     "HGB": {
       "D+1": {
-        "pos_err_km_median": 18.504615783691406,
-        "pos_err_km_mean": 24.644309997558594,
-        "spread_mae_km": 0.03735462948679924,
-        "n": 72
+        "pos_err_km_median": 19.842721939086914,
+        "pos_err_km_mean": 21.6456241607666,
+        "spread_mae_km": 0.03534699231386185,
+        "n": 240
       },
       "D+2": {
-        "pos_err_km_median": 36.434234619140625,
-        "pos_err_km_mean": 47.10585021972656,
-        "spread_mae_km": 0.13180065155029297,
-        "n": 72
+        "pos_err_km_median": 39.30549621582031,
+        "pos_err_km_mean": 41.543212890625,
+        "spread_mae_km": 0.1437126100063324,
+        "n": 240
       },
       "D+3": {
-        "pos_err_km_median": 53.390663146972656,
-        "pos_err_km_mean": 65.284912109375,
-        "spread_mae_km": 0.3084784150123596,
-        "n": 72
+        "pos_err_km_median": 56.98243713378906,
+        "pos_err_km_mean": 59.375545501708984,
+        "spread_mae_km": 0.31434428691864014,
+        "n": 240
       },
       "D+5": {
-        "pos_err_km_median": 91.34041595458984,
-        "pos_err_km_mean": 94.21820068359375,
-        "spread_mae_km": 1.467740535736084,
-        "n": 71
+        "pos_err_km_median": 83.1767578125,
+        "pos_err_km_mean": 88.22686004638672,
+        "spread_mae_km": 0.6561651229858398,
+        "n": 239
+      },
+      "D+7": {
+        "pos_err_km_median": 110.62791442871094,
+        "pos_err_km_mean": 113.05756378173828,
+        "spread_mae_km": 1.2826251983642578,
+        "n": 239
       }
     }
   },
   "paired_tests_by_horizon": {
     "D+1": {
       "climatology": {
-        "p": 0.07253557443618774,
-        "median_delta_km": -3.6246705055236816,
-        "hgb_wins": 44,
-        "n": 72
+        "p": 3.8515722167176136e-08,
+        "median_delta_km": -4.375566482543945,
+        "hgb_wins": 164,
+        "n": 240
       },
       "persistence": {
-        "p": 0.5519507527351379,
-        "median_delta_km": 0.41887903213500977,
-        "hgb_wins": 35,
-        "n": 72
+        "p": 0.0004681214049924165,
+        "median_delta_km": -2.8627023696899414,
+        "hgb_wins": 137,
+        "n": 234
       },
       "analogue": {
-        "p": 6.609720730921254e-05,
-        "median_delta_km": -11.421541213989258,
-        "hgb_wins": 53,
-        "n": 72
+        "p": 1.7726690961759217e-16,
+        "median_delta_km": -10.343841552734375,
+        "hgb_wins": 173,
+        "n": 240
+      },
+      "ridge": {
+        "p": 0.07333937287330627,
+        "median_delta_km": -0.5631961822509766,
+        "hgb_wins": 129,
+        "n": 240
       }
     },
     "D+2": {
       "climatology": {
-        "p": 0.19681137800216675,
-        "median_delta_km": -1.1630668640136719,
-        "hgb_wins": 37,
-        "n": 72
+        "p": 0.0027245846576988697,
+        "median_delta_km": -5.059658050537109,
+        "hgb_wins": 144,
+        "n": 240
       },
       "persistence": {
-        "p": 0.1606397032737732,
-        "median_delta_km": -4.460151672363281,
-        "hgb_wins": 43,
-        "n": 72
+        "p": 0.00011650712986011058,
+        "median_delta_km": -6.200429916381836,
+        "hgb_wins": 140,
+        "n": 234
       },
       "analogue": {
-        "p": 2.640264256115188e-06,
-        "median_delta_km": -16.259010314941406,
-        "hgb_wins": 55,
-        "n": 72
+        "p": 9.241155820926442e-20,
+        "median_delta_km": -18.740957260131836,
+        "hgb_wins": 187,
+        "n": 240
+      },
+      "ridge": {
+        "p": 0.0069339219480752945,
+        "median_delta_km": -2.886455535888672,
+        "hgb_wins": 139,
+        "n": 240
       }
     },
     "D+3": {
       "climatology": {
-        "p": 0.22119782865047455,
-        "median_delta_km": -5.22418212890625,
-        "hgb_wins": 42,
-        "n": 72
+        "p": 0.853362500667572,
+        "median_delta_km": 0.9439659118652344,
+        "hgb_wins": 116,
+        "n": 240
       },
       "persistence": {
-        "p": 0.09670113772153854,
-        "median_delta_km": -10.099283218383789,
-        "hgb_wins": 42,
-        "n": 72
+        "p": 0.0001280340802622959,
+        "median_delta_km": -10.066883087158203,
+        "hgb_wins": 137,
+        "n": 234
       },
       "analogue": {
-        "p": 3.128893513348885e-05,
-        "median_delta_km": -24.651134490966797,
-        "hgb_wins": 50,
-        "n": 72
+        "p": 1.4054458697404758e-17,
+        "median_delta_km": -27.631595611572266,
+        "hgb_wins": 180,
+        "n": 240
+      },
+      "ridge": {
+        "p": 0.31313326954841614,
+        "median_delta_km": -2.7500858306884766,
+        "hgb_wins": 124,
+        "n": 240
       }
     },
     "D+5": {
       "climatology": {
-        "p": 0.7965283989906311,
-        "median_delta_km": 2.0686187744140625,
-        "hgb_wins": 34,
-        "n": 71
+        "p": 0.6449666619300842,
+        "median_delta_km": 2.823955535888672,
+        "hgb_wins": 113,
+        "n": 239
       },
       "persistence": {
-        "p": 0.06177232041954994,
-        "median_delta_km": -18.522829055786133,
-        "hgb_wins": 42,
-        "n": 71
+        "p": 2.9137061652306784e-09,
+        "median_delta_km": -30.36822509765625,
+        "hgb_wins": 152,
+        "n": 233
       },
       "analogue": {
-        "p": 0.0011130362981930375,
-        "median_delta_km": -21.734359741210938,
-        "hgb_wins": 50,
-        "n": 71
+        "p": 3.561505457276527e-15,
+        "median_delta_km": -30.717029571533203,
+        "hgb_wins": 171,
+        "n": 239
+      },
+      "ridge": {
+        "p": 0.7435804009437561,
+        "median_delta_km": -0.16466140747070312,
+        "hgb_wins": 121,
+        "n": 239
+      }
+    },
+    "D+7": {
+      "climatology": {
+        "p": 0.11768903583288193,
+        "median_delta_km": 4.24517822265625,
+        "hgb_wins": 109,
+        "n": 239
+      },
+      "persistence": {
+        "p": 2.533586404909749e-12,
+        "median_delta_km": -43.24169158935547,
+        "hgb_wins": 163,
+        "n": 233
+      },
+      "analogue": {
+        "p": 1.9143091625761777e-11,
+        "median_delta_km": -41.01387023925781,
+        "hgb_wins": 162,
+        "n": 239
+      },
+      "ridge": {
+        "p": 0.6530346870422363,
+        "median_delta_km": 3.5489349365234375,
+        "hgb_wins": 110,
+        "n": 239
       }
     }
+  },
+  "uncertainty_envelope": {
+    "D+1": {
+      "coverage": 0.8375,
+      "nominal": 0.8,
+      "median_width_km": 59.838970406593646,
+      "conformal_km": 19.13197067756733
+    },
+    "D+2": {
+      "coverage": 0.8541666666666666,
+      "nominal": 0.8,
+      "median_width_km": 108.95034125275825,
+      "conformal_km": 35.19313982889564
+    },
+    "D+3": {
+      "coverage": 0.8416666666666667,
+      "nominal": 0.8,
+      "median_width_km": 151.30017586362217,
+      "conformal_km": 46.66782905722518
+    },
+    "D+5": {
+      "coverage": 0.8870292887029289,
+      "nominal": 0.8,
+      "median_width_km": 237.0597870843636,
+      "conformal_km": 74.96998184754025
+    },
+    "D+7": {
+      "coverage": 0.8577405857740585,
+      "nominal": 0.8,
+      "median_width_km": 305.7468966108502,
+      "conformal_km": 103.5916157256917
+    }
+  },
+  "uncertainty_envelope_raw": {
+    "D+1": {
+      "coverage": 0.3541666666666667,
+      "nominal": 0.8,
+      "median_width_km": 21.575029051458984,
+      "conformal_km": 0.0
+    },
+    "D+2": {
+      "coverage": 0.35833333333333334,
+      "nominal": 0.8,
+      "median_width_km": 38.56406159496697,
+      "conformal_km": 0.0
+    },
+    "D+3": {
+      "coverage": 0.4083333333333333,
+      "nominal": 0.8,
+      "median_width_km": 57.964517749171826,
+      "conformal_km": 0.0
+    },
+    "D+5": {
+      "coverage": 0.4895397489539749,
+      "nominal": 0.8,
+      "median_width_km": 87.11982338928306,
+      "conformal_km": 0.0
+    },
+    "D+7": {
+      "coverage": 0.3598326359832636,
+      "nominal": 0.8,
+      "median_width_km": 98.56366515946684,
+      "conformal_km": 0.0
+    }
+  },
+  "uncertainty_calibration": {
+    "fit_years": [
+      2022,
+      2023
+    ],
+    "calibration_year": 2025
   },
   "horizons_d": [
     1,
     2,
     3,
-    5
+    5,
+    7
   ],
-  "top_features_d5_dist": [
+  "top_features_d7_dist": [
     {
       "feature": "u_mean_3d",
-      "importance_km": 5.8529435911384855
+      "importance_km": 4.982004341277614
     },
     {
       "feature": "lon",
-      "importance_km": 1.0789230549209456
+      "importance_km": 4.217047667658273
+    },
+    {
+      "feature": "sst_mean_30d",
+      "importance_km": 1.6308621425635805
     },
     {
       "feature": "u_mean_90d",
-      "importance_km": 0.831277383071653
+      "importance_km": 0.8168504782691002
     },
     {
-      "feature": "speed_std_30d",
-      "importance_km": 0.599887174517972
-    },
-    {
-      "feature": "v_mean_30d",
-      "importance_km": 0.526573408374847
-    },
-    {
-      "feature": "v_mean_7d",
-      "importance_km": 0.37288149254241176
+      "feature": "dir_steadiness_3d",
+      "importance_km": 0.6459207772711991
     },
     {
       "feature": "speed_mean_30d",
-      "importance_km": 0.24563431134207434
+      "importance_km": 0.24712764832154618
     },
     {
-      "feature": "v_mean_90d",
-      "importance_km": 0.20680321781136116
+      "feature": "v_mean_7d",
+      "importance_km": 0.16091633990769197
     },
     {
-      "feature": "speed_std_7d",
-      "importance_km": 0.14003260449008295
+      "feature": "u_mean_7d",
+      "importance_km": 0.15452277620493363
     },
     {
-      "feature": "speed_mean_7d",
-      "importance_km": 0.13969165429234637
+      "feature": "speed_std_3d",
+      "importance_km": 0.12205676190342984
+    },
+    {
+      "feature": "api",
+      "importance_km": 0.10297652202662846
     }
   ]
 }

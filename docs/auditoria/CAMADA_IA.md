@@ -301,6 +301,124 @@ resultados do OpenDrift") e valida a escolha de features antecedentes.
 4. Quantificação de incerteza (quantile regression) — uma mancha prevista
    sem envelope de confiança não é operacionalmente utilizável.
 
+## 5e. v4 em D+7, com controle linear e incerteza calibrada (2026-08-11)
+
+Decisão do autor de 2026-08-07: escopo de trabalho **até D+7**. Isso exigiu um
+arquivo novo — `training168_{2022,2023,2024,2025}`, 240 runs por ano
+(6 campos × 4 meses × 10 dias de início, 200 partículas, **168 h**), gerado
+com o mesmo `run_open_oil.py` das forçantes já auditadas. Os arquivos antigos
+de 120 h continuam intactos como registro por trás de §5a–§5d.
+
+Duas consequências metodológicas do arquivo novo, além do horizonte:
+
+- **treino balanceado**: 720 cenários (240 × 3 anos) em vez dos 1.200
+  desbalanceados de antes (48 + 672 de 2025 + 240 + 240);
+- **cego de 240 cenários** em vez de 72 — pela primeira vez há poder
+  estatístico real no holdout, e ele muda a leitura de §5d.
+
+### Resultado 1 — no local JÁ CONHECIDO, a previsibilidade morre em D+3
+
+Erro mediano de posição do centróide no cego 2024 (240 cenários, km):
+
+| modelo | D+1 | D+2 | D+3 | D+5 | D+7 |
+|---|---|---|---|---|---|
+| climatologia (campo×estação) | 25,7 | 42,8 | 55,8 | **81,6** | **105,4** |
+| persistência (corrente de 7 d) | 21,3 | 41,1 | 63,3 | 111,6 | 165,6 |
+| análogo histórico | 31,0 | 59,7 | 81,2 | 121,7 | 136,0 |
+| ridge (controle linear) | 21,4 | 41,6 | 58,2 | 83,8 | 105,4 |
+| **HGB** | **19,8** | **39,3** | 57,0 | 83,2 | 110,6 |
+
+Wilcoxon pareado (HGB vs climatologia): significativo em D+1 (−4,4 km,
+p<0,001) e D+2 (−5,1 km, p=0,003); a partir de D+3 a climatologia empata ou
+ganha (+0,9 / +2,8 / +4,2 km, p = 0,85 / 0,65 / 0,12). Em §5d isso foi
+atribuído a falta de poder (n=72). Com n=240 a conclusão é outra e mais
+firme: **num local já conhecido, o ganho sobre a climatologia sazonal existe
+até D+2 e se esgota em D+3.** Contra persistência e análogo o HGB ganha em
+todos os horizontes (p<0,001).
+
+### Resultado 2 — no local NUNCA VISTO, a não-linearidade é que decide
+
+Leave-one-field-out, agora com o controle linear (mediana em km, 720
+cenários retidos):
+
+| horizonte | HGB | ridge | climatologia sazonal | HGB vs clim | ridge vs clim | HGB vs ridge |
+|---|---|---|---|---|---|---|
+| D+1 | **17,0** | 27,1 | 26,6 | **+36%** (p≈0) | −2% | p≈0 (562/720) |
+| D+2 | **33,8** | 51,8 | 46,3 | **+27%** (p=8e−42) | −12% | p≈0 (546/720) |
+| D+3 | **46,9** | 69,4 | 62,6 | **+25%** (p=4e−40) | −11% | p≈0 (538/720) |
+| D+5 | **69,8** | 101,3 | 91,9 | **+24%** (p=2e−39) | −10% | p≈0 (533/720) |
+| D+7 | **82,5** | 138,4 | 113,8 | **+28%** (p=2e−40) | −22% | p≈0 (563/720) |
+
+O HGB vence nas 30 células campo × horizonte. E o controle linear **perde
+para a própria climatologia** em todos os horizontes.
+
+Esse contraste é o achado desta rodada, e responde à pergunta que o controle
+linear existia para fazer:
+
+> No local conhecido, ridge ≈ HGB (p = 0,07 a 0,74) — ali a não-linearidade
+> não paga nada. No local novo, ridge colapsa e o HGB mantém 24–36% de ganho.
+> Ou seja: a relação entre **posição** e deriva é fortemente não-linear no
+> espaço; um modelo linear não a transporta para um ponto que não viu.
+> A não-linearidade não serve para ajustar melhor — serve para **generalizar
+> espacialmente**, que é exatamente o caso de uso do projeto.
+
+### Resultado 3 — incerteza: o envelope cru estava quebrado; conformal conserta
+
+Medido no cego, o envelope P10–P90 dos quantile boosters cobria **35–49%**
+contra 80% nominal — quantile trees ajustadas não são calibradas, e um ano
+novo destrói a promessa. Correção aplicada: **CQR** (split-conformal de
+Romano, Patterson & Candès 2019), com o alargamento estimado num **ano
+inteiro deixado de fora** (ajuste em 2022+2023, calibração em 2025) — não num
+split aleatório, porque cenários do mesmo ano compartilham o estado do oceano
+e vazariam.
+
+| horizonte | cobertura crua | largura crua | cobertura conformal | largura conformal | alargamento |
+|---|---|---|---|---|---|
+| D+1 | 35% | 22 km | **84%** | 60 km | +19 km/lado |
+| D+2 | 36% | 39 km | **85%** | 109 km | +35 km/lado |
+| D+3 | 41% | 58 km | **84%** | 151 km | +47 km/lado |
+| D+5 | 49% | 87 km | **89%** | 237 km | +75 km/lado |
+| D+7 | 36% | 99 km | **86%** | 306 km | +104 km/lado |
+
+A calibração é honesta em ambas as direções: ela quase triplica a largura da
+banda. Um envelope de ±150 km em D+7 é grande, mas é o tamanho real da
+incerteza — a banda de 99 km que o modelo cru anunciava era ficção.
+
+### Resultado 4 — a tendência dominante muda com o horizonte
+
+Importância por permutação (D+7, distância, medida no cego):
+
+| feature | impacto |
+|---|---|
+| `u_mean_3d` (corrente zonal, últimos 3 dias) | 4,98 km |
+| `lon` | 4,22 km |
+| `sst_mean_30d` | 1,63 km |
+| `u_mean_90d` | 0,82 km |
+
+Em D+5 (§5d) `u_mean_3d` dominava `lon` por ~5×; em D+7 os dois praticamente
+empatam. Faz sentido físico: quanto mais longo o horizonte, menos o estado
+recente do oceano explica e mais pesa **onde** o vazamento aconteceu — o que
+é a mesma leitura do Resultado 2.
+
+### Limitações que permanecem
+
+1. Espalhamento continua não previsível (MAE 1,28–1,38 km para todos os
+   modelos, HGB inclusive) — não há sinal nas features atuais.
+2. D+14 continua fora de alcance: o arquivo agora vai até 168 h.
+3. Ainda 6 locais de treino; a generalização foi demonstrada entre campos da
+   mesma bacia.
+4. A cobertura conformal fica em 84–89% contra 80% nominal — conservadora,
+   como esperado ao calibrar num ano e aplicar em outro.
+
+### Agenda v6
+
+1. **Footprint** (grade de ocupação), não só centróide — é o que o app
+   precisa desenhar, e é onde IoU/Brier voltam a ser as métricas certas.
+2. Mais locais de semeadura (grade, não só os 6 campos) — hoje é a limitação
+   que mais restringe a afirmação de generalização espacial.
+3. Expor a previsão + envelope conformal no app (aba de previsão).
+4. D+14 só depois de runs de 336 h; medir antes de prometer.
+
 ## 6. Decisões tomadas pelo autor (2026-07-29)
 
 - **Alvos**: (a) surrogate de transporte de patch **e** (b) estatísticas-resumo por cenário —

@@ -9,8 +9,8 @@ import numpy as np
 import pytest
 
 from main.ml.forecast import (
-    HORIZONS_D, Q, derive_dist, envelope_coverage, fit_hgb,
-    fit_quantile_envelope, fit_ridge, predict_models, tcol,
+    HORIZONS_D, Q, conformal_correction, derive_dist, envelope_coverage,
+    fit_hgb, fit_quantile_envelope, fit_ridge, predict_models, tcol,
 )
 
 
@@ -85,6 +85,45 @@ def test_quantile_envelope_is_ordered_and_covers():
         assert cov[f"D+{h}"]["median_width_km"] > 0      # P90 above P10
         # Nominal 80%; allow generous slack on 100 held-out points.
         assert 0.4 <= cov[f"D+{h}"]["coverage"] <= 1.0
+
+
+def _dist_only(n, noise, seed):
+    """Scenarios whose travelled distance is a signal plus tunable noise."""
+    rng = np.random.default_rng(seed)
+    X = rng.normal(size=(n, 36)).astype(np.float32)
+    Y = np.zeros((n, len(HORIZONS_D) * len(Q)), np.float32)
+    for hi, h in enumerate(HORIZONS_D):
+        d = 40.0 * h + 20.0 * X[:, 8] + noise * rng.normal(size=n)
+        Y[:, tcol(hi, "dist_km")] = d
+    return X, Y
+
+
+def test_conformal_calibration_restores_coverage_under_shift():
+    """The failure that motivated CQR: quantile trees fitted on one regime
+    under-cover badly on a noisier one. Calibration must repair it."""
+    X_fit, Y_fit = _dist_only(400, noise=2.0, seed=1)
+    X_cal, Y_cal = _dist_only(300, noise=20.0, seed=2)
+    X_te, Y_te = _dist_only(300, noise=20.0, seed=3)
+
+    qm = fit_quantile_envelope(X_fit, Y_fit, max_iter=60)
+    raw = envelope_coverage(qm, X_te, Y_te)
+    corr = conformal_correction(qm, X_cal, Y_cal, alpha=0.2)
+    cal = envelope_coverage(qm, X_te, Y_te, corrections=corr)
+
+    for h in HORIZONS_D:
+        assert raw[f"D+{h}"]["coverage"] < 0.6          # the broken state
+        assert cal[f"D+{h}"]["coverage"] >= 0.72        # ~80% nominal
+        assert cal[f"D+{h}"]["median_width_km"] > raw[f"D+{h}"]["median_width_km"]
+
+
+def test_conformal_correction_may_tighten_an_overwide_band():
+    """A negative correction is correct behaviour, not a bug to clamp away:
+    a band that over-covers should be narrowed, or the envelope is useless."""
+    X_fit, Y_fit = _dist_only(400, noise=25.0, seed=4)
+    X_cal, Y_cal = _dist_only(300, noise=1.0, seed=5)
+    corr = conformal_correction(fit_quantile_envelope(X_fit, Y_fit, max_iter=60),
+                                X_cal, Y_cal, alpha=0.2)
+    assert min(corr.values()) < 0
 
 
 def test_hgb_fits_conditional_median_not_mean():

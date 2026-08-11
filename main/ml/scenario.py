@@ -2,8 +2,8 @@
 
 This is the project's actual target (author, 2026-08-07): given only what is
 known AT RELEASE TIME — where, which oil, which season, and the ocean state
-over the preceding days/weeks/months — project the slick at D+1, D+2, D+5,
-(D+14 once longer runs exist).
+over the preceding days/weeks/months — project the slick over HORIZONS_D
+(D+1..D+7 with the 168-h archives; D+14 would need longer runs).
 
 Why this differs from the step-wise surrogate in dataset.py: there the model
 was handed the true forcing at every step, so it could only compete with

@@ -1,0 +1,1682 @@
+{
+  "peregrino_jan_d01": {
+    "field": "Peregrino",
+    "season": "jan",
+    "day": 1,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_jan_d01.nc"
+  },
+  "peregrino_jan_d04": {
+    "field": "Peregrino",
+    "season": "jan",
+    "day": 4,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_jan_d04.nc"
+  },
+  "peregrino_jan_d07": {
+    "field": "Peregrino",
+    "season": "jan",
+    "day": 7,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_jan_d07.nc"
+  },
+  "peregrino_jan_d10": {
+    "field": "Peregrino",
+    "season": "jan",
+    "day": 10,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_jan_d10.nc"
+  },
+  "peregrino_jan_d13": {
+    "field": "Peregrino",
+    "season": "jan",
+    "day": 13,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_jan_d13.nc"
+  },
+  "peregrino_jan_d16": {
+    "field": "Peregrino",
+    "season": "jan",
+    "day": 16,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_jan_d16.nc"
+  },
+  "peregrino_jan_d19": {
+    "field": "Peregrino",
+    "season": "jan",
+    "day": 19,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_jan_d19.nc"
+  },
+  "peregrino_jan_d22": {
+    "field": "Peregrino",
+    "season": "jan",
+    "day": 22,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_jan_d22.nc"
+  },
+  "peregrino_jan_d25": {
+    "field": "Peregrino",
+    "season": "jan",
+    "day": 25,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_jan_d25.nc"
+  },
+  "peregrino_jan_d28": {
+    "field": "Peregrino",
+    "season": "jan",
+    "day": 28,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_jan_d28.nc"
+  },
+  "peregrino_apr_d01": {
+    "field": "Peregrino",
+    "season": "apr",
+    "day": 1,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_apr_d01.nc"
+  },
+  "peregrino_apr_d04": {
+    "field": "Peregrino",
+    "season": "apr",
+    "day": 4,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_apr_d04.nc"
+  },
+  "peregrino_apr_d07": {
+    "field": "Peregrino",
+    "season": "apr",
+    "day": 7,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_apr_d07.nc"
+  },
+  "peregrino_apr_d10": {
+    "field": "Peregrino",
+    "season": "apr",
+    "day": 10,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_apr_d10.nc"
+  },
+  "peregrino_apr_d13": {
+    "field": "Peregrino",
+    "season": "apr",
+    "day": 13,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_apr_d13.nc"
+  },
+  "peregrino_apr_d16": {
+    "field": "Peregrino",
+    "season": "apr",
+    "day": 16,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_apr_d16.nc"
+  },
+  "peregrino_apr_d19": {
+    "field": "Peregrino",
+    "season": "apr",
+    "day": 19,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_apr_d19.nc"
+  },
+  "peregrino_apr_d22": {
+    "field": "Peregrino",
+    "season": "apr",
+    "day": 22,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_apr_d22.nc"
+  },
+  "peregrino_apr_d25": {
+    "field": "Peregrino",
+    "season": "apr",
+    "day": 25,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_apr_d25.nc"
+  },
+  "peregrino_apr_d28": {
+    "field": "Peregrino",
+    "season": "apr",
+    "day": 28,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_apr_d28.nc"
+  },
+  "peregrino_jul_d01": {
+    "field": "Peregrino",
+    "season": "jul",
+    "day": 1,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_jul_d01.nc"
+  },
+  "peregrino_jul_d04": {
+    "field": "Peregrino",
+    "season": "jul",
+    "day": 4,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_jul_d04.nc"
+  },
+  "peregrino_jul_d07": {
+    "field": "Peregrino",
+    "season": "jul",
+    "day": 7,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_jul_d07.nc"
+  },
+  "peregrino_jul_d10": {
+    "field": "Peregrino",
+    "season": "jul",
+    "day": 10,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_jul_d10.nc"
+  },
+  "peregrino_jul_d13": {
+    "field": "Peregrino",
+    "season": "jul",
+    "day": 13,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_jul_d13.nc"
+  },
+  "peregrino_jul_d16": {
+    "field": "Peregrino",
+    "season": "jul",
+    "day": 16,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_jul_d16.nc"
+  },
+  "peregrino_jul_d19": {
+    "field": "Peregrino",
+    "season": "jul",
+    "day": 19,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_jul_d19.nc"
+  },
+  "peregrino_jul_d22": {
+    "field": "Peregrino",
+    "season": "jul",
+    "day": 22,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_jul_d22.nc"
+  },
+  "peregrino_jul_d25": {
+    "field": "Peregrino",
+    "season": "jul",
+    "day": 25,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_jul_d25.nc"
+  },
+  "peregrino_jul_d28": {
+    "field": "Peregrino",
+    "season": "jul",
+    "day": 28,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_jul_d28.nc"
+  },
+  "peregrino_oct_d01": {
+    "field": "Peregrino",
+    "season": "oct",
+    "day": 1,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_oct_d01.nc"
+  },
+  "peregrino_oct_d04": {
+    "field": "Peregrino",
+    "season": "oct",
+    "day": 4,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_oct_d04.nc"
+  },
+  "peregrino_oct_d07": {
+    "field": "Peregrino",
+    "season": "oct",
+    "day": 7,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_oct_d07.nc"
+  },
+  "peregrino_oct_d10": {
+    "field": "Peregrino",
+    "season": "oct",
+    "day": 10,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_oct_d10.nc"
+  },
+  "peregrino_oct_d13": {
+    "field": "Peregrino",
+    "season": "oct",
+    "day": 13,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_oct_d13.nc"
+  },
+  "peregrino_oct_d16": {
+    "field": "Peregrino",
+    "season": "oct",
+    "day": 16,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_oct_d16.nc"
+  },
+  "peregrino_oct_d19": {
+    "field": "Peregrino",
+    "season": "oct",
+    "day": 19,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_oct_d19.nc"
+  },
+  "peregrino_oct_d22": {
+    "field": "Peregrino",
+    "season": "oct",
+    "day": 22,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_oct_d22.nc"
+  },
+  "peregrino_oct_d25": {
+    "field": "Peregrino",
+    "season": "oct",
+    "day": 25,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_oct_d25.nc"
+  },
+  "peregrino_oct_d28": {
+    "field": "Peregrino",
+    "season": "oct",
+    "day": 28,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\peregrino_oct_d28.nc"
+  },
+  "marlim_jan_d01": {
+    "field": "Marlim",
+    "season": "jan",
+    "day": 1,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_jan_d01.nc"
+  },
+  "marlim_jan_d04": {
+    "field": "Marlim",
+    "season": "jan",
+    "day": 4,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_jan_d04.nc"
+  },
+  "marlim_jan_d07": {
+    "field": "Marlim",
+    "season": "jan",
+    "day": 7,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_jan_d07.nc"
+  },
+  "marlim_jan_d10": {
+    "field": "Marlim",
+    "season": "jan",
+    "day": 10,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_jan_d10.nc"
+  },
+  "marlim_jan_d13": {
+    "field": "Marlim",
+    "season": "jan",
+    "day": 13,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_jan_d13.nc"
+  },
+  "marlim_jan_d16": {
+    "field": "Marlim",
+    "season": "jan",
+    "day": 16,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_jan_d16.nc"
+  },
+  "marlim_jan_d19": {
+    "field": "Marlim",
+    "season": "jan",
+    "day": 19,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_jan_d19.nc"
+  },
+  "marlim_jan_d22": {
+    "field": "Marlim",
+    "season": "jan",
+    "day": 22,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_jan_d22.nc"
+  },
+  "marlim_jan_d25": {
+    "field": "Marlim",
+    "season": "jan",
+    "day": 25,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_jan_d25.nc"
+  },
+  "marlim_jan_d28": {
+    "field": "Marlim",
+    "season": "jan",
+    "day": 28,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_jan_d28.nc"
+  },
+  "marlim_apr_d01": {
+    "field": "Marlim",
+    "season": "apr",
+    "day": 1,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_apr_d01.nc"
+  },
+  "marlim_apr_d04": {
+    "field": "Marlim",
+    "season": "apr",
+    "day": 4,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_apr_d04.nc"
+  },
+  "marlim_apr_d07": {
+    "field": "Marlim",
+    "season": "apr",
+    "day": 7,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_apr_d07.nc"
+  },
+  "marlim_apr_d10": {
+    "field": "Marlim",
+    "season": "apr",
+    "day": 10,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_apr_d10.nc"
+  },
+  "marlim_apr_d13": {
+    "field": "Marlim",
+    "season": "apr",
+    "day": 13,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_apr_d13.nc"
+  },
+  "marlim_apr_d16": {
+    "field": "Marlim",
+    "season": "apr",
+    "day": 16,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_apr_d16.nc"
+  },
+  "marlim_apr_d19": {
+    "field": "Marlim",
+    "season": "apr",
+    "day": 19,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_apr_d19.nc"
+  },
+  "marlim_apr_d22": {
+    "field": "Marlim",
+    "season": "apr",
+    "day": 22,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_apr_d22.nc"
+  },
+  "marlim_apr_d25": {
+    "field": "Marlim",
+    "season": "apr",
+    "day": 25,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_apr_d25.nc"
+  },
+  "marlim_apr_d28": {
+    "field": "Marlim",
+    "season": "apr",
+    "day": 28,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_apr_d28.nc"
+  },
+  "marlim_jul_d01": {
+    "field": "Marlim",
+    "season": "jul",
+    "day": 1,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_jul_d01.nc"
+  },
+  "marlim_jul_d04": {
+    "field": "Marlim",
+    "season": "jul",
+    "day": 4,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_jul_d04.nc"
+  },
+  "marlim_jul_d07": {
+    "field": "Marlim",
+    "season": "jul",
+    "day": 7,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_jul_d07.nc"
+  },
+  "marlim_jul_d10": {
+    "field": "Marlim",
+    "season": "jul",
+    "day": 10,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_jul_d10.nc"
+  },
+  "marlim_jul_d13": {
+    "field": "Marlim",
+    "season": "jul",
+    "day": 13,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_jul_d13.nc"
+  },
+  "marlim_jul_d16": {
+    "field": "Marlim",
+    "season": "jul",
+    "day": 16,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_jul_d16.nc"
+  },
+  "marlim_jul_d19": {
+    "field": "Marlim",
+    "season": "jul",
+    "day": 19,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_jul_d19.nc"
+  },
+  "marlim_jul_d22": {
+    "field": "Marlim",
+    "season": "jul",
+    "day": 22,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_jul_d22.nc"
+  },
+  "marlim_jul_d25": {
+    "field": "Marlim",
+    "season": "jul",
+    "day": 25,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_jul_d25.nc"
+  },
+  "marlim_jul_d28": {
+    "field": "Marlim",
+    "season": "jul",
+    "day": 28,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_jul_d28.nc"
+  },
+  "marlim_oct_d01": {
+    "field": "Marlim",
+    "season": "oct",
+    "day": 1,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_oct_d01.nc"
+  },
+  "marlim_oct_d04": {
+    "field": "Marlim",
+    "season": "oct",
+    "day": 4,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_oct_d04.nc"
+  },
+  "marlim_oct_d07": {
+    "field": "Marlim",
+    "season": "oct",
+    "day": 7,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_oct_d07.nc"
+  },
+  "marlim_oct_d10": {
+    "field": "Marlim",
+    "season": "oct",
+    "day": 10,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_oct_d10.nc"
+  },
+  "marlim_oct_d13": {
+    "field": "Marlim",
+    "season": "oct",
+    "day": 13,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_oct_d13.nc"
+  },
+  "marlim_oct_d16": {
+    "field": "Marlim",
+    "season": "oct",
+    "day": 16,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_oct_d16.nc"
+  },
+  "marlim_oct_d19": {
+    "field": "Marlim",
+    "season": "oct",
+    "day": 19,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_oct_d19.nc"
+  },
+  "marlim_oct_d22": {
+    "field": "Marlim",
+    "season": "oct",
+    "day": 22,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_oct_d22.nc"
+  },
+  "marlim_oct_d25": {
+    "field": "Marlim",
+    "season": "oct",
+    "day": 25,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_oct_d25.nc"
+  },
+  "marlim_oct_d28": {
+    "field": "Marlim",
+    "season": "oct",
+    "day": 28,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\marlim_oct_d28.nc"
+  },
+  "roncador_jan_d01": {
+    "field": "Roncador",
+    "season": "jan",
+    "day": 1,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_jan_d01.nc"
+  },
+  "roncador_jan_d04": {
+    "field": "Roncador",
+    "season": "jan",
+    "day": 4,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_jan_d04.nc"
+  },
+  "roncador_jan_d07": {
+    "field": "Roncador",
+    "season": "jan",
+    "day": 7,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_jan_d07.nc"
+  },
+  "roncador_jan_d10": {
+    "field": "Roncador",
+    "season": "jan",
+    "day": 10,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_jan_d10.nc"
+  },
+  "roncador_jan_d13": {
+    "field": "Roncador",
+    "season": "jan",
+    "day": 13,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_jan_d13.nc"
+  },
+  "roncador_jan_d16": {
+    "field": "Roncador",
+    "season": "jan",
+    "day": 16,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_jan_d16.nc"
+  },
+  "roncador_jan_d19": {
+    "field": "Roncador",
+    "season": "jan",
+    "day": 19,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_jan_d19.nc"
+  },
+  "roncador_jan_d22": {
+    "field": "Roncador",
+    "season": "jan",
+    "day": 22,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_jan_d22.nc"
+  },
+  "roncador_jan_d25": {
+    "field": "Roncador",
+    "season": "jan",
+    "day": 25,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_jan_d25.nc"
+  },
+  "roncador_jan_d28": {
+    "field": "Roncador",
+    "season": "jan",
+    "day": 28,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_jan_d28.nc"
+  },
+  "roncador_apr_d01": {
+    "field": "Roncador",
+    "season": "apr",
+    "day": 1,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_apr_d01.nc"
+  },
+  "roncador_apr_d04": {
+    "field": "Roncador",
+    "season": "apr",
+    "day": 4,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_apr_d04.nc"
+  },
+  "roncador_apr_d07": {
+    "field": "Roncador",
+    "season": "apr",
+    "day": 7,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_apr_d07.nc"
+  },
+  "roncador_apr_d10": {
+    "field": "Roncador",
+    "season": "apr",
+    "day": 10,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_apr_d10.nc"
+  },
+  "roncador_apr_d13": {
+    "field": "Roncador",
+    "season": "apr",
+    "day": 13,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_apr_d13.nc"
+  },
+  "roncador_apr_d16": {
+    "field": "Roncador",
+    "season": "apr",
+    "day": 16,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_apr_d16.nc"
+  },
+  "roncador_apr_d19": {
+    "field": "Roncador",
+    "season": "apr",
+    "day": 19,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_apr_d19.nc"
+  },
+  "roncador_apr_d22": {
+    "field": "Roncador",
+    "season": "apr",
+    "day": 22,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_apr_d22.nc"
+  },
+  "roncador_apr_d25": {
+    "field": "Roncador",
+    "season": "apr",
+    "day": 25,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_apr_d25.nc"
+  },
+  "roncador_apr_d28": {
+    "field": "Roncador",
+    "season": "apr",
+    "day": 28,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_apr_d28.nc"
+  },
+  "roncador_jul_d01": {
+    "field": "Roncador",
+    "season": "jul",
+    "day": 1,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_jul_d01.nc"
+  },
+  "roncador_jul_d04": {
+    "field": "Roncador",
+    "season": "jul",
+    "day": 4,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_jul_d04.nc"
+  },
+  "roncador_jul_d07": {
+    "field": "Roncador",
+    "season": "jul",
+    "day": 7,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_jul_d07.nc"
+  },
+  "roncador_jul_d10": {
+    "field": "Roncador",
+    "season": "jul",
+    "day": 10,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_jul_d10.nc"
+  },
+  "roncador_jul_d13": {
+    "field": "Roncador",
+    "season": "jul",
+    "day": 13,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_jul_d13.nc"
+  },
+  "roncador_jul_d16": {
+    "field": "Roncador",
+    "season": "jul",
+    "day": 16,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_jul_d16.nc"
+  },
+  "roncador_jul_d19": {
+    "field": "Roncador",
+    "season": "jul",
+    "day": 19,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_jul_d19.nc"
+  },
+  "roncador_jul_d22": {
+    "field": "Roncador",
+    "season": "jul",
+    "day": 22,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_jul_d22.nc"
+  },
+  "roncador_jul_d25": {
+    "field": "Roncador",
+    "season": "jul",
+    "day": 25,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_jul_d25.nc"
+  },
+  "roncador_jul_d28": {
+    "field": "Roncador",
+    "season": "jul",
+    "day": 28,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_jul_d28.nc"
+  },
+  "roncador_oct_d01": {
+    "field": "Roncador",
+    "season": "oct",
+    "day": 1,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_oct_d01.nc"
+  },
+  "roncador_oct_d04": {
+    "field": "Roncador",
+    "season": "oct",
+    "day": 4,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_oct_d04.nc"
+  },
+  "roncador_oct_d07": {
+    "field": "Roncador",
+    "season": "oct",
+    "day": 7,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_oct_d07.nc"
+  },
+  "roncador_oct_d10": {
+    "field": "Roncador",
+    "season": "oct",
+    "day": 10,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_oct_d10.nc"
+  },
+  "roncador_oct_d13": {
+    "field": "Roncador",
+    "season": "oct",
+    "day": 13,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_oct_d13.nc"
+  },
+  "roncador_oct_d16": {
+    "field": "Roncador",
+    "season": "oct",
+    "day": 16,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_oct_d16.nc"
+  },
+  "roncador_oct_d19": {
+    "field": "Roncador",
+    "season": "oct",
+    "day": 19,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_oct_d19.nc"
+  },
+  "roncador_oct_d22": {
+    "field": "Roncador",
+    "season": "oct",
+    "day": 22,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_oct_d22.nc"
+  },
+  "roncador_oct_d25": {
+    "field": "Roncador",
+    "season": "oct",
+    "day": 25,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_oct_d25.nc"
+  },
+  "roncador_oct_d28": {
+    "field": "Roncador",
+    "season": "oct",
+    "day": 28,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\roncador_oct_d28.nc"
+  },
+  "papa-terra_jan_d01": {
+    "field": "Papa-Terra",
+    "season": "jan",
+    "day": 1,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_jan_d01.nc"
+  },
+  "papa-terra_jan_d04": {
+    "field": "Papa-Terra",
+    "season": "jan",
+    "day": 4,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_jan_d04.nc"
+  },
+  "papa-terra_jan_d07": {
+    "field": "Papa-Terra",
+    "season": "jan",
+    "day": 7,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_jan_d07.nc"
+  },
+  "papa-terra_jan_d10": {
+    "field": "Papa-Terra",
+    "season": "jan",
+    "day": 10,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_jan_d10.nc"
+  },
+  "papa-terra_jan_d13": {
+    "field": "Papa-Terra",
+    "season": "jan",
+    "day": 13,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_jan_d13.nc"
+  },
+  "papa-terra_jan_d16": {
+    "field": "Papa-Terra",
+    "season": "jan",
+    "day": 16,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_jan_d16.nc"
+  },
+  "papa-terra_jan_d19": {
+    "field": "Papa-Terra",
+    "season": "jan",
+    "day": 19,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_jan_d19.nc"
+  },
+  "papa-terra_jan_d22": {
+    "field": "Papa-Terra",
+    "season": "jan",
+    "day": 22,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_jan_d22.nc"
+  },
+  "papa-terra_jan_d25": {
+    "field": "Papa-Terra",
+    "season": "jan",
+    "day": 25,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_jan_d25.nc"
+  },
+  "papa-terra_jan_d28": {
+    "field": "Papa-Terra",
+    "season": "jan",
+    "day": 28,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_jan_d28.nc"
+  },
+  "papa-terra_apr_d01": {
+    "field": "Papa-Terra",
+    "season": "apr",
+    "day": 1,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_apr_d01.nc"
+  },
+  "papa-terra_apr_d04": {
+    "field": "Papa-Terra",
+    "season": "apr",
+    "day": 4,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_apr_d04.nc"
+  },
+  "papa-terra_apr_d07": {
+    "field": "Papa-Terra",
+    "season": "apr",
+    "day": 7,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_apr_d07.nc"
+  },
+  "papa-terra_apr_d10": {
+    "field": "Papa-Terra",
+    "season": "apr",
+    "day": 10,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_apr_d10.nc"
+  },
+  "papa-terra_apr_d13": {
+    "field": "Papa-Terra",
+    "season": "apr",
+    "day": 13,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_apr_d13.nc"
+  },
+  "papa-terra_apr_d16": {
+    "field": "Papa-Terra",
+    "season": "apr",
+    "day": 16,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_apr_d16.nc"
+  },
+  "papa-terra_apr_d19": {
+    "field": "Papa-Terra",
+    "season": "apr",
+    "day": 19,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_apr_d19.nc"
+  },
+  "papa-terra_apr_d22": {
+    "field": "Papa-Terra",
+    "season": "apr",
+    "day": 22,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_apr_d22.nc"
+  },
+  "papa-terra_apr_d25": {
+    "field": "Papa-Terra",
+    "season": "apr",
+    "day": 25,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_apr_d25.nc"
+  },
+  "papa-terra_apr_d28": {
+    "field": "Papa-Terra",
+    "season": "apr",
+    "day": 28,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_apr_d28.nc"
+  },
+  "papa-terra_jul_d01": {
+    "field": "Papa-Terra",
+    "season": "jul",
+    "day": 1,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_jul_d01.nc"
+  },
+  "papa-terra_jul_d04": {
+    "field": "Papa-Terra",
+    "season": "jul",
+    "day": 4,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_jul_d04.nc"
+  },
+  "papa-terra_jul_d07": {
+    "field": "Papa-Terra",
+    "season": "jul",
+    "day": 7,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_jul_d07.nc"
+  },
+  "papa-terra_jul_d10": {
+    "field": "Papa-Terra",
+    "season": "jul",
+    "day": 10,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_jul_d10.nc"
+  },
+  "papa-terra_jul_d13": {
+    "field": "Papa-Terra",
+    "season": "jul",
+    "day": 13,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_jul_d13.nc"
+  },
+  "papa-terra_jul_d16": {
+    "field": "Papa-Terra",
+    "season": "jul",
+    "day": 16,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_jul_d16.nc"
+  },
+  "papa-terra_jul_d19": {
+    "field": "Papa-Terra",
+    "season": "jul",
+    "day": 19,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_jul_d19.nc"
+  },
+  "papa-terra_jul_d22": {
+    "field": "Papa-Terra",
+    "season": "jul",
+    "day": 22,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_jul_d22.nc"
+  },
+  "papa-terra_jul_d25": {
+    "field": "Papa-Terra",
+    "season": "jul",
+    "day": 25,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_jul_d25.nc"
+  },
+  "papa-terra_jul_d28": {
+    "field": "Papa-Terra",
+    "season": "jul",
+    "day": 28,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_jul_d28.nc"
+  },
+  "papa-terra_oct_d01": {
+    "field": "Papa-Terra",
+    "season": "oct",
+    "day": 1,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_oct_d01.nc"
+  },
+  "papa-terra_oct_d04": {
+    "field": "Papa-Terra",
+    "season": "oct",
+    "day": 4,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_oct_d04.nc"
+  },
+  "papa-terra_oct_d07": {
+    "field": "Papa-Terra",
+    "season": "oct",
+    "day": 7,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_oct_d07.nc"
+  },
+  "papa-terra_oct_d10": {
+    "field": "Papa-Terra",
+    "season": "oct",
+    "day": 10,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_oct_d10.nc"
+  },
+  "papa-terra_oct_d13": {
+    "field": "Papa-Terra",
+    "season": "oct",
+    "day": 13,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_oct_d13.nc"
+  },
+  "papa-terra_oct_d16": {
+    "field": "Papa-Terra",
+    "season": "oct",
+    "day": 16,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_oct_d16.nc"
+  },
+  "papa-terra_oct_d19": {
+    "field": "Papa-Terra",
+    "season": "oct",
+    "day": 19,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_oct_d19.nc"
+  },
+  "papa-terra_oct_d22": {
+    "field": "Papa-Terra",
+    "season": "oct",
+    "day": 22,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_oct_d22.nc"
+  },
+  "papa-terra_oct_d25": {
+    "field": "Papa-Terra",
+    "season": "oct",
+    "day": 25,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_oct_d25.nc"
+  },
+  "papa-terra_oct_d28": {
+    "field": "Papa-Terra",
+    "season": "oct",
+    "day": 28,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\papa-terra_oct_d28.nc"
+  },
+  "frade_jan_d01": {
+    "field": "Frade",
+    "season": "jan",
+    "day": 1,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_jan_d01.nc"
+  },
+  "frade_jan_d04": {
+    "field": "Frade",
+    "season": "jan",
+    "day": 4,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_jan_d04.nc"
+  },
+  "frade_jan_d07": {
+    "field": "Frade",
+    "season": "jan",
+    "day": 7,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_jan_d07.nc"
+  },
+  "frade_jan_d10": {
+    "field": "Frade",
+    "season": "jan",
+    "day": 10,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_jan_d10.nc"
+  },
+  "frade_jan_d13": {
+    "field": "Frade",
+    "season": "jan",
+    "day": 13,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_jan_d13.nc"
+  },
+  "frade_jan_d16": {
+    "field": "Frade",
+    "season": "jan",
+    "day": 16,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_jan_d16.nc"
+  },
+  "frade_jan_d19": {
+    "field": "Frade",
+    "season": "jan",
+    "day": 19,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_jan_d19.nc"
+  },
+  "frade_jan_d22": {
+    "field": "Frade",
+    "season": "jan",
+    "day": 22,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_jan_d22.nc"
+  },
+  "frade_jan_d25": {
+    "field": "Frade",
+    "season": "jan",
+    "day": 25,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_jan_d25.nc"
+  },
+  "frade_jan_d28": {
+    "field": "Frade",
+    "season": "jan",
+    "day": 28,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_jan_d28.nc"
+  },
+  "frade_apr_d01": {
+    "field": "Frade",
+    "season": "apr",
+    "day": 1,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_apr_d01.nc"
+  },
+  "frade_apr_d04": {
+    "field": "Frade",
+    "season": "apr",
+    "day": 4,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_apr_d04.nc"
+  },
+  "frade_apr_d07": {
+    "field": "Frade",
+    "season": "apr",
+    "day": 7,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_apr_d07.nc"
+  },
+  "frade_apr_d10": {
+    "field": "Frade",
+    "season": "apr",
+    "day": 10,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_apr_d10.nc"
+  },
+  "frade_apr_d13": {
+    "field": "Frade",
+    "season": "apr",
+    "day": 13,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_apr_d13.nc"
+  },
+  "frade_apr_d16": {
+    "field": "Frade",
+    "season": "apr",
+    "day": 16,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_apr_d16.nc"
+  },
+  "frade_apr_d19": {
+    "field": "Frade",
+    "season": "apr",
+    "day": 19,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_apr_d19.nc"
+  },
+  "frade_apr_d22": {
+    "field": "Frade",
+    "season": "apr",
+    "day": 22,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_apr_d22.nc"
+  },
+  "frade_apr_d25": {
+    "field": "Frade",
+    "season": "apr",
+    "day": 25,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_apr_d25.nc"
+  },
+  "frade_apr_d28": {
+    "field": "Frade",
+    "season": "apr",
+    "day": 28,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_apr_d28.nc"
+  },
+  "frade_jul_d01": {
+    "field": "Frade",
+    "season": "jul",
+    "day": 1,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_jul_d01.nc"
+  },
+  "frade_jul_d04": {
+    "field": "Frade",
+    "season": "jul",
+    "day": 4,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_jul_d04.nc"
+  },
+  "frade_jul_d07": {
+    "field": "Frade",
+    "season": "jul",
+    "day": 7,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_jul_d07.nc"
+  },
+  "frade_jul_d10": {
+    "field": "Frade",
+    "season": "jul",
+    "day": 10,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_jul_d10.nc"
+  },
+  "frade_jul_d13": {
+    "field": "Frade",
+    "season": "jul",
+    "day": 13,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_jul_d13.nc"
+  },
+  "frade_jul_d16": {
+    "field": "Frade",
+    "season": "jul",
+    "day": 16,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_jul_d16.nc"
+  },
+  "frade_jul_d19": {
+    "field": "Frade",
+    "season": "jul",
+    "day": 19,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_jul_d19.nc"
+  },
+  "frade_jul_d22": {
+    "field": "Frade",
+    "season": "jul",
+    "day": 22,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_jul_d22.nc"
+  },
+  "frade_jul_d25": {
+    "field": "Frade",
+    "season": "jul",
+    "day": 25,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_jul_d25.nc"
+  },
+  "frade_jul_d28": {
+    "field": "Frade",
+    "season": "jul",
+    "day": 28,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_jul_d28.nc"
+  },
+  "frade_oct_d01": {
+    "field": "Frade",
+    "season": "oct",
+    "day": 1,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_oct_d01.nc"
+  },
+  "frade_oct_d04": {
+    "field": "Frade",
+    "season": "oct",
+    "day": 4,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_oct_d04.nc"
+  },
+  "frade_oct_d07": {
+    "field": "Frade",
+    "season": "oct",
+    "day": 7,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_oct_d07.nc"
+  },
+  "frade_oct_d10": {
+    "field": "Frade",
+    "season": "oct",
+    "day": 10,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_oct_d10.nc"
+  },
+  "frade_oct_d13": {
+    "field": "Frade",
+    "season": "oct",
+    "day": 13,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_oct_d13.nc"
+  },
+  "frade_oct_d16": {
+    "field": "Frade",
+    "season": "oct",
+    "day": 16,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_oct_d16.nc"
+  },
+  "frade_oct_d19": {
+    "field": "Frade",
+    "season": "oct",
+    "day": 19,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_oct_d19.nc"
+  },
+  "frade_oct_d22": {
+    "field": "Frade",
+    "season": "oct",
+    "day": 22,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_oct_d22.nc"
+  },
+  "frade_oct_d25": {
+    "field": "Frade",
+    "season": "oct",
+    "day": 25,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_oct_d25.nc"
+  },
+  "frade_oct_d28": {
+    "field": "Frade",
+    "season": "oct",
+    "day": 28,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\frade_oct_d28.nc"
+  },
+  "albacora_jan_d01": {
+    "field": "Albacora",
+    "season": "jan",
+    "day": 1,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_jan_d01.nc"
+  },
+  "albacora_jan_d04": {
+    "field": "Albacora",
+    "season": "jan",
+    "day": 4,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_jan_d04.nc"
+  },
+  "albacora_jan_d07": {
+    "field": "Albacora",
+    "season": "jan",
+    "day": 7,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_jan_d07.nc"
+  },
+  "albacora_jan_d10": {
+    "field": "Albacora",
+    "season": "jan",
+    "day": 10,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_jan_d10.nc"
+  },
+  "albacora_jan_d13": {
+    "field": "Albacora",
+    "season": "jan",
+    "day": 13,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_jan_d13.nc"
+  },
+  "albacora_jan_d16": {
+    "field": "Albacora",
+    "season": "jan",
+    "day": 16,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_jan_d16.nc"
+  },
+  "albacora_jan_d19": {
+    "field": "Albacora",
+    "season": "jan",
+    "day": 19,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_jan_d19.nc"
+  },
+  "albacora_jan_d22": {
+    "field": "Albacora",
+    "season": "jan",
+    "day": 22,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_jan_d22.nc"
+  },
+  "albacora_jan_d25": {
+    "field": "Albacora",
+    "season": "jan",
+    "day": 25,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_jan_d25.nc"
+  },
+  "albacora_jan_d28": {
+    "field": "Albacora",
+    "season": "jan",
+    "day": 28,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_jan_d28.nc"
+  },
+  "albacora_apr_d01": {
+    "field": "Albacora",
+    "season": "apr",
+    "day": 1,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_apr_d01.nc"
+  },
+  "albacora_apr_d04": {
+    "field": "Albacora",
+    "season": "apr",
+    "day": 4,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_apr_d04.nc"
+  },
+  "albacora_apr_d07": {
+    "field": "Albacora",
+    "season": "apr",
+    "day": 7,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_apr_d07.nc"
+  },
+  "albacora_apr_d10": {
+    "field": "Albacora",
+    "season": "apr",
+    "day": 10,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_apr_d10.nc"
+  },
+  "albacora_apr_d13": {
+    "field": "Albacora",
+    "season": "apr",
+    "day": 13,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_apr_d13.nc"
+  },
+  "albacora_apr_d16": {
+    "field": "Albacora",
+    "season": "apr",
+    "day": 16,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_apr_d16.nc"
+  },
+  "albacora_apr_d19": {
+    "field": "Albacora",
+    "season": "apr",
+    "day": 19,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_apr_d19.nc"
+  },
+  "albacora_apr_d22": {
+    "field": "Albacora",
+    "season": "apr",
+    "day": 22,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_apr_d22.nc"
+  },
+  "albacora_apr_d25": {
+    "field": "Albacora",
+    "season": "apr",
+    "day": 25,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_apr_d25.nc"
+  },
+  "albacora_apr_d28": {
+    "field": "Albacora",
+    "season": "apr",
+    "day": 28,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_apr_d28.nc"
+  },
+  "albacora_jul_d01": {
+    "field": "Albacora",
+    "season": "jul",
+    "day": 1,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_jul_d01.nc"
+  },
+  "albacora_jul_d04": {
+    "field": "Albacora",
+    "season": "jul",
+    "day": 4,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_jul_d04.nc"
+  },
+  "albacora_jul_d07": {
+    "field": "Albacora",
+    "season": "jul",
+    "day": 7,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_jul_d07.nc"
+  },
+  "albacora_jul_d10": {
+    "field": "Albacora",
+    "season": "jul",
+    "day": 10,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_jul_d10.nc"
+  },
+  "albacora_jul_d13": {
+    "field": "Albacora",
+    "season": "jul",
+    "day": 13,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_jul_d13.nc"
+  },
+  "albacora_jul_d16": {
+    "field": "Albacora",
+    "season": "jul",
+    "day": 16,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_jul_d16.nc"
+  },
+  "albacora_jul_d19": {
+    "field": "Albacora",
+    "season": "jul",
+    "day": 19,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_jul_d19.nc"
+  },
+  "albacora_jul_d22": {
+    "field": "Albacora",
+    "season": "jul",
+    "day": 22,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_jul_d22.nc"
+  },
+  "albacora_jul_d25": {
+    "field": "Albacora",
+    "season": "jul",
+    "day": 25,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_jul_d25.nc"
+  },
+  "albacora_jul_d28": {
+    "field": "Albacora",
+    "season": "jul",
+    "day": 28,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_jul_d28.nc"
+  },
+  "albacora_oct_d01": {
+    "field": "Albacora",
+    "season": "oct",
+    "day": 1,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_oct_d01.nc"
+  },
+  "albacora_oct_d04": {
+    "field": "Albacora",
+    "season": "oct",
+    "day": 4,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_oct_d04.nc"
+  },
+  "albacora_oct_d07": {
+    "field": "Albacora",
+    "season": "oct",
+    "day": 7,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_oct_d07.nc"
+  },
+  "albacora_oct_d10": {
+    "field": "Albacora",
+    "season": "oct",
+    "day": 10,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_oct_d10.nc"
+  },
+  "albacora_oct_d13": {
+    "field": "Albacora",
+    "season": "oct",
+    "day": 13,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_oct_d13.nc"
+  },
+  "albacora_oct_d16": {
+    "field": "Albacora",
+    "season": "oct",
+    "day": 16,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_oct_d16.nc"
+  },
+  "albacora_oct_d19": {
+    "field": "Albacora",
+    "season": "oct",
+    "day": 19,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_oct_d19.nc"
+  },
+  "albacora_oct_d22": {
+    "field": "Albacora",
+    "season": "oct",
+    "day": 22,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_oct_d22.nc"
+  },
+  "albacora_oct_d25": {
+    "field": "Albacora",
+    "season": "oct",
+    "day": 25,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_oct_d25.nc"
+  },
+  "albacora_oct_d28": {
+    "field": "Albacora",
+    "season": "oct",
+    "day": 28,
+    "year": 2025,
+    "nc": "main\\outputs\\training168_2025\\albacora_oct_d28.nc"
+  }
+}

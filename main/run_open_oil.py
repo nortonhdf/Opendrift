@@ -269,9 +269,22 @@ def run_simulation(
     outfile: Optional[str] = None,
     figfile: Optional[str] = None,
     loglevel: int = 20,
+    random_seed: Optional[int] = 0,
 ) -> dict:
     """
     Run an OpenOil simulation and return paths to output files.
+
+    random_seed controls reproducibility, and is passed to OpenDrift's own
+    constructor — which is where numpy's global RNG is seeded (basemodel
+    __init__: `np.random.seed(seed)`, default 0). It matters because the
+    declared uncertainties (drift:current_uncertainty 0.05, wind 0.5) draw
+    from that RNG at every step, as does the seeding radius.
+
+    The default of 0 mirrors OpenDrift's and is what every archived run was
+    generated with, so the published metrics ARE re-derivable from this repo.
+    Making it an explicit parameter turns that from an accident of the
+    library's default into a stated property. Pass None for genuinely
+    stochastic replicates (e.g. sampling spread for the same scenario).
 
     Returns:
         {"netcdf": Path, "figure": Path, "start": datetime, "end": datetime}
@@ -286,7 +299,7 @@ def run_simulation(
     # Resolve oil type against ADIOS catalogue
     adios_oil = resolve_oil_type(oil_type)
 
-    o = OpenOil(loglevel=loglevel, weathering_model="noaa")
+    o = OpenOil(loglevel=loglevel, weathering_model="noaa", seed=random_seed)
     if adios_oil:
         o.set_config("seed:oil_type", adios_oil)
         print(f"[OIL] Using: {adios_oil}")

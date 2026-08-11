@@ -2,7 +2,8 @@
 
 Problem (author's target): at release time we know only WHERE, WHICH OIL,
 WHICH SEASON and the ocean state over the preceding days/weeks/months. No
-future forcing. Project the slick at D+1..D+5 (D+14 once longer runs exist).
+future forcing. Project the slick at D+1..D+7 (the working scope since the
+168-h archives; D+14 would need longer runs).
 
 Because future currents are unavailable, numerical advection cannot be run —
 the honest competitors are:
@@ -170,7 +171,7 @@ def derive_dist(P: np.ndarray) -> np.ndarray:
     return P
 
 
-def fit_quantile_envelope(X, Y):
+def fit_quantile_envelope(X, Y, **over):
     """P10/P90 boosters for the travelled distance at each horizon.
 
     A predicted slick position without a confidence envelope is not
@@ -184,24 +185,57 @@ def fit_quantile_envelope(X, Y):
         out[h] = {}
         for q in QUANTILES:
             m = HistGradientBoostingRegressor(
-                **{**HGB, "loss": "quantile", "quantile": q})
+                **{**HGB, "loss": "quantile", "quantile": q, **over})
             m.fit(X[ok], Y[ok, k])
             out[h][q] = m
     return out
 
 
-def envelope_coverage(models_q, X, Y) -> dict:
+def conformal_correction(models_q, X_cal, Y_cal, alpha=0.2) -> dict:
+    """Split-conformal widening (CQR) so the band covers what it promises.
+
+    Quantile boosters are fitted, not calibrated: measured on the blind year
+    their raw P10-P90 covered ~45% against a nominal 80% (the trees fit the
+    training quantiles too tightly to survive a new year). CQR (Romano,
+    Patterson & Candès 2019) restores a marginal guarantee by widening the
+    band by the empirical (1-alpha) quantile of the conformity score
+    max(lo - y, y - up), measured on data the quantile models never saw.
+
+    Calibration must be a HELD-OUT YEAR, not a random split: scenarios of the
+    same year share the ocean state, so a random split leaks and returns an
+    optimistically small correction.
+
+    A negative correction is legitimate — it means the raw band over-covered
+    and conformal is tightening it.
+    """
+    out = {}
+    for hi, h in enumerate(HORIZONS_D):
+        k = tcol(hi, "dist_km")
+        ok = np.isfinite(Y_cal[:, k])
+        lo = models_q[h][QUANTILES[0]].predict(X_cal[ok])
+        up = models_q[h][QUANTILES[1]].predict(X_cal[ok])
+        y = Y_cal[ok, k]
+        scores = np.maximum(lo - y, y - up)
+        n = len(scores)
+        level = min(1.0, np.ceil((n + 1) * (1 - alpha)) / n)
+        out[h] = float(np.quantile(scores, level, method="higher"))
+    return out
+
+
+def envelope_coverage(models_q, X, Y, corrections=None) -> dict:
     """Empirical coverage of the P10-P90 band — should sit near 80%."""
     res = {}
     for hi, h in enumerate(HORIZONS_D):
         k = tcol(hi, "dist_km")
         ok = np.isfinite(Y[:, k])
-        lo = models_q[h][QUANTILES[0]].predict(X[ok])
-        hi_ = models_q[h][QUANTILES[1]].predict(X[ok])
+        c = corrections.get(h, 0.0) if corrections else 0.0
+        lo = models_q[h][QUANTILES[0]].predict(X[ok]) - c
+        hi_ = models_q[h][QUANTILES[1]].predict(X[ok]) + c
         inside = (Y[ok, k] >= lo) & (Y[ok, k] <= hi_)
         res[f"D+{h}"] = {"coverage": float(inside.mean()),
                          "nominal": QUANTILES[1] - QUANTILES[0],
-                         "median_width_km": float(np.median(hi_ - lo))}
+                         "median_width_km": float(np.median(hi_ - lo)),
+                         "conformal_km": float(c)}
     return res
 
 
@@ -271,9 +305,14 @@ def leave_one_field_out(X, Y, blocks, fields, feat_names) -> dict:
     point, where a per-field climatology cannot exist. Training on 5 fields
     and testing on the 6th is the honest proxy. Climatology here degrades to
     the season-mean over OTHER fields, exactly as it would in practice.
+
+    The linear control runs here too. This is the project's headline claim,
+    so "the trees beat climatology" is not enough — if RidgeCV on the same
+    features gets the same gain, the honest statement is that the antecedent
+    features carry the signal, not that gradient boosting was required.
     """
     res = {}
-    pooled = {h: {"hgb": [], "clim": []} for h in HORIZONS_D}
+    pooled = {h: {"hgb": [], "clim": [], "ridge": []} for h in HORIZONS_D}
     print("\n=== Leave-one-FIELD-out (local nunca visto) ===")
     print(f"{'campo':12s}" + "".join(f"{'D+'+str(h):>16s}" for h in HORIZONS_D))
     for held in sorted(set(fields.tolist())):
@@ -287,12 +326,16 @@ def leave_one_field_out(X, Y, blocks, fields, feat_names) -> dict:
         glob = Y[tr].mean(axis=0)
         P_clim = np.array([table.get(s, glob) for s in seasons_te])
         P_hgb = derive_dist(predict_models(fit_hgb(X[tr], Y[tr]), X[te]))
+        P_ridge = derive_dist(predict_models(fit_ridge(X[tr], Y[tr]), X[te]))
 
         s_clim, s_hgb = score(Y[te], P_clim), score(Y[te], P_hgb)
-        res[held] = {"climatology_season": s_clim, "HGB": s_hgb}
+        s_ridge = score(Y[te], P_ridge)
+        res[held] = {"climatology_season": s_clim, "ridge": s_ridge,
+                     "HGB": s_hgb}
         for hi, h in enumerate(HORIZONS_D):
             pooled[h]["hgb"].append(pos_errors(Y[te], P_hgb, hi))
             pooled[h]["clim"].append(pos_errors(Y[te], P_clim, hi))
+            pooled[h]["ridge"].append(pos_errors(Y[te], P_ridge, hi))
         cells = "".join(
             f"{s_hgb[f'D+{h}']['pos_err_km_median']:7.1f}/"
             f"{s_clim[f'D+{h}']['pos_err_km_median']:<8.1f}"
@@ -305,19 +348,31 @@ def leave_one_field_out(X, Y, blocks, fields, feat_names) -> dict:
     for h in HORIZONS_D:
         a = np.concatenate(pooled[h]["hgb"])
         b = np.concatenate(pooled[h]["clim"])
-        ok = np.isfinite(a) & np.isfinite(b)
+        c = np.concatenate(pooled[h]["ridge"])
+        ok = np.isfinite(a) & np.isfinite(b) & np.isfinite(c)
         p = float(stats.wilcoxon(a[ok], b[ok]).pvalue)
+        p_ridge_clim = float(stats.wilcoxon(c[ok], b[ok]).pvalue)
+        p_hgb_ridge = float(stats.wilcoxon(a[ok], c[ok]).pvalue)
         gain = 100 * (1 - np.median(a[ok]) / np.median(b[ok]))
+        gain_ridge = 100 * (1 - np.median(c[ok]) / np.median(b[ok]))
         res["paired"][f"D+{h}"] = {
             "p": p, "n": int(ok.sum()),
             "median_hgb_km": float(np.median(a[ok])),
             "median_clim_km": float(np.median(b[ok])),
+            "median_ridge_km": float(np.median(c[ok])),
             "gain_pct": float(gain),
+            "gain_pct_ridge": float(gain_ridge),
             "hgb_wins": int((a[ok] < b[ok]).sum()),
+            "p_ridge_vs_clim": p_ridge_clim,
+            "p_hgb_vs_ridge": p_hgb_ridge,
+            "hgb_wins_vs_ridge": int((a[ok] < c[ok]).sum()),
         }
-        print(f"    D+{h}: HGB {np.median(a[ok]):5.1f} km vs clim "
-              f"{np.median(b[ok]):5.1f} km  ({gain:+.0f}%)  "
-              f"vence {int((a[ok] < b[ok]).sum())}/{int(ok.sum())}  p={p:.2e}")
+        print(f"    D+{h}: HGB {np.median(a[ok]):5.1f} | ridge "
+              f"{np.median(c[ok]):5.1f} | clim {np.median(b[ok]):5.1f} km   "
+              f"HGB vs clim {gain:+.0f}% p={p:.1e} | "
+              f"ridge vs clim {gain_ridge:+.0f}% p={p_ridge_clim:.1e} | "
+              f"HGB vs ridge p={p_hgb_ridge:.1e} "
+              f"({int((a[ok] < c[ok]).sum())}/{int(ok.sum())})")
     return res
 
 
@@ -338,9 +393,10 @@ def main() -> None:
     print("=== Leave-one-year-out ===")
     loyo = leave_one_year_out(X, Y, blocks, years, feat_names)
 
-    print("\n=== Cego 2024 (72 cenários, modelo treinado em 2022+2023+2025) ===")
     h = np.load(HOLDOUT, allow_pickle=True)
     Xh, Yh, bh = h["X"], h["Y"], h["block"]
+    print(f"\n=== Cego 2024 ({len(Xh)} cenários, modelo treinado em "
+          f"{'+'.join(str(y) for y in sorted(set(years.tolist())))}) ===")
     preds = all_predictions(X, Y, blocks, Xh, feat_names)
     blind = {}
     pred_arrays = {}
@@ -380,24 +436,43 @@ def main() -> None:
         print(f"  D+{h}: " + "  ".join(parts))
     print("  (* = significativo a 5%; Δ negativo = HGB melhor)")
 
+    # Longest horizon: the hardest cell of the table, and the one the trend
+    # analysis below is read at. Pinned explicitly rather than inherited from
+    # the loop variable above, so the scope can change without silent drift.
+    hi_last = len(HORIZONS_D) - 1
+    h_last = HORIZONS_D[hi_last]
+
     # Spread (patch size) — the quantity advection never modelled
-    print(f"\nEspalhamento da mancha (MAE km) em D+{HORIZONS_D[hi]}:")
+    print(f"\nEspalhamento da mancha (MAE km) em D+{h_last}:")
     for name in ["climatology", "analogue", "ridge", "HGB"]:
-        v = blind[name][f"D+{HORIZONS_D[hi]}"]["spread_mae_km"]
+        v = blind[name][f"D+{h_last}"]["spread_mae_km"]
         print(f"  {name:12s} {v:.2f}" if v is not None else f"  {name:12s}  n/a")
 
-    # Uncertainty envelope (P10-P90) on the travelled distance
-    print("\n=== Envelope de incerteza P10–P90 (distância), no cego ===")
-    q_models = fit_quantile_envelope(X, Y)
-    cov = envelope_coverage(q_models, Xh, Yh)
+    # Uncertainty envelope (P10-P90) on the travelled distance.
+    # The quantile boosters are fitted on the older training years and
+    # CALIBRATED on the most recent one — a held-out year, because scenarios
+    # of the same year share the ocean state. Raw and conformal coverage are
+    # both reported on the blind year: the gap between them is the honest
+    # measure of how far uncalibrated quantile trees are from their promise.
+    cal_year = max(set(years.tolist()))
+    fit_mask = years != cal_year
+    print(f"\n=== Envelope P10–P90 (distância) — ajuste em "
+          f"{sorted(set(years[fit_mask].tolist()))}, calibração conformal em "
+          f"{cal_year}, medição no cego 2024 ===")
+    q_models = fit_quantile_envelope(X[fit_mask], Y[fit_mask])
+    corr = conformal_correction(q_models, X[~fit_mask], Y[~fit_mask])
+    cov_raw = envelope_coverage(q_models, Xh, Yh)
+    cov = envelope_coverage(q_models, Xh, Yh, corrections=corr)
     for h in HORIZONS_D:
-        c = cov[f"D+{h}"]
-        print(f"  D+{h}: cobertura {c['coverage']:.0%} (nominal "
-              f"{c['nominal']:.0%})  largura mediana {c['median_width_km']:.0f} km")
+        r, c = cov_raw[f"D+{h}"], cov[f"D+{h}"]
+        print(f"  D+{h}: cru {r['coverage']:.0%} ({r['median_width_km']:.0f} km)"
+              f"  ->  conformal {c['coverage']:.0%} "
+              f"({c['median_width_km']:.0f} km, +{corr[h]:.0f} km/lado)"
+              f"   nominal {c['nominal']:.0%}")
 
     # Trend analysis: what actually drives the outcome?
-    print("\n=== Tendências: importância por permutação (D+5, distância) ===")
-    k = tcol(hi, "dist_km")
+    print(f"\n=== Tendências: importância por permutação (D+{h_last}, distância) ===")
+    k = tcol(hi_last, "dist_km")
     ok = np.isfinite(Y[:, k])
     m = HistGradientBoostingRegressor(**HGB).fit(X[ok], Y[ok, k])
     # Importance is measured on the blind set, so drop any hold-out scenario
@@ -416,8 +491,11 @@ def main() -> None:
         "loyo": loyo, "lofo_new_location": lofo,
         "blind_2024": blind, "paired_tests_by_horizon": tests,
         "uncertainty_envelope": cov,
+        "uncertainty_envelope_raw": cov_raw,
+        "uncertainty_calibration": {"fit_years": sorted(
+            set(years[fit_mask].tolist())), "calibration_year": int(cal_year)},
         "horizons_d": HORIZONS_D,
-        "top_features_d5_dist": [
+        f"top_features_d{h_last}_dist": [
             {"feature": str(feat_names[i]),
              "importance_km": float(imp.importances_mean[i])} for i in order],
     }, indent=2))
