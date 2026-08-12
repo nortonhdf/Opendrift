@@ -1,5 +1,12 @@
 # ARQUITETURA — fluxo de dados fim-a-fim
 
+> 📷 **FOTO DE 2026-07-29 — NÃO É O ESTADO ATUAL.** O diagrama abaixo é
+> anterior à Fase 8 e à camada `main/ml/`. Já não valem: o fallback silencioso
+> de smoke test (hoje levanta exceção), o ensemble de 240 membros (hoje 672),
+> o bug 🔴 de beaching e o mixing vertical ligado. Falta o ramo de ML
+> (`multiyear generate` → `training168_*` → `scenario` → `forecast`).
+> Fluxo corrente: **`ESTADO_ATUAL.md` §§3–4**.
+
 > Reconstruído por leitura de todas as chamadas + verificação empírica (auditoria 2026-07-29).
 
 ## Diagrama geral

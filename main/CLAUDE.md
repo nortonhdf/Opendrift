@@ -3,7 +3,9 @@
 > Portable project context (travels in git). Rewritten 2026-07-29 after the
 > technical audit — the previous version of this file claimed "2D surface, no
 > vertical mixing" and "beaching 0–89% correct", both wrong at the time.
-> Authoritative audit record: `docs/auditoria/` (root `CLAUDE.md` has the summary).
+> Current state, inventory and how to reproduce every published number:
+> **`docs/auditoria/ESTADO_ATUAL.md`** (the other audit files are dated
+> snapshots describing bugs that have since been fixed).
 
 ## Overview
 

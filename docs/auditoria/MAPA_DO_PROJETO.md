@@ -1,5 +1,10 @@
 # MAPA DO PROJETO
 
+> 📷 **FOTO DE 2026-07-29 — NÃO É O ESTADO ATUAL.** Este inventário é anterior
+> à Fase 8 e à criação de `main/ml/`: os bugs marcados 🔴 já foram corrigidos,
+> `outputs/` cresceu de 202 MB / 288 runs para 1,56 GB / 2.232 runs, e a
+> camada de ML não existia. Inventário corrente: **`ESTADO_ATUAL.md` §4**.
+
 > Auditoria técnica de 2026-07-29. Cada afirmação foi verificada lendo o código,
 > executando-o ou abrindo os dados. Estados: **ATIVO** / **MORTO** / **DUPLICADO** /
 > **EXPERIMENTAL** / **QUEBRADO** / **NUNCA PERCORRIDO**.

@@ -41,6 +41,22 @@
 | 17 | `openoil_smoketest.nc` órfão | **Remover na limpeza** (aprovado) |
 | 18 | `rebuild_all.log` | Ninguém depende dele como registro — manifests são a fonte de verdade |
 
+## Decisões posteriores (registradas na data em que foram tomadas)
+
+| # | Data | Questão | Decisão do autor |
+|---|---|---|---|
+| 19 | 2026-08-07 | Horizonte de previsão da camada de cenário | **Até D+7.** D+14 adiado — exigiria runs de 336 h. Consequência: novo arquivo `training168_*` (240 runs/ano, 168 h); os arquivos de 120 h ficam intactos como registro de §5a–5d |
+| 20 | 2026-08-11 | Versionar os 756 MB dos arquivos de 168 h no git | **Sim, versionar tudo** — mantém a decisão #9. Reconfirmada depois de se verificar que os arquivos são regeráveis (a escolha é de conveniência, não de necessidade); `.git` vai a ~2,7 GB |
+| 21 | 2026-08-11 | Semente de RNG nas simulações | **Expor como parâmetro opcional.** `run_simulation(random_seed=0)`; o default 0 é o que gerou todo o arquivo existente, então a reprodutibilidade deixa de ser acidente do default da biblioteca e passa a ser propriedade declarada e testada |
+
+Decisões metodológicas tomadas pelo auditor dentro do escopo já aprovado
+(registradas em `CAMADA_IA.md` §5e, sem necessidade de decisão do autor):
+controle linear (RidgeCV) obrigatório em toda afirmação de ganho do ML;
+`dist_km` derivado de `|(dx, dy)|` em vez de alvo independente; HGB com
+`loss='absolute_error'` para casar com a mediana que se reporta; envelope de
+incerteza calibrado por conformal (CQR) com calibração em **ano inteiro
+deixado de fora**, nunca split aleatório.
+
 ---
 
 ## §Validação das coordenadas (pesquisa de 2026-07-29)

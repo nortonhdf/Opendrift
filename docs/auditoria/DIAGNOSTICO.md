@@ -1,5 +1,10 @@
 # DIAGNÓSTICO — todos os achados, por severidade
 
+> 📷 **FOTO DE 2026-07-29 — NÃO É O ESTADO ATUAL.** Os achados 🔴 e 🟠 deste
+> arquivo **já foram corrigidos** na Fase 8 e os produtos foram regerados
+> (ver `REGENERACAO.md`). Mantido como evidência datada do que foi encontrado.
+> Estado corrente: **`ESTADO_ATUAL.md`**.
+
 > Auditoria 2026-07-29. Números citados foram **medidos** (scripts de verificação executados no
 > env `opendrift`), nunca estimados. Decisões do autor já tomadas: corrigir beaching com
 > ampliação de domínio + regeração (1B), incluir SST (2), desligar mixing vertical mantendo-o

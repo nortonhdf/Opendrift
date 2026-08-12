@@ -1,5 +1,12 @@
 # PIPELINE CIENTÍFICO — configuração, unidades, premissas, catálogo
 
+> 📷 **FOTO DE 2026-07-29 — NÃO É A CONFIGURAÇÃO ATUAL.** Vários valores
+> abaixo foram deliberadamente alterados na Fase 8: `drift:vertical_mixing`
+> hoje é **False** por default, o volume é **10 m³** (não 1), o SST vem do
+> CMEMS (não do fallback de 10 °C) e a caixa de forçantes é
+> lon −45..−36 / lat −27..−19. Configuração declarada corrente:
+> `main/CLAUDE.md` e `main/README.md`.
+
 > Tudo abaixo foi verificado empiricamente em 2026-07-29 (arquivos abertos, modelo instanciado,
 > configs interrogadas), não inferido de nomes ou READMEs.
 

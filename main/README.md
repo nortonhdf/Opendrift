@@ -4,8 +4,10 @@ Oil-spill trajectory, fate and risk modelling for six **Campos Basin** oil
 fields, built on **OpenDrift / OpenOil** (used in-place from this repo, not
 pip-installed). Everything in `main/` is the project layer on top of OpenDrift.
 
-> A full technical audit (2026-07-29) lives in `docs/auditoria/` — read
-> `DIAGNOSTICO.md` and `PLANO_DE_ACAO.md` before touching the science.
+> **Start at `docs/auditoria/ESTADO_ATUAL.md`** — current state, inventory,
+> and every published number with the command that reproduces it. The other
+> files in `docs/auditoria/` are dated snapshots of the 2026-07-29 audit and
+> describe bugs that have since been fixed.
 
 ```
 main/
@@ -15,10 +17,28 @@ main/
 ├── status_utils.py        Safe per-file decoding of OpenDrift status flags
 ├── run_open_oil.py        Simulation engine: run_simulation() → OpenOil
 ├── rebuild_all.ps1        Windows wrapper for the rebuild pipeline
-├── inputs/                Forcing data (NetCDF, CF-renamed)
-├── outputs/               scenarios/ ensemble/ risk_grids/ beaching/ (+ manifests)
+├── ml/                    ML layer: patch surrogate (v1–v3) + scenario forecasting (v4)
+├── inputs/                Forcing data (NetCDF, CF-renamed), 2022–2025
+├── outputs/               scenarios/ ensemble/ risk_grids/ beaching/ training168_*/ ml/
 ├── scripts/               Download/prep + batch + aggregation + orchestrator
 └── tests/                 pytest suite (run: python -m pytest main/tests -o addopts="")
+```
+
+## ML layer (`main/ml/`)
+
+Forecasts a slick from what is known **at release time only** (location, oil
+API, depth, season, antecedent current statistics) — no future forcing, so
+numerical advection is not a competitor. Horizons D+1..D+7. Headline result:
+at a location never seen in training, gradient boosting beats season
+climatology by 24–36% at every horizon; a linear control on the same features
+falls *below* climatology, so the nonlinearity is what transfers in space.
+Uncertainty comes with a conformal-calibrated P10–P90 envelope. Full record
+and the numbers: `docs/auditoria/CAMADA_IA.md` §5e.
+
+```
+python -m main.ml.multiyear generate 2024   # 168-h archive for a year (resumable)
+python -m main.ml.scenario [--holdout]      # build the scenario dataset
+python -m main.ml.forecast                  # evaluate -> outputs/ml/forecast_report.json
 ```
 
 ## Fields
@@ -60,9 +80,9 @@ python -m streamlit run main/app.py
 
 ## Rebuild the precomputed products
 
-⚠ The currently committed `outputs/` predate the audit fixes (status
-decoding, 2D transport, SST, 10 m³, official coordinates, wide box) — the
-beaching products in particular are invalid until regenerated.
+The committed `outputs/` were regenerated on 2026-07-30 with the corrected
+code and the new forcing (0 failures, 0 domain exits). Runs are deterministic
+(`random_seed=0` by default), so a rebuild reproduces them exactly.
 
 ```powershell
 .\main\rebuild_all.ps1                 # show the plan, change nothing
@@ -70,7 +90,7 @@ beaching products in particular are invalid until regenerated.
 .\main\rebuild_all.ps1 --resume        # continue an interrupted rebuild
 ```
 
-Stages: **scenarios** (48 runs) → **ensemble** (240 runs) → **risk** →
+Stages: **scenarios** (48 runs) → **ensemble** (672 runs) → **risk** →
 **beaching**. Safe to Ctrl-C and `--resume`.
 
 ## Refresh the forcing data (needs CMEMS + CDS credentials)

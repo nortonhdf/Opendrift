@@ -1,5 +1,9 @@
 # PLANO DE AÇÃO — Fase 8 (correções) e além
 
+> 📷 **CONCLUÍDO EM 2026-07-30.** Todos os itens de CONSERTAR foram aplicados e
+> os produtos regerados (`REGENERACAO.md`). Mantido como registro do plano.
+> Agenda corrente: **`ESTADO_ATUAL.md` §8**.
+
 > Separado em **CONSERTAR** (executável pelo auditor, na branch `audit/revisao-completa`, commits
 > atômicos, cada correção com teste) e **DECIDIR/FAZER** (ações que são do autor — decisões de
 > ciência, credenciais, custo de máquina).
