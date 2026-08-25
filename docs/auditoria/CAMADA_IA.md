@@ -419,6 +419,216 @@ recente do oceano explica e mais pesa **onde** o vazamento aconteceu — o que
 3. Expor a previsão + envelope conformal no app (aba de previsão).
 4. D+14 só depois de runs de 336 h; medir antes de prometer.
 
+## 5f. Footprint — prever a área oleada, não só o centróide (2026-08-25)
+
+Item 1 da agenda v6. Código: `main/ml/footprint.py` (alvos) e
+`main/ml/footprint_forecast.py` (modelos + avaliação). Nenhuma simulação
+nova: usa os mesmos arquivos de 168 h.
+
+### Decisão 1 — o alvo é a área VARRIDA, e isso foi medido, não escolhido
+
+A primeira coisa que o arquivo respondeu foi que o alvo óbvio não serve.
+Medida no arquivo de 168 h, a mancha instantânea é minúscula:
+
+| | D+1 | D+2 | D+3 | D+5 | D+7 |
+|---|---|---|---|---|---|
+| espalhamento RMS (km) | 0,35 | 0,55 | 0,80 | 1,22 | 1,25 |
+| células ocupadas no instante | 1 | 1,5 | 1,5 | 2 | 2 |
+| células varridas até o horizonte | 8 | 13 | 18 | 29 | 39 |
+
+Na grade de 0,1° do app (11,1 km) o *snapshot* ocupa 1–2 células: prever isso
+seria prever o centróide outra vez, com uma grade em volta. O que tem forma é
+a área **cumulativa** — e é também o que a aba de risco já desenha como
+`prob_any`. Ambas ficam no dataset; a varrida é o alvo.
+
+### Decisão 2 — referencial relativo ao vazamento, células isotrópicas
+
+Deslocamentos em km a partir do ponto de vazamento, células de 11,132 km
+(0,1° de latitude), quadro de ±501 km. **Zero partículas saíram do quadro**
+nos 960 cenários. A invariância a translação é o ponto: um modelo que lê
+lon/lat absolutos não transfere para um local que nunca viu, que é o caso de
+uso (§5e, Resultado 2).
+
+### Os competidores
+
+Todo modelo devolve **probabilidade por célula** — um único traçado
+determinístico não é produto utilizável quando o próprio centróide erra
+~80 km em D+7 (sete células).
+
+| modelo | o que é |
+|---|---|
+| climatologia | frequência da célula por estação, no referencial relativo |
+| persistência | corredor ao longo da corrente média dos 7 dias anteriores |
+| análogo | frequência entre os k=25 cenários históricos mais parecidos |
+| corredor do centróide | isotônica sobre a distância ao caminho previsto pelo v4 |
+| **pluma** | mesmo caminho do v4, mas com a **forma medida** (núcleo empírico 2D em coordenadas ao-longo/transversal, normalizadas pelo deslocamento) |
+| ocupação | classificador direto por célula (features do cenário + offset da célula, incluindo as coordenadas giradas para o eixo da corrente) |
+
+Protocolo, igual para todos: ajuste em 2022+2023, forma do corredor/pluma e
+ponto de operação do IoU calibrados no ano retido 2025, avaliação no cego
+2024 e em leave-one-field-out. Os modelos sem estrutura de dois estágios
+(climatologia, análogo, ocupação) são ajustados em ajuste+calibração, para
+que **todos consumam os mesmos 720 cenários** — o ponto de operação deles sai
+de dados que já viram, o que os favorece, não à pluma; e a métrica principal
+(Brier) não usa limiar nenhum.
+
+### Métricas — e por que elas discordam de propósito
+
+- **Brier / BSS**: calibração + nitidez contra o desfecho individual.
+- **IoU@limiar**: a leitura determinística, no ponto de operação escolhido na
+  calibração, nunca no teste.
+- **Área de captura**: km² a varrer, células mais prováveis primeiro, para
+  cobrir 80% das células realmente oleadas. É a moeda operacional da camada.
+
+### Resultado 1 — no local JÁ CONHECIDO, calibração empata e ordenamento não
+
+Cego 2024, 240 cenários:
+
+| modelo | Brier D+7 | BSS | IoU D+7 | área 80% (km²) |
+|---|---|---|---|---|
+| climatologia | 0,00517 | 0,00 | 0,186 | 43.496 |
+| persistência | 0,00581 | −0,12 | 0,155 | 65.926 |
+| análogo | 0,00523 | −0,01 | 0,191 | 44.612 |
+| corredor do centróide | 0,00558 | −0,08 | 0,174 | 39.159 |
+| pluma | 0,00522 | −0,01 | 0,190 | **35.194** |
+| ocupação | 0,00535 | −0,03 | **0,198** | **32.467** |
+
+A leitura: num local que a climatologia já viu, **nenhum modelo melhora a
+calibração** — exatamente o padrão do §5e Resultado 1. Mas a área que
+precisa ser varrida cai 19–25%. A footprint verdadeira mediana em D+7 são 41
+células (5.080 km²), então a climatologia manda varrer 8,6× a mancha e a
+ocupação 6,4×. Brier e área medem coisas diferentes: a primeira pergunta se o
+número está certo, a segunda se a **ordem** está.
+
+### Resultado 2 — no local NUNCA VISTO, o corredor do v4 ganha em tudo que ordena
+
+Leave-one-field-out, 720 cenários retidos. Esta é a pergunta de implantação —
+e, como em §5e, é onde a resposta muda.
+
+IoU (limiar escolhido na calibração):
+
+| horizonte | climatologia | **corredor** | análogo | pluma | ocupação |
+|---|---|---|---|---|---|
+| D+1 | 0,553 | **0,610** | 0,581 | 0,464 | 0,522 |
+| D+2 | 0,361 | **0,422** | 0,401 | 0,349 | 0,345 |
+| D+3 | 0,288 | **0,330** | 0,319 | 0,287 | 0,272 |
+| D+5 | 0,216 | 0,242 | **0,250** | 0,216 | 0,208 |
+| D+7 | 0,182 | 0,203 | **0,212** | 0,193 | 0,175 |
+
+Área a varrer para cobrir 80% das células oleadas (km², mediana):
+
+| horizonte | climatologia | **corredor** | análogo | pluma | ocupação |
+|---|---|---|---|---|---|
+| D+1 | 1.611 | **1.239** | 1.363 | 1.735 | 1.735 |
+| D+2 | 5.205 | **3.594** | 4.089 | 4.957 | 5.329 |
+| D+3 | 9.728 | **7.745** | 8.798 | 9.666 | 9.356 |
+| D+5 | 19.827 | **18.588** | 20.075 | 20.509 | 19.332 |
+| D+7 | 33.893 | **29.927** | 32.715 | 31.042 | 32.158 |
+
+Wilcoxon pareado, corredor vs climatologia (720 cenários):
+
+| horizonte | Δ IoU | p | Δ área | p |
+|---|---|---|---|---|
+| D+1 | **+0,054** | 1,7e−12 | **−124 km²** | 1,2e−15 |
+| D+2 | **+0,047** | 8,8e−14 | **−991 km²** | 1,1e−20 |
+| D+3 | **+0,023** | 2,3e−09 | **−1.363 km²** | 5,4e−15 |
+| D+5 | +0,006 | 1,1e−04 | **−2.355 km²** | 5,7e−09 |
+| D+7 | +0,011 | 9,2e−06 | **−3.718 km²** | 1,1e−10 |
+
+**O corredor ganha da climatologia em IoU e em área nos cinco horizontes,
+com significância.** É o resultado de §5e reaparecendo em espaço de forma:
+o que transfere para um ponto novo é a previsão de *para onde* a mancha vai,
+e envolvê-la numa faixa calibrada basta para desenhar a footprint. Note o
+contraste com o cego: **num local conhecido o corredor PERDE IoU** para a
+climatologia (Δ = −0,047 a −0,020, p<0,05 em todos), porque ali a
+climatologia já viu o sítio. Os dois quadros juntos são a evidência; o de
+local novo é o que vale para implantação.
+
+Os dois modelos mais ambiciosos falham no local novo, e isso é informativo:
+
+- **Ocupação** (classificador por célula) perde para a climatologia em IoU em
+  todos os horizontes (Δ −0,008 a −0,017). Ele aprende a forma da pluma
+  condicionada a lon/lat e não a transporta — mesmo padrão do controle linear
+  do §5e, por motivo oposto (excesso de capacidade em vez de falta).
+- **Pluma** (núcleo 2D) fica atrás do corredor isotrópico. Diagnóstico
+  geométrico: as coordenadas do núcleo são normalizadas pelo deslocamento
+  previsto L, com bins de 5% de L. Em D+1, L ≈ 31 km, então o bin vale 1,5 km
+  — **sete vezes menor que a célula de 11,1 km**. O núcleo passa a estimar
+  estrutura mais fina do que o dado tem. Em D+7 (L ≈ 200 km) o bin vale 10 km
+  ≈ 1 célula, e ali a pluma de fato empata/ganha (cego: menor Brier entre os
+  modelos de ML). A hipótese "referencial livre de escala" vale acima de
+  L ≈ 1 célula por bin e falha abaixo — corrigir é item da agenda v7, não um
+  ajuste silencioso.
+
+### Resultado 3 — o corredor é calibrado; o Brier ruim é nitidez, não erro
+
+O Brier do corredor é pior que o da climatologia (BSS −0,05 a −0,14), o que
+lido sozinho sugeriria um modelo descalibrado. A curva de confiabilidade,
+medida **através do artefato exportado** no cego 2024, diz o contrário:
+
+| previsto | 0,00 | 0,03 | 0,07 | 0,13 | 0,24 | 0,31 |
+|---|---|---|---|---|---|---|
+| observado (D+7) | 0,00 | 0,03 | 0,07 | 0,12 | 0,50 | 0,30 |
+
+Os desvios só aparecem nas faixas altas, que contêm **menos de 2% das
+células** (1,80% acima de p=0,30 em D+1; 0,55% em D+7). Ou seja: a
+decomposição confiabilidade/nitidez — o corredor se compromete com uma faixa
+estreita e paga caro quando a mancha vai para outro lado, enquanto a
+climatologia se protege espalhando probabilidade. Por isso ele perde no Brier
+e ganha na área de busca, que é uma métrica de **ordenamento**. Para o uso
+operacional, é o ordenamento que importa.
+
+### O produto
+
+`main/outputs/ml/footprint_plume.joblib` — modelos de centróide do v4 +
+forma do corredor (isotônica) + núcleo da pluma + climatologia por estação,
+tudo por horizonte, mais o ponto de operação avaliado. Default declarado:
+**corredor**, escolhido pelo leave-one-field-out (local novo = caso de
+implantação), não pelo cego. As duas formas viajam no artefato, então trocar
+o default é decisão documentada e não edição de código.
+
+```
+python -m main.ml.footprint_forecast --export        # ajusta e grava o produto
+python -m main.ml.footprint_forecast --reliability   # exporta + confere calibração
+```
+
+Consumo pelo app (item 3 da agenda): `predict_footprint(payload, x_row, h,
+lon0, lat0, season)` devolve centros geográficos das células, probabilidade,
+limiar e o caminho previsto — pronto para desenhar.
+
+### Limitações desta rodada
+
+1. A pluma 2D está quebrada abaixo de L ≈ 1 célula por bin (diagnóstico
+   acima). O corredor isotrópico a substitui, mas a forma anisotrópica
+   continua sendo a hipótese com mais margem.
+2. A footprint é a **área varrida**, não a mancha instantânea — que é
+   pequena demais para a grade do app (1–2 células). Uma footprint
+   instantânea exigiria grade mais fina, e aí o alvo vira o centróide.
+3. O modelo de ocupação amostra negativos: seus números carregam ruído de
+   Monte Carlo de alguns por cento entre sementes. Os demais são
+   determinísticos.
+4. A LOFO retém **espaço, não tempo** (mesmo protocolo do §5e); quem retém
+   tempo é o cego 2024. Nenhum dos dois retém os dois ao mesmo tempo.
+
+### Agenda v7
+
+1. Consertar a pluma: bins do núcleo em km absolutos (ou piso em L), para
+   que a resolução do núcleo nunca fique abaixo da resolução do dado.
+2. Expor no app (item 3 da v6, agora com produto pronto para consumir).
+3. Mais locais de semeadura (item 2 da v6) — continua sendo a limitação #1.
+4. D+14 (item 4 da v6) — continua exigindo runs de 336 h.
+
+### Verificações do método
+
+- **Empates na área de captura**: as ids de célula correm de sudoeste para
+  nordeste, que é para onde o óleo vai, então desempatar por índice poderia
+  favorecer o modelo de probabilidade mais grosseira. Medido contra desempate
+  aleatório (5 sorteios): diferença ≤1,8% e **nenhuma troca de posição** no
+  ranking.
+- **Ruído de Monte Carlo**: o modelo de ocupação amostra 500 negativos por
+  cenário, então seus números carregam ~alguns por cento de ruído entre
+  execuções com sementes diferentes. Os demais modelos são determinísticos.
+
 ## 6. Decisões tomadas pelo autor (2026-07-29)
 
 - **Alvos**: (a) surrogate de transporte de patch **e** (b) estatísticas-resumo por cenário —

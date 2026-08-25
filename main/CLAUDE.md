@@ -151,6 +151,59 @@ Still not possible: **D+14** (archive is 168 h). Spread is not predictable
 from current features (MAE 1.28–1.38 km, every model). Full record:
 docs/auditoria/CAMADA_IA.md §5e.
 
+### v5 — footprint: which cells get oiled (since 2026-08-25)
+
+`main/ml/footprint.py` (targets) + `main/ml/footprint_forecast.py` (models,
+evaluation, exported product). No new simulation — same 168-h archives.
+
+Two things were measured before anything was modelled, and they set the
+design: the **instantaneous** slick is 1–2 cells on the 0.1° grid (RMS spread
+0.35–1.25 km), so the target is the **swept** footprint (8 cells at D+1, 39
+at D+7 — the same quantity the risk tab draws as `prob_any`); and everything
+lives in a **release-relative km frame** (±501 km, 11.132 km cells, 0 of
+960 runs left the frame), because a model reading absolute lon/lat cannot
+transfer to a new site.
+
+Every model returns a probability per cell. Metrics: Brier/BSS, IoU at an
+operating point chosen on calibration data, and **capture area** — km² to
+search, most likely cells first, to cover 80 % of the oiled cells. They
+disagree on purpose: Brier asks if the number is right, capture area asks if
+the ORDER is right.
+
+**New location (leave-one-field-out, 720 held-out scenarios) — the
+deployment case:**
+
+| horizon | IoU corridor / clim | area corridor / clim | Δ area, p |
+|---|---|---|---|
+| D+1 | **0.610** / 0.553 | **1,239** / 1,611 km² | −124, 1e−15 |
+| D+2 | **0.422** / 0.361 | **3,594** / 5,205 | −991, 1e−20 |
+| D+3 | **0.330** / 0.288 | **7,745** / 9,728 | −1,363, 5e−15 |
+| D+5 | 0.242 / 0.216 | **18,588** / 19,827 | −2,355, 6e−09 |
+| D+7 | 0.203 / 0.182 | **29,927** / 33,893 | −3,718, 1e−10 |
+
+"corridor" = isotonic-calibrated band around the path the v4 centroid model
+predicts. It beats climatology on IoU AND area at all five horizons
+(paired Wilcoxon). On the blind year — a location climatology has already
+seen — it LOSES IoU (Δ −0.047 to −0.020) and still wins area: same split as
+§5e, and the new-location column is the one that counts.
+
+The two more ambitious models both fail at a new location, informatively:
+the per-cell classifier learns lon/lat-conditioned shapes that do not
+transfer; the 2-D plume kernel normalises its bins by the predicted
+displacement, so at D+1 a bin is 1.5 km against an 11.1 km cell — it
+estimates finer structure than the data has. Fix deferred, declared.
+
+**The corridor is calibrated** (reliability measured through the exported
+artefact on 2024: 0.03→0.03, 0.07→0.07, 0.13→0.12); its worse Brier is
+sharpness, not miscalibration — deviations sit in bins holding <2 % of cells.
+
+Product: `outputs/ml/footprint_plume.joblib` (v4 centroid models + corridor
+isotonic + plume kernel + per-season climatology + operating points).
+Default shape = corridor, chosen by LOFO, and both ship so swapping it is a
+documented decision. `predict_footprint(payload, x_row, h, lon0, lat0,
+season)` returns cell centres, probability, threshold and the predicted path
+— ready for the app tab. Full record: docs/auditoria/CAMADA_IA.md §5f.
+
 ## Author decisions on record (2026-07-29)
 
 See `docs/auditoria/PERGUNTAS_ABERTAS.md` for all 18. Highlights: outputs

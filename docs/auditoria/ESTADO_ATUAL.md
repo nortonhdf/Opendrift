@@ -1,6 +1,6 @@
 # ESTADO ATUAL — leia este arquivo primeiro
 
-> Atualizado em **2026-08-12**, branch **`audit/revisao-completa`**.
+> Atualizado em **2026-08-25**, branch **`audit/revisao-completa`**.
 > Este é o único documento desta pasta que descreve o **estado de hoje**. Os
 > demais (`DIAGNOSTICO.md`, `MAPA_DO_PROJETO.md`, `ARQUITETURA.md`,
 > `PIPELINE_CIENTIFICO.md`, `PLANO_DE_ACAO.md`) são **fotografias datadas de
@@ -46,6 +46,7 @@ em `main/`). Projeto de pesquisa acadêmica. Três camadas:
 | 2026-08-07 | ML v3 + **diagnóstico decisivo** | O resíduo que o modelo aprendia era **erro de integração numérica**, não física oculta. Trocar para integração midpoint (RK2) cortou o erro 57% com zero parâmetros (`CAMADA_IA.md` §5c) |
 | 2026-08-07 | ML v4 — reformulação | Alvo passa a ser previsão **em nível de cenário** (sem forçante futura). Primeiro ganho robusto: local nunca visto (`CAMADA_IA.md` §5d) |
 | 2026-08-11 | **Escopo D+7** | Arquivos de 168 h completos; controle linear no resultado-manchete; incerteza calibrada por conformal (`CAMADA_IA.md` §5e) |
+| 2026-08-25 | **Footprint** (item 1 da agenda v6) | Alvo passa a ser a grade de células oleadas, não só o centróide. Num local nunca visto, o corredor calibrado em volta do caminho previsto pelo v4 bate a climatologia em IoU e em área de busca nos 5 horizontes; produto exportado para o app (`CAMADA_IA.md` §5f) |
 
 ### O que mudou de conclusão ao longo do caminho (importante para o crosscheck)
 
@@ -77,12 +78,19 @@ Todos os comandos rodam **da raiz do repositório**, com o env conda
 | **Envelope cru cobria 35–49%; conformal 84–89%** | `CAMADA_IA.md` §5e Res. 3 | `forecast_report.json` → `uncertainty_envelope{,_raw}` | idem |
 | `u_mean_3d` é a feature dominante | `CAMADA_IA.md` §5e Res. 4 | `forecast_report.json` → `top_features_d7_dist` | idem |
 | Espalhamento não é previsível (MAE 1,28–1,38 km) | `CAMADA_IA.md` §5e | `forecast_report.json` → `blind_2024.*.spread_mae_km` | idem |
+| **Footprint, local novo: corredor bate a climatologia em IoU e área nos 5 horizontes** | `CAMADA_IA.md` §5f Res. 2 | `footprint_report.json` → `lofo_new_location.*._paired_vs_climatology.centroid` | `python -m main.ml.footprint_forecast` (~50 min) |
+| Footprint, local conhecido: o corredor perde IoU e ganha área | `CAMADA_IA.md` §5f Res. 1 | `footprint_report.json` → `blind_2024` | idem |
+| O corredor é calibrado; o Brier pior é nitidez | `CAMADA_IA.md` §5f Res. 3 | `footprint_reliability.json` | `python -m main.ml.footprint_forecast --reliability` |
+| Mancha instantânea = 1–2 células; varrida = 8–39 | `CAMADA_IA.md` §5f Decisão 1 | saída de `main.ml.footprint` | `python -m main.ml.footprint [--holdout]` |
 
-Reconstrução dos datasets de ML (pré-requisito de `main.ml.forecast`):
+Reconstrução dos datasets de ML (pré-requisito de `main.ml.forecast` e
+`main.ml.footprint_forecast`):
 
 ```
-python -m main.ml.scenario              # -> outputs/ml/scenario_dataset.npz      (720 cenários)
-python -m main.ml.scenario --holdout    # -> outputs/ml/scenario_dataset_2024.npz (240 cenários)
+python -m main.ml.scenario              # -> outputs/ml/scenario_dataset.npz       (720 cenários)
+python -m main.ml.scenario --holdout    # -> outputs/ml/scenario_dataset_2024.npz  (240 cenários)
+python -m main.ml.footprint             # -> outputs/ml/footprint_dataset.npz      (720, células varridas)
+python -m main.ml.footprint --holdout   # -> outputs/ml/footprint_dataset_2024.npz (240)
 ```
 
 Reconstrução dos arquivos de simulação que alimentam tudo isso (≈40 min por
@@ -157,6 +165,10 @@ Lista deliberada de fraquezas — se o revisor for atrás de algo, que seja daqu
    dispersão do ensemble mede variabilidade temporal, não incerteza de modelo.
 7. **Ondas reais (ERA5) nunca entraram**: o Stokes drift, quando ligado, vem
    de parametrização a partir do vento.
+8. **A footprint prevista é a área VARRIDA, não a mancha instantânea.** Não é
+   uma escolha de conveniência — a mancha instantânea ocupa 1–2 células na
+   grade de 0,1° (§5f, Decisão 1) —, mas quem esperar "onde está o óleo no
+   dia 7" está lendo outra coisa: "por onde o óleo passou até o dia 7".
 
 ## 7. Como rodar
 
@@ -165,18 +177,25 @@ Lista deliberada de fraquezas — se o revisor for atrás de algo, que seja daqu
   processo morre nativamente (exit `0xC06D007F`, sem output).
 - Sempre a partir da raiz do repositório.
 - App: `python -m streamlit run main/app.py`
-- Testes: `python -m pytest main/tests -o addopts=""` (**81 testes**, todos
-  passando em 2026-08-12; `-o addopts=""` neutraliza as opções de pytest do
+- Testes: `python -m pytest main/tests -o addopts=""` (**106 testes**, todos
+  passando em 2026-08-25; `-o addopts=""` neutraliza as opções de pytest do
   OpenDrift upstream).
 
-## 8. O que está aberto (agenda v6)
+## 8. O que está aberto (agenda v7)
 
-1. **Footprint** — prever a grade de ocupação, não só o centróide. É o que o
-   app precisa desenhar e o que devolve IoU/Brier como métricas. **Próximo
-   passo recomendado**: não exige simulação nova, usa o arquivo de 168 h.
-2. **Mais locais de semeadura** (grade de pontos, não só os 6 campos) — ataca
-   diretamente a limitação #1 da §6.
-3. **Expor previsão + envelope conformal no app** (5ª aba).
+O item 1 da v6 (footprint) foi entregue em 2026-08-25 — ver `CAMADA_IA.md`
+§5f. O que sobra, em ordem de custo:
+
+1. **Expor no app** (era o item 3 da v6) — previsão de centróide + envelope
+   conformal + footprint probabilística numa aba de previsão. O produto já
+   está pronto para consumo (`footprint_plume.joblib` +
+   `predict_footprint()`); falta a interface. **Próximo passo recomendado**:
+   não exige simulação nem treino novo.
+2. **Consertar a pluma 2D** — os bins do núcleo são normalizados pelo
+   deslocamento previsto e ficam menores que a célula em horizontes curtos
+   (§5f, Resultado 2). Barato, e é a hipótese com mais margem.
+3. **Mais locais de semeadura** (grade de pontos, não só os 6 campos) — ataca
+   diretamente a limitação #1 da §6. Exige horas de simulação nova.
 4. **D+14** — exige runs de 336 h; o arquivo atual vai até 168 h. Medir antes
    de prometer: em D+7 o ganho sobre climatologia no local conhecido já é nulo.
 

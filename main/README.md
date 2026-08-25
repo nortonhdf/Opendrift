@@ -35,10 +35,19 @@ falls *below* climatology, so the nonlinearity is what transfers in space.
 Uncertainty comes with a conformal-calibrated P10–P90 envelope. Full record
 and the numbers: `docs/auditoria/CAMADA_IA.md` §5e.
 
+A second layer forecasts the **footprint** — which 0.1° cells the oil
+touches by D+n, as a probability per cell. At a location never seen in
+training, a calibrated corridor around the predicted path beats season
+climatology on IoU and on the area that must be searched (−23 % at D+1,
+−12 % at D+7) at every horizon. Record: `docs/auditoria/CAMADA_IA.md` §5f.
+
 ```
 python -m main.ml.multiyear generate 2024   # 168-h archive for a year (resumable)
 python -m main.ml.scenario [--holdout]      # build the scenario dataset
 python -m main.ml.forecast                  # evaluate -> outputs/ml/forecast_report.json
+python -m main.ml.footprint [--holdout]     # build the footprint dataset (swept cells)
+python -m main.ml.footprint_forecast        # evaluate -> outputs/ml/footprint_report.json
+python -m main.ml.footprint_forecast --reliability   # export the product + check calibration
 ```
 
 ## Fields

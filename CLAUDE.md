@@ -3,7 +3,8 @@
 Clone do **OpenDrift v1.14.7** usado *in-place* (NÃO pip-instalado, NÃO modificado — verificado
 por diff contra o ponto de fork). O projeto real vive em **`main/`**: dispersão de óleo na Bacia
 de Campos (6 campos × 4 meses), app Streamlit + 2.232 simulações pré-computadas (1,56 GB) + uma
-camada de ML de previsão em nível de cenário.
+camada de ML que prevê, a partir só do que se sabe no instante do vazamento, o centróide da
+mancha (§5e) e a grade de células oleadas (§5f).
 
 ## ⇒ LEIA PRIMEIRO: `docs/auditoria/ESTADO_ATUAL.md`
 
@@ -44,7 +45,7 @@ Resumo do que a auditoria achou e a Fase 8 corrigiu (2026-07-30, `REGENERACAO.md
 - Rodar sempre da raiz do repo. App: `python -m streamlit run main/app.py`.
   Rebuild dos produtos de 120 h: `.\main\rebuild_all.ps1`.
   Arquivos de 168 h da camada de ML: `python -m main.ml.multiyear generate <ano>`.
-- Testes: `python -m pytest main/tests -o addopts=""` (81 testes).
+- Testes: `python -m pytest main/tests -o addopts=""` (106 testes).
 
 ## Regras para pós-processar os NetCDF de saída
 
