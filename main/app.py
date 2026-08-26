@@ -465,8 +465,9 @@ def show_results(data: dict, field: dict, field_name: str, cfg: dict,
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 
-tab_pre, tab_risk, tab_beach, tab_custom = st.tabs(
-    ["📦 Pre-computed Scenarios", "🗺️ Risk Maps", "🏖️ Beaching", "⚙️ Custom Run"]
+tab_pre, tab_risk, tab_beach, tab_custom, tab_fcst = st.tabs(
+    ["📦 Pre-computed Scenarios", "🗺️ Risk Maps", "🏖️ Beaching", "⚙️ Custom Run",
+     "🔮 Forecast (ML)"]
 )
 
 
@@ -845,3 +846,206 @@ API: **{field['api']}°** · {field['operator']} · {field['water_depth_m']} m
                 "a fresh one.")
     else:
         st.info("Configure parameters in the sidebar and press **▶ Run simulation**.")
+
+
+# ════════════════════════════════════════════════════════════════════════════
+# TAB 5 — ML forecast (no simulation: the trained models answer in a second)
+# ════════════════════════════════════════════════════════════════════════════
+
+@st.cache_resource(show_spinner="Loading the forecast models…")
+def load_predictor():
+    from main.ml.predict import Predictor
+    return Predictor()
+
+
+def build_forecast_figure(out: dict, horizon: int, threshold: float) -> go.Figure:
+    """Footprint probability + the predicted track, on one map."""
+    rel = out["release"]
+    f = out["footprint"][horizon]
+    traces = []
+
+    prob = np.asarray(f["prob"], float)
+    mask = prob >= threshold
+    if mask.any():
+        traces.append(go.Densitymapbox(
+            lon=np.asarray(f["lon"])[mask].tolist(),
+            lat=np.asarray(f["lat"])[mask].tolist(),
+            z=prob[mask].tolist(),
+            radius=22, colorscale="YlOrRd", zmin=threshold, zmax=1.0,
+            opacity=0.70, showscale=True,
+            colorbar=dict(title="P(oiled)", tickformat=".0%", x=1.0),
+            name="Footprint",
+        ))
+
+    # The track the footprint was drawn around — release first, then D+1..D+n.
+    hs = [h for h in out["horizons_d"] if h <= horizon]
+    traces.append(go.Scattermapbox(
+        lon=[rel["lon"]] + [out["track"][h]["lon"] for h in hs],
+        lat=[rel["lat"]] + [out["track"][h]["lat"] for h in hs],
+        mode="lines+markers",
+        line=dict(width=2, color="#1f77b4"),
+        marker=dict(size=8, color="#1f77b4"),
+        text=["release"] + [f"D+{h}" for h in hs],
+        name="Predicted track",
+    ))
+    traces.append(go.Scattermapbox(
+        lon=[out["track"][horizon]["lon"]], lat=[out["track"][horizon]["lat"]],
+        mode="markers", marker=dict(size=15, color="#1f77b4"),
+        name=f"Centroid D+{horizon}",
+    ))
+    traces.append(go.Scattermapbox(
+        lon=[rel["lon"]], lat=[rel["lat"]], mode="markers",
+        marker=dict(size=14, color="#4CAF50"), name="Release",
+    ))
+
+    layout = go.Layout(
+        mapbox=dict(style="open-street-map",
+                    center=dict(lon=rel["lon"], lat=rel["lat"]), zoom=6),
+        margin=dict(l=0, r=0, t=0, b=0), height=600,
+        legend=dict(x=0.01, y=0.99, bgcolor="rgba(255,255,255,0.8)"),
+    )
+    return go.Figure(data=traces, layout=layout)
+
+
+with tab_fcst:
+    st.markdown(
+        "Forecast from **what is known at the moment of the spill** — position, "
+        "oil, season and the state of the ocean over the preceding days to "
+        "months. No future forcing is used, and no simulation is run: this is "
+        "the trained model answering directly."
+    )
+
+    try:
+        predictor = load_predictor()
+    except Exception as exc:
+        predictor = None
+        st.warning(
+            f"Forecast models not available: {exc}\n\n"
+            "Build them from the repo root:\n\n"
+            "```\npython -m main.ml.forecast --export\n"
+            "python -m main.ml.footprint_forecast --export\n```"
+        )
+
+    if predictor is not None:
+        years = predictor.years
+        c1, c2, c3, c4 = st.columns([1.2, 1, 1, 1])
+
+        with c1:
+            source = st.selectbox("Release point",
+                                  ["Custom point"] + sorted(CAMPOS_FIELDS),
+                                  key="f_source")
+        if source == "Custom point":
+            with c2:
+                f_lon = st.number_input("Longitude", value=-40.10,
+                                        min_value=-45.0, max_value=-36.0,
+                                        step=0.05, format="%.2f", key="f_lon")
+                f_lat = st.number_input("Latitude", value=-22.40,
+                                        min_value=-27.0, max_value=-19.0,
+                                        step=0.05, format="%.2f", key="f_lat")
+            with c3:
+                f_api = st.number_input("Oil API (°)", value=28.0,
+                                        min_value=8.0, max_value=45.0,
+                                        step=0.5, key="f_api")
+                f_depth = st.number_input("Water depth (m)", value=1000.0,
+                                          min_value=0.0, max_value=3000.0,
+                                          step=50.0, key="f_depth")
+        else:
+            cfgf = CAMPOS_FIELDS[source]
+            f_lon, f_lat = cfgf["lon"], cfgf["lat"]
+            f_api, f_depth = cfgf["api"], cfgf["water_depth_m"]
+            with c2:
+                st.caption("**Position** (official ANP polygon centre)")
+                st.caption(f"{f_lat:.2f}°, {f_lon:.2f}°")
+            with c3:
+                st.caption("**Oil / depth**")
+                st.caption(f"API {f_api:.1f}° · {f_depth:,.0f} m")
+
+        with c4:
+            f_date = st.date_input(
+                "Release date",
+                value=datetime(max(years), 3, 10).date(),
+                min_value=datetime(min(years), 1, 1).date(),
+                max_value=datetime(max(years), 12, 31).date(),
+                key="f_date",
+                help=f"Only years with forcing data: {years}",
+            )
+            f_h = st.radio("Horizon", predictor.horizons, index=2,
+                           format_func=lambda h: f"D+{h}", horizontal=True,
+                           key="f_h")
+
+        try:
+            out = predictor.forecast(float(f_lon), float(f_lat), float(f_api),
+                                     float(f_depth),
+                                     datetime.combine(f_date, datetime.min.time()))
+        except Exception as exc:
+            out = None
+            st.error(str(exc))
+
+        if out is not None:
+            f_thr = st.slider("Minimum probability to display",
+                              min_value=0.02, max_value=0.60, value=0.10,
+                              step=0.02, key="f_thr")
+
+            map_col, info_col = st.columns([3, 1])
+            with map_col:
+                st.plotly_chart(build_forecast_figure(out, f_h, f_thr),
+                                width="stretch")
+
+            with info_col:
+                t = out["track"][f_h]
+                fp_h = out["footprint"][f_h]
+                st.subheader(f"D+{f_h}")
+                st.metric("Distance travelled", f"{t['dist_km']:.0f} km",
+                          help="Median prediction of the slick centroid "
+                               "displacement from the release point.")
+                st.caption(
+                    f"**80 % band:** {t['dist_lo_km']:.0f}–{t['dist_hi_km']:.0f} km "
+                    "— conformal-calibrated, and it is a range of DISTANCES "
+                    "along the predicted bearing, not a disc around the point. "
+                    "The spatial uncertainty is the shaded footprint."
+                )
+                prob = np.asarray(fp_h["prob"], float)
+                shown = int((prob >= f_thr).sum())
+                cell_km2 = (GRID_RES * 111.32) ** 2
+                st.metric(f"Area shown (P ≥ {f_thr:.0%})",
+                          f"{shown * cell_km2:,.0f} km²")
+                st.caption(
+                    f"Evaluated operating point for this horizon: "
+                    f"P ≥ {fp_h['threshold']:.0%} "
+                    f"({int((prob >= fp_h['threshold']).sum()) * cell_km2:,.0f} km²), "
+                    f"shape `{fp_h['model']}`."
+                )
+                st.divider()
+                st.caption("**All horizons** (km)")
+                import pandas as pd
+                st.dataframe(pd.DataFrame([
+                    {"": f"D+{h}",
+                     "dist": f"{out['track'][h]['dist_km']:.0f}",
+                     "80 % band": f"{out['track'][h]['dist_lo_km']:.0f}–"
+                                  f"{out['track'][h]['dist_hi_km']:.0f}"}
+                    for h in out["horizons_d"]]).set_index(""),
+                    width="stretch")
+
+            for w in out["warnings"]:
+                st.caption(f"⚠ {w}")
+
+            with st.expander("What this forecast is, and what it is not"):
+                st.markdown(f"""
+- **Swept area, not a snapshot.** The shading is the probability that a cell
+  is touched by oil *at any point up to* D+{f_h} — the same quantity the Risk
+  Maps tab shows. The instantaneous slick is 1–2 cells wide at this
+  resolution, which is why it is not the target.
+- **No future forcing.** Only the ocean state *before* the release enters the
+  model, so this is not a hindcast of a known event; it is what could be said
+  the moment the spill is reported.
+- **Where the claim was tested.** At a location never seen in training, this
+  corridor beats season climatology on shape agreement and on the area that
+  must be searched, at every horizon (`docs/auditoria/CAMADA_IA.md` §5f). At a
+  location the climatology already knows, it does not — the gain is in
+  transferring to new places.
+- **It reproduces OpenDrift, not the ocean.** The models were trained on
+  simulated trajectories; no drift observations were ever used.
+- **Reference season:** `{out['season']}` (nearest of the four modelled
+  months, used only where the predicted displacement is too small to orient
+  the shape).
+""")

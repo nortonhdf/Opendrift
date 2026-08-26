@@ -10,7 +10,8 @@ import pytest
 
 from main.ml.forecast import (
     HORIZONS_D, Q, conformal_correction, derive_dist, envelope_coverage,
-    fit_hgb, fit_quantile_envelope, fit_ridge, predict_models, tcol,
+    fit_hgb, fit_product, fit_quantile_envelope, fit_ridge, predict_models,
+    predict_scenario, tcol,
 )
 
 
@@ -145,3 +146,45 @@ def test_hgb_fits_conditional_median_not_mean():
     e_mae = np.median(np.abs(predict_models(mae_model, X)[clean, k] - base[clean]))
     e_mse = np.median(np.abs(predict_models(mse_model, X)[clean, k] - base[clean]))
     assert e_mae < e_mse
+
+
+# ── the exported product (what the app loads) ────────────────────────────────
+
+def test_product_is_fitted_and_calibrated_on_different_years():
+    """A conformal correction measured on training data is not a correction."""
+    X, Y = _synthetic(n=300)
+    years = np.array([2022] * 100 + [2023] * 100 + [2025] * 100)
+    p = fit_product(X, Y, years)
+    assert p["calibration_year"] == 2025
+    assert p["fit_years"] == [2022, 2023]
+    assert p["n_fit"] == 200 and p["n_calibration"] == 100
+    assert set(p["quantile_models"]) == set(HORIZONS_D)
+
+
+def test_predict_scenario_band_brackets_the_point_and_widens_with_lead():
+    X, Y = _synthetic(n=300)
+    years = np.array([2022] * 100 + [2023] * 100 + [2025] * 100)
+    p = fit_product(X, Y, years)
+    out = predict_scenario(p, X[0])
+    widths = []
+    for h in HORIZONS_D:
+        r = out[h]
+        assert r["dist_km"] == pytest.approx(np.hypot(r["dx_km"], r["dy_km"]),
+                                             rel=1e-5)
+        assert r["dist_lo_km"] <= r["dist_hi_km"]
+        assert r["dist_lo_km"] >= 0.0        # a distance is never negative
+        widths.append(r["dist_hi_km"] - r["dist_lo_km"])
+    assert widths[-1] > widths[0], "a banda tem que abrir com o horizonte"
+
+
+def test_predict_scenario_uses_the_conformal_widening():
+    """Zeroing the correction must visibly tighten the band, not be ignored."""
+    X, Y = _synthetic(n=300)
+    years = np.array([2022] * 100 + [2023] * 100 + [2025] * 100)
+    p = fit_product(X, Y, years)
+    wide = predict_scenario(p, X[0])
+    p_zero = dict(p, conformal_km={h: 0.0 for h in HORIZONS_D})
+    tight = predict_scenario(p_zero, X[0])
+    h = HORIZONS_D[-1]
+    assert (wide[h]["dist_hi_km"] - wide[h]["dist_lo_km"]) > \
+           (tight[h]["dist_hi_km"] - tight[h]["dist_lo_km"])

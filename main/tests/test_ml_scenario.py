@@ -56,6 +56,33 @@ def test_antecedent_features_are_strictly_causal(tmp_path, monkeypatch):
     s.close()
 
 
+def test_feature_row_is_the_single_source_for_training_and_inference(
+        tmp_path, monkeypatch):
+    """The app builds its input with this same function — pin the layout.
+
+    A feature assembled one way when training and another way when serving
+    is the quietest way to break a deployed model, and it is exactly the
+    class of bug the audit already found once (finding #11).
+    """
+    p = _currents(tmp_path, jump_day=200)
+    monkeypatch.setattr(scenario, "forcing_paths", lambda y: (p, p))
+    s = scenario.AntecedentSampler([2025])
+    x = scenario.feature_row(-41.0, -23.0, 28.5, 1200.0,
+                             np.datetime64("2025-07-19"), s)
+    names = feature_names()
+    assert len(x) == len(names)
+    assert x[names.index("lon")] == pytest.approx(-41.0)
+    assert x[names.index("lat")] == pytest.approx(-23.0)
+    assert x[names.index("api")] == pytest.approx(28.5)
+    assert x[names.index("water_depth_m")] == pytest.approx(1200.0)
+    # Antecedent block still comes from before the release (jump_day=200).
+    assert x[names.index("u_mean_3d")] == pytest.approx(0.1, abs=1e-6)
+    # July -> month 7: sin(2*pi*7/12) is negative, cos is negative too.
+    assert x[names.index("month_sin")] == pytest.approx(
+        np.sin(2 * np.pi * 7 / 12), abs=1e-6)
+    s.close()
+
+
 def test_short_window_at_year_start_is_nan_not_zero(tmp_path, monkeypatch):
     p = _currents(tmp_path)
     monkeypatch.setattr(scenario, "forcing_paths", lambda y: (p, p))

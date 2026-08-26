@@ -11,7 +11,7 @@ pip-installed). Everything in `main/` is the project layer on top of OpenDrift.
 
 ```
 main/
-├── app.py                 Streamlit app — 4 tabs (scenarios, risk, beaching, custom run)
+├── app.py                 Streamlit app — 5 tabs (scenarios, risk, beaching, custom run, ML forecast)
 ├── fields_config.py       The 6 fields (official ANP/EPE polygon centres, API, ADIOS oil)
 ├── domain_config.py       Single source of truth: forcing box, grid, seasons
 ├── status_utils.py        Safe per-file decoding of OpenDrift status flags
@@ -48,6 +48,17 @@ python -m main.ml.forecast                  # evaluate -> outputs/ml/forecast_re
 python -m main.ml.footprint [--holdout]     # build the footprint dataset (swept cells)
 python -m main.ml.footprint_forecast        # evaluate -> outputs/ml/footprint_report.json
 python -m main.ml.footprint_forecast --reliability   # export the product + check calibration
+```
+
+Both layers are exported as artefacts the app loads, so nothing is refitted at
+run time. The **Forecast (ML)** tab takes an arbitrary release point, date, oil
+API and depth, and answers in about a second — no simulation. It refuses to
+forecast outside the forcing box or in a year with no forcing file.
+
+```
+python -m main.ml.forecast --export           # -> outputs/ml/forecast_product.joblib
+python -m main.ml.footprint_forecast --export # -> outputs/ml/footprint_plume.joblib
+python -m main.ml.predict --lat -22.4 --lon -40.1 --date 2024-03-10   # smoke check
 ```
 
 ## Fields

@@ -629,6 +629,66 @@ limiar e o caminho previsto — pronto para desenhar.
   cenário, então seus números carregam ~alguns por cento de ruído entre
   execuções com sementes diferentes. Os demais modelos são determinísticos.
 
+## 5g. A camada vira produto: artefatos e aba no app (2026-08-26)
+
+Até aqui a camada de ML existia só em relatórios: `forecast.py` ajustava os
+modelos, publicava os números e **descartava tudo**. Esta rodada fecha isso.
+
+### Dois artefatos, um por camada
+
+| arquivo | o que carrega | comando |
+|---|---|---|
+| `forecast_product.joblib` | modelos de centróide + quantílicos + correções conformais | `python -m main.ml.forecast --export` |
+| `footprint_plume.joblib` | corredor (isotônica), núcleo da pluma, climatologia por estação, pontos de operação | `python -m main.ml.footprint_forecast --export` |
+
+A configuração exportada é **uma só**: ajuste em 2022+2023, calibração em
+2025. Isso não é preferência — uma correção conformal medida em dados que os
+modelos quantílicos viram no treino não é correção, é memória. A diferença
+para a tabela do cego do §5e (que reajusta o ponto nos três anos) está
+declarada no código: o app entrega o modelo contra o qual a banda **e** o
+corredor foram calibrados, ao custo de 240 cenários de treino. A alternativa
+seria uma banda que não pertence ao ponto que ela cerca.
+
+**Consequência de projeto:** a footprint deixou de carregar cópia própria dos
+modelos de centróide (30 MB duplicados, ajustados à parte) e passou a
+consumir o produto v4. A curva de confiabilidade saiu **idêntica** antes e
+depois da troca — evidência de que os dois ajustes concordavam, e agora a
+identidade é estrutural em vez de coincidência.
+
+### Fonte única de features
+
+`scenario.feature_row()` passou a montar o vetor de entrada, e tanto o
+construtor do dataset quanto o preditor ao vivo chamam **a mesma função**.
+Montar a feature de um jeito no treino e de outro no serviço é a forma mais
+silenciosa de quebrar um modelo em produção — a auditoria já pegou essa
+classe de bug uma vez (achado #11 → `domain_config.py`). O dataset foi
+reconstruído após o refactor e comparado array a array com o anterior:
+**idêntico bit a bit**.
+
+### `main/ml/predict.py` — o que o app chama
+
+`Predictor.forecast(lon, lat, api, water_depth_m, when)` devolve o track com
+banda por horizonte e o campo de probabilidade por célula. O que ele **se
+recusa** a fazer, por decisão explícita:
+
+- prever fora da caixa de forçante, ou num ano sem arquivo de forçante — as
+  features antecedentes vêm desses arquivos, e inventar previsão sem eles é
+  pior que recusar;
+- esconder janela curta. Um vazamento em janeiro não tem janela de 90 dias
+  dentro do ano; a feature entra como NaN (que o HGB consome nativamente) e o
+  chamador é avisado.
+
+### Aba 5 do app — "Forecast (ML)"
+
+Ponto de vazamento arbitrário (ou um dos 6 campos), data dentro dos anos com
+forçante, API e profundidade; devolve o mapa com a footprint probabilística,
+o track previsto e a banda por horizonte. Sem simulação: responde em ~1 s.
+
+Uma armadilha de interface que o código evita de propósito: **a banda
+conformal é sobre a DISTÂNCIA percorrida**, não sobre a posição. Desenhá-la
+como um disco em volta do ponto previsto seria inventar incerteza de direção
+que ninguém mediu. Quem carrega a incerteza espacial é a footprint.
+
 ## 6. Decisões tomadas pelo autor (2026-07-29)
 
 - **Alvos**: (a) surrogate de transporte de patch **e** (b) estatísticas-resumo por cenário —

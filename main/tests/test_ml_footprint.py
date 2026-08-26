@@ -269,13 +269,14 @@ class _Corridor:
 
 
 def _payload(cand_ids, P, horizon=1, dx=100.0, dy=0.0, default="plume"):
+    """Shapes payload + the v4 payload that places them — they ship apart."""
     from main.ml.forecast import Q, tcol
     models = [_Const(0.0) for _ in range(len(HORIZONS_D) * len(Q))]
     hi = HORIZONS_D.index(horizon)
     models[tcol(hi, "dx_km")] = _Const(dx)
     models[tcol(hi, "dy_km")] = _Const(dy)
-    return {
-        "centroid_models": models, "feature_names": ["a", "b", "c"],
+    shapes = {
+        "feature_names": ["a", "b", "c"], "centroid_from": "test",
         "horizons_d": HORIZONS_D, "cell_km": fp.CELL_KM,
         "default_model": default,
         "kernels": {horizon: {
@@ -285,15 +286,16 @@ def _payload(cand_ids, P, horizon=1, dx=100.0, dy=0.0, default="plume"):
             "climatology": {"jan": np.full(len(cand_ids), 0.11)},
             "threshold": {"plume": 0.3, "centroid": 0.25}}},
     }
+    return shapes, {"point_models": models, "horizons_d": HORIZONS_D}
 
 
 def test_predict_footprint_draws_the_corridor_by_default():
     """The product default is the shape that won leave-one-field-out."""
     ids, _ = fp.cell_of(np.array([50.0, -200.0]), np.array([0.0, 0.0]))
     P = np.zeros((len(ff.PLUME_A) - 1, len(ff.PLUME_C) - 1))
-    out = ff.predict_footprint(_payload(ids, P, default="centroid"),
-                               np.zeros(3), 1, lon0=-40.0, lat0=-22.0,
-                               season="jan")
+    shapes, fc = _payload(ids, P, default="centroid")
+    out = ff.predict_footprint(shapes, fc, np.zeros(3), 1, lon0=-40.0,
+                               lat0=-22.0, season="jan")
     assert out["model"] == "centroid"
     assert out["threshold"] == pytest.approx(0.25)
     # On the track it is near-certain; 300 km upstream it is not.
@@ -309,9 +311,9 @@ def test_predict_footprint_places_the_plume_on_the_predicted_track():
     on_track = ((ff.PLUME_A[:-1] >= 0.0) & (ff.PLUME_A[:-1] < 1.0))
     centred = np.abs(ff.PLUME_C[:-1] + 0.025) < 0.1
     P[np.ix_(on_track, centred)] = 1.0
-    out = ff.predict_footprint(_payload(ids, P), np.zeros(3), 1,
-                               lon0=-40.0, lat0=-22.0, season="jan",
-                               model="plume")
+    shapes, fc = _payload(ids, P)
+    out = ff.predict_footprint(shapes, fc, np.zeros(3), 1, lon0=-40.0,
+                               lat0=-22.0, season="jan", model="plume")
     assert out["prob"][0] == pytest.approx(1.0)     # halfway along the track
     assert out["prob"][1] == pytest.approx(0.0)     # upstream of the release
     assert out["path_dx_km"][-1] == pytest.approx(100.0)
@@ -324,9 +326,9 @@ def test_predict_footprint_falls_back_to_the_season_climatology():
     """No predicted displacement means no frame — the app still gets a field."""
     ids, _ = fp.cell_of(np.array([50.0]), np.array([0.0]))
     P = np.ones((len(ff.PLUME_A) - 1, len(ff.PLUME_C) - 1))
-    out = ff.predict_footprint(_payload(ids, P, dx=0.0, dy=0.0), np.zeros(3),
-                               1, lon0=-40.0, lat0=-22.0, season="jan",
-                               model="plume")
+    shapes, fc = _payload(ids, P, dx=0.0, dy=0.0)
+    out = ff.predict_footprint(shapes, fc, np.zeros(3), 1, lon0=-40.0,
+                               lat0=-22.0, season="jan", model="plume")
     assert out["prob"][0] == pytest.approx(0.11)
 
 

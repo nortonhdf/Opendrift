@@ -1,6 +1,6 @@
 # ESTADO ATUAL — leia este arquivo primeiro
 
-> Atualizado em **2026-08-25**, branch **`audit/revisao-completa`**.
+> Atualizado em **2026-08-26**, branch **`audit/revisao-completa`**.
 > Este é o único documento desta pasta que descreve o **estado de hoje**. Os
 > demais (`DIAGNOSTICO.md`, `MAPA_DO_PROJETO.md`, `ARQUITETURA.md`,
 > `PIPELINE_CIENTIFICO.md`, `PLANO_DE_ACAO.md`) são **fotografias datadas de
@@ -31,9 +31,10 @@ em `main/`). Projeto de pesquisa acadêmica. Três camadas:
 
 1. **Simulação física** — `main/run_open_oil.py` monta e roda o OpenOil.
 2. **Produtos pré-computados** — cenários, ensemble, grades de risco e de
-   encalhe, servidos por um app Streamlit de 4 abas.
+   encalhe, servidos por um app Streamlit de 5 abas.
 3. **Camada de ML** — `main/ml/`, cujo objetivo é prever o destino da mancha
-   a partir apenas do que se sabe **no instante do vazamento**.
+   a partir apenas do que se sabe **no instante do vazamento**. Desde
+   2026-08-26 ela é servida na 5ª aba do app, sem rodar simulação.
 
 ## 2. Cronologia — o que foi feito, em ordem
 
@@ -47,6 +48,7 @@ em `main/`). Projeto de pesquisa acadêmica. Três camadas:
 | 2026-08-07 | ML v4 — reformulação | Alvo passa a ser previsão **em nível de cenário** (sem forçante futura). Primeiro ganho robusto: local nunca visto (`CAMADA_IA.md` §5d) |
 | 2026-08-11 | **Escopo D+7** | Arquivos de 168 h completos; controle linear no resultado-manchete; incerteza calibrada por conformal (`CAMADA_IA.md` §5e) |
 | 2026-08-25 | **Footprint** (item 1 da agenda v6) | Alvo passa a ser a grade de células oleadas, não só o centróide. Num local nunca visto, o corredor calibrado em volta do caminho previsto pelo v4 bate a climatologia em IoU e em área de busca nos 5 horizontes; produto exportado para o app (`CAMADA_IA.md` §5f) |
+| 2026-08-26 | **A camada vira produto** (item 1 da agenda v7) | Modelos passam a ser exportados (`forecast_product.joblib`, `footprint_plume.joblib`), features ganham fonte única (`scenario.feature_row`) e o app ganha a aba **Forecast (ML)**: ponto de vazamento arbitrário, resposta em ~1 s, sem simulação (`CAMADA_IA.md` §5g) |
 
 ### O que mudou de conclusão ao longo do caminho (importante para o crosscheck)
 
@@ -177,26 +179,30 @@ Lista deliberada de fraquezas — se o revisor for atrás de algo, que seja daqu
   processo morre nativamente (exit `0xC06D007F`, sem output).
 - Sempre a partir da raiz do repositório.
 - App: `python -m streamlit run main/app.py`
-- Testes: `python -m pytest main/tests -o addopts=""` (**106 testes**, todos
-  passando em 2026-08-25; `-o addopts=""` neutraliza as opções de pytest do
+- Testes: `python -m pytest main/tests -o addopts=""` (**118 testes**, todos
+  passando em 2026-08-26; `-o addopts=""` neutraliza as opções de pytest do
   OpenDrift upstream).
 
-## 8. O que está aberto (agenda v7)
+## 8. O que está aberto (agenda v8)
 
-O item 1 da v6 (footprint) foi entregue em 2026-08-25 — ver `CAMADA_IA.md`
-§5f. O que sobra, em ordem de custo:
+Entregues: footprint (v6 item 1, em 2026-08-25, `CAMADA_IA.md` §5f) e a
+exposição da camada no app (v7 item 1, em 2026-08-26, §5g). O que sobra, em
+ordem de custo:
 
-1. **Expor no app** (era o item 3 da v6) — previsão de centróide + envelope
-   conformal + footprint probabilística numa aba de previsão. O produto já
-   está pronto para consumo (`footprint_plume.joblib` +
-   `predict_footprint()`); falta a interface. **Próximo passo recomendado**:
-   não exige simulação nem treino novo.
-2. **Consertar a pluma 2D** — os bins do núcleo são normalizados pelo
+1. **Consertar a pluma 2D** — os bins do núcleo são normalizados pelo
    deslocamento previsto e ficam menores que a célula em horizontes curtos
-   (§5f, Resultado 2). Barato, e é a hipótese com mais margem.
-3. **Mais locais de semeadura** (grade de pontos, não só os 6 campos) — ataca
+   (§5f, Resultado 2). Barato, e é a hipótese com mais margem. **Próximo
+   passo recomendado.**
+2. **Descobrir por que o espalhamento não é previsível** (MAE 1,28–1,38 km
+   para todo modelo, inclusive climatologia): ou não há sinal nas features,
+   ou o alvo está mal definido. Não exige simulação nova.
+3. **Deploy do app** — plataforma segue em aberto (`PERGUNTAS_ABERTAS.md`),
+   e o polimento de UI foi decidido para depois de ciência+ML.
+4. **Mais locais de semeadura** (grade de pontos, não só os 6 campos) — ataca
    diretamente a limitação #1 da §6. Exige horas de simulação nova.
-4. **D+14** — exige runs de 336 h; o arquivo atual vai até 168 h. Medir antes
+5. **Ondas ERA5 reais** — os scripts existem, `waves_cf.nc` nunca foi gerado;
+   o Stokes drift hoje é parametrizado do vento (§6.7).
+6. **D+14** — exige runs de 336 h; o arquivo atual vai até 168 h. Medir antes
    de prometer: em D+7 o ganho sobre climatologia no local conhecido já é nulo.
 
 ## 9. Mapa dos documentos

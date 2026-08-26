@@ -45,7 +45,7 @@ Resumo do que a auditoria achou e a Fase 8 corrigiu (2026-07-30, `REGENERACAO.md
 - Rodar sempre da raiz do repo. App: `python -m streamlit run main/app.py`.
   Rebuild dos produtos de 120 h: `.\main\rebuild_all.ps1`.
   Arquivos de 168 h da camada de ML: `python -m main.ml.multiyear generate <ano>`.
-- Testes: `python -m pytest main/tests -o addopts=""` (106 testes).
+- Testes: `python -m pytest main/tests -o addopts=""` (118 testes).
 
 ## Regras para pós-processar os NetCDF de saída
 

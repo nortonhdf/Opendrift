@@ -22,6 +22,7 @@ Usage (repo root, opendrift env):
 
 from __future__ import annotations
 
+import argparse
 import json
 import sys
 from pathlib import Path
@@ -45,6 +46,7 @@ ML_OUT = ROOT / "main" / "outputs" / "ml"
 DATASET = ML_OUT / "scenario_dataset.npz"
 HOLDOUT = ML_OUT / "scenario_dataset_2024.npz"
 REPORT = ML_OUT / "forecast_report.json"
+PRODUCT = ML_OUT / "forecast_product.joblib"
 SEED = 42
 
 # loss='absolute_error' fits the CONDITIONAL MEDIAN, matching the median
@@ -376,11 +378,95 @@ def leave_one_field_out(X, Y, blocks, fields, feat_names) -> dict:
     return res
 
 
+# ── the deployable product ───────────────────────────────────────────────────
+
+def fit_product(X, Y, years) -> dict:
+    """Fit the configuration the app ships: point estimate + calibrated band.
+
+    All three pieces come from ONE split — point model and quantile boosters
+    fitted on the older years, conformal widening measured on the most recent
+    one. That split is structural, not a preference: a conformal correction
+    measured on data the quantile models trained on is not a correction, it
+    is a memory (§5e, Resultado 3).
+
+    Note the difference from the blind table in §5e, which reports the point
+    model refitted on all three years. The app ships the model the band and
+    the footprint corridor were calibrated AGAINST, so that the point it
+    draws and the uncertainty around it come from the same fit. The cost is
+    240 training scenarios; the alternative is a band that does not belong
+    to the point it surrounds.
+    """
+    cal_year = int(max(set(years.tolist())))
+    fit = years != cal_year
+    q_models = fit_quantile_envelope(X[fit], Y[fit])
+    return {
+        "point_models": fit_hgb(X[fit], Y[fit]),
+        "quantile_models": q_models,
+        "conformal_km": conformal_correction(q_models, X[~fit], Y[~fit]),
+        "quantiles": QUANTILES, "horizons_d": HORIZONS_D,
+        "fit_years": sorted(set(years[fit].tolist())),
+        "calibration_year": cal_year,
+        "n_fit": int(fit.sum()), "n_calibration": int((~fit).sum()),
+    }
+
+
+def export_product(out: Path = PRODUCT) -> dict:
+    """Persist the v4 layer so the app does not have to refit it."""
+    import joblib
+
+    d = np.load(DATASET, allow_pickle=True)
+    payload = fit_product(d["X"], d["Y"], d["year"])
+    payload["feature_names"] = [str(f) for f in d["feature_names"]]
+    payload["target_names"] = [str(t) for t in d["target_names"]]
+    out.parent.mkdir(parents=True, exist_ok=True)
+    joblib.dump(payload, out)
+    print(f"[OK] produto v4 -> {out.relative_to(ROOT)}  "
+          f"(ajuste {payload['fit_years']}, {payload['n_fit']} cenários; "
+          f"calibração {payload['calibration_year']}, "
+          f"{payload['n_calibration']})")
+    return payload
+
+
+def predict_scenario(payload, x_row) -> dict:
+    """Centroid displacement and its calibrated band, for ONE release.
+
+    ``x_row`` follows ``payload["feature_names"]`` (build it with
+    main.ml.scenario). The band is on the DISTANCE travelled — that is what
+    the conformal correction was calibrated on — so it is a range of
+    distances along the predicted bearing, NOT a disc around the predicted
+    point. Direction uncertainty is not in this number; the footprint
+    corridor is what carries it spatially.
+    """
+    x = np.asarray(x_row, np.float32)[None, :]
+    P = derive_dist(predict_models(payload["point_models"], x))
+    q_lo, q_hi = payload["quantiles"]
+    out = {}
+    for hi, h in enumerate(payload["horizons_d"]):
+        c = payload["conformal_km"][h]
+        lo = float(payload["quantile_models"][h][q_lo].predict(x)[0]) - c
+        up = float(payload["quantile_models"][h][q_hi].predict(x)[0]) + c
+        out[h] = {
+            "dx_km": float(P[0, tcol(hi, "dx_km")]),
+            "dy_km": float(P[0, tcol(hi, "dy_km")]),
+            "dist_km": float(P[0, tcol(hi, "dist_km")]),
+            "spread_km": float(P[0, tcol(hi, "spread_km")]),
+            "dist_lo_km": max(0.0, lo), "dist_hi_km": up,
+        }
+    return out
+
+
 def main() -> None:
     try:
         sys.stdout.reconfigure(encoding="utf-8")
     except Exception:
         pass
+
+    ap = argparse.ArgumentParser(description="Scenario-level forecasting.")
+    ap.add_argument("--export", action="store_true",
+                    help="Fit and persist the product for the app, no evaluation.")
+    if ap.parse_args().export:
+        export_product()
+        return
 
     d = np.load(DATASET, allow_pickle=True)
     X, Y = d["X"], d["Y"]

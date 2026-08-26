@@ -16,7 +16,7 @@ Research project; an ML layer (patch-transport surrogate + scenario summary
 statistics) is planned on top of the regenerated products — see
 `docs/auditoria/CAMADA_IA.md`.
 
-**Components** — `app.py` (Streamlit, 4 tabs), `fields_config.py` (official
+**Components** — `app.py` (Streamlit, 5 tabs), `fields_config.py` (official
 ANP/EPE coordinates + API→oil rule), `domain_config.py` (single source for
 box/grid/seasons), `status_utils.py` (per-file status decoding),
 `run_open_oil.py` (`run_simulation()`), `scripts/` (download/prep, 48
@@ -197,12 +197,40 @@ estimates finer structure than the data has. Fix deferred, declared.
 artefact on 2024: 0.03→0.03, 0.07→0.07, 0.13→0.12); its worse Brier is
 sharpness, not miscalibration — deviations sit in bins holding <2 % of cells.
 
-Product: `outputs/ml/footprint_plume.joblib` (v4 centroid models + corridor
-isotonic + plume kernel + per-season climatology + operating points).
-Default shape = corridor, chosen by LOFO, and both ship so swapping it is a
-documented decision. `predict_footprint(payload, x_row, h, lon0, lat0,
-season)` returns cell centres, probability, threshold and the predicted path
-— ready for the app tab. Full record: docs/auditoria/CAMADA_IA.md §5f.
+Full record: docs/auditoria/CAMADA_IA.md §5f.
+
+### Serving it (since 2026-08-26) — §5g
+
+Two artefacts, one per layer, both from ONE configuration (fit 2022+2023,
+calibrate 2025 — structural, because a conformal correction measured on the
+quantile models' own training data is a memory, not a correction):
+
+| file | holds | build |
+|---|---|---|
+| `forecast_product.joblib` | centroid + quantile models + conformal corrections | `python -m main.ml.forecast --export` |
+| `footprint_plume.joblib` | corridor isotonic, plume kernel, per-season climatology, operating points | `python -m main.ml.footprint_forecast --export` |
+
+The footprint artefact does NOT carry its own centroid models — it consumes
+the v4 product, so the corridor is calibrated against the very models the app
+draws with (and 30 MB of duplicate regressors left git). Reliability came out
+identical before and after that change, which is the check that they agreed.
+
+`scenario.feature_row()` is the single source for the input vector: the
+dataset builder and the live predictor call the same function, because a
+feature assembled one way in training and another way in serving is the
+quietest way to break a deployed model. The dataset was rebuilt after that
+refactor and compared array by array to the previous one — identical.
+
+`main/ml/predict.py` → `Predictor.forecast(lon, lat, api, water_depth_m,
+when)` returns the track with its band per horizon plus the per-cell
+probability field. It REFUSES to forecast outside the forcing box or in a
+year with no forcing file, and reports (never hides) a short antecedent
+window. App tab 5, "Forecast (ML)", is a thin layer over it — arbitrary
+release point, ~1 s, no simulation.
+
+**Do not draw the conformal band as a disc around the predicted point.** It
+is calibrated on the DISTANCE travelled, so it is a range along the predicted
+bearing; the spatial uncertainty is what the footprint field carries.
 
 ## Author decisions on record (2026-07-29)
 

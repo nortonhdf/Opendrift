@@ -61,6 +61,28 @@ def feature_names() -> list[str]:
     return names
 
 
+def feature_row(lon: float, lat: float, api: float, water_depth_m: float,
+                release, sampler) -> np.ndarray:
+    """The full feature vector for one release, in ``feature_names()`` order.
+
+    Used by the dataset builder AND by the live predictor behind the app
+    (main/ml/predict.py). It exists so the two cannot drift: a feature
+    assembled one way at training time and another way at inference time is
+    the quietest way to break a deployed model, and the audit already caught
+    the same class of bug once with constants re-declared in four files
+    (finding #11 -> domain_config.py).
+    """
+    rel = np.datetime64(release)
+    year = int(str(rel)[:4])
+    doy = (rel - np.datetime64(f"{year}-01-01")) / np.timedelta64(1, "D")
+    month = int(str(rel)[5:7])
+    feats = [lon, lat, api, water_depth_m,
+             np.sin(2 * np.pi * month / 12), np.cos(2 * np.pi * month / 12),
+             np.sin(2 * np.pi * doy / 365.25), np.cos(2 * np.pi * doy / 365.25)]
+    feats += sampler.features(year, lon, lat, rel)
+    return np.asarray(feats, np.float32)
+
+
 class AntecedentSampler:
     """Ocean-state statistics over the N days preceding a release.
 
@@ -175,16 +197,9 @@ def build(holdout: bool = False) -> dict:
             ds = xr.open_dataset(nc)
             release = ds["time"].values[0]
             ds.close()
-            rel = np.datetime64(release)
-            doy = (rel - np.datetime64(f"{year}-01-01")) / np.timedelta64(1, "D")
-            month = int(str(rel)[5:7])
 
-            feats = [lon0, lat0, cfg["api"], cfg["water_depth_m"],
-                     np.sin(2 * np.pi * month / 12), np.cos(2 * np.pi * month / 12),
-                     np.sin(2 * np.pi * doy / 365.25), np.cos(2 * np.pi * doy / 365.25)]
-            feats += sampler.features(year, lon0, lat0, rel)
-
-            X.append(feats)
+            X.append(feature_row(lon0, lat0, cfg["api"], cfg["water_depth_m"],
+                                 release, sampler))
             Y.append(targs)
             blocks.append(f"{field}_{entry['season']}")
             meta.append((year, field, entry["season"], key))

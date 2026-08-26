@@ -796,33 +796,44 @@ def dump_scores(scores: dict, path: Path) -> None:
 
 # ── the deployable product ───────────────────────────────────────────────────
 
-def export_product(ctx, cal_year: int, out: Path = PRODUCT) -> dict:
-    """Persist EXACTLY the configuration that was evaluated, ready to draw.
+def export_product(ctx, cal_year: int, out: Path = PRODUCT) -> tuple:
+    """Persist the shapes, calibrated against the SHIPPED centroid models.
 
-    Not "the best possible fit on all data": the kernel is only honest when
-    the paths it was measured on came from a centroid model that never saw
-    those scenarios. Refitting the centroid model on all three years would
-    make its predictions sharper than the kernel assumes, and the plume would
-    silently become over-wide. Ship what was measured.
+    The centroid models come from the v4 product (main.ml.forecast --export),
+    they are not refitted here. That is the whole point: the corridor and the
+    plume are calibrated on paths drawn by the very models the app will use,
+    so the band around a predicted point belongs to that point. Refitting
+    would give the app a track its corridor was never measured against, and
+    would duplicate 30 MB of identical regressors in git.
+
+    Not "the best possible fit on all data" either: the shape is only honest
+    when the paths it was measured on came from a model that never saw those
+    scenarios, which is why the v4 product is fitted on 2022+2023 and
+    everything here is calibrated on 2025.
     """
     import joblib
+
+    fc = load_forecast_product()
+    if fc["calibration_year"] != cal_year:
+        raise SystemExit(
+            f"Produto v4 calibrado em {fc['calibration_year']}, mas este "
+            f"dataset calibra em {cal_year} — regere os dois.")
 
     rows = np.arange(len(ctx["uid"]))
     fit = rows[ctx["year"] != cal_year]
     cal = rows[ctx["year"] == cal_year]
-    cmods = centroid_models(ctx, fit)
-    P_cal = derive_dist(predict_models(cmods, ctx["X"][cal]))
+    P_cal = derive_dist(predict_models(fc["point_models"], ctx["X"][cal]))
     rows_all = np.concatenate([fit, cal])
     seasons_all, seasons_cal = ctx["season"][rows_all], ctx["season"][cal]
 
     payload = {
-        "centroid_models": cmods,
         "feature_names": [str(f) for f in ctx["feature_names"]],
         "horizons_d": HORIZONS_D, "cell_km": CELL_KM,
         "plume_a": PLUME_A, "plume_c": PLUME_C, "kernels": {},
         "fit_years": sorted(set(ctx["year"][fit].tolist())),
         "calibration_year": int(cal_year),
         "default_model": PRODUCT_MODEL,
+        "centroid_from": "forecast_product.joblib",
     }
     for h in HORIZONS_D:
         radius = candidate_radius(ctx, fit, h)
@@ -857,24 +868,41 @@ def export_product(ctx, cal_year: int, out: Path = PRODUCT) -> dict:
         }
     out.parent.mkdir(parents=True, exist_ok=True)
     joblib.dump(payload, out)
-    print(f"[OK] produto -> {out.relative_to(ROOT)}")
-    return payload
+    print(f"[OK] formas -> {out.relative_to(ROOT)} "
+          f"(centróide vem de {payload['centroid_from']})")
+    return payload, fc
 
 
-def predict_footprint(payload, x_row: np.ndarray, h: int, lon0: float,
-                      lat0: float, season: str, model: str = None) -> dict:
+def load_forecast_product():
+    """The v4 layer this one draws its tracks from (fit it if absent)."""
+    import joblib
+
+    from main.ml import forecast
+
+    if not forecast.PRODUCT.exists():
+        print(f"[..] {forecast.PRODUCT.name} não existe; ajustando agora "
+              f"(python -m main.ml.forecast --export)")
+        return forecast.export_product()
+    return joblib.load(forecast.PRODUCT)
+
+
+def predict_footprint(payload, fc_payload, x_row: np.ndarray, h: int,
+                      lon0: float, lat0: float, season: str,
+                      model: str = None) -> dict:
     """Oiling probability per cell for ONE release — what the app draws.
 
-    ``x_row`` is a scenario feature vector in the order of
-    ``payload["feature_names"]`` (build it with main.ml.scenario). Returns
-    geographic cell centres, their probability, and the evaluated operating
-    point so the caller can outline a deterministic footprint if it wants one.
+    ``payload`` holds the shapes, ``fc_payload`` the v4 models that place
+    them (main.ml.forecast). ``x_row`` is a scenario feature vector in the
+    order of ``payload["feature_names"]`` (build it with main.ml.scenario).
+    Returns geographic cell centres, their probability, and the evaluated
+    operating point, so the caller can outline a deterministic footprint if
+    it wants one.
     """
     k = payload["kernels"][h]
     name = model or payload.get("default_model", "centroid")
     cand_ids = k["cand_ids"].astype(np.int64)
     cdx, cdy = cell_offsets_km(cand_ids)
-    P_c = derive_dist(predict_models(payload["centroid_models"],
+    P_c = derive_dist(predict_models(fc_payload["point_models"],
                                      np.asarray(x_row, np.float32)[None, :]))
     path = paths_from_centroid(P_c, h)[0]
     if name == "centroid":
@@ -896,7 +924,7 @@ RELIABILITY_BINS = np.array([0.0, 0.02, 0.05, 0.10, 0.20, 0.30, 0.50, 0.70,
                              0.90, 1.0001])
 
 
-def evaluate_reliability(ctx_h, payload) -> dict:
+def evaluate_reliability(ctx_h, payload, fc_payload) -> dict:
     """Does a cell drawn at 30 % get oiled 30 % of the time? (blind year)
 
     A probability map is only usable if its numbers mean what they say, and
@@ -915,7 +943,7 @@ def evaluate_reliability(ctx_h, payload) -> dict:
         T = truth_matrix(ctx_h, rows, h, cand)
         ok = valid_rows(ctx_h, rows, h)
         P = np.vstack([
-            predict_footprint(payload, ctx_h["X"][i], h,
+            predict_footprint(payload, fc_payload, ctx_h["X"][i], h,
                               float(ctx_h["lon0"][i]), float(ctx_h["lat0"][i]),
                               str(ctx_h["season"][i]))["prob"]
             for i in rows[ok]])
@@ -968,9 +996,9 @@ def main() -> None:
           + "  ".join(f"D+{h}={med[h]:.0f}" for h in HORIZONS_D))
 
     if args.export or args.reliability:
-        payload = export_product(ctx, cal_year)
+        payload, fc_payload = export_product(ctx, cal_year)
         if args.reliability:
-            rel = evaluate_reliability(ctx_h, payload)
+            rel = evaluate_reliability(ctx_h, payload, fc_payload)
             RELIABILITY.write_text(json.dumps(
                 {"blind_2024": rel, "model": payload["default_model"],
                  "bins": RELIABILITY_BINS.tolist()}, indent=2))
