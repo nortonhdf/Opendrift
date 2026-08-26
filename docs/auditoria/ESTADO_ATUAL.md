@@ -182,7 +182,12 @@ Lista deliberada de fraquezas — se o revisor for atrás de algo, que seja daqu
    CDS recusa por limite de custo; (b) baixava altura/período/direção mas
    **não as componentes de Stokes drift**, então o arquivo carregava sem erro
    e a trajetória saía **bit-idêntica** à parametrização do vento — um no-op
-   silencioso. Corrigidos os dois. Continua atacável: nenhum produto
+   silencioso. Corrigidos os dois e verificado: com as componentes de Stokes,
+   o centróide em D+7 se afasta **5,9 km** do que a parametrização dá (era
+   0,0 km antes). E esse número tem leitura própria: como ligar ondas move o
+   centróide 27,7 km, a discrepância entre onda real e parametrização é ~1/5
+   do efeito — **a parametrização era uma aproximação defensável**, o que
+   agora está medido em vez de presumido. Continua atacável: nenhum produto
    publicado usa ondas (todos os arquivos foram gerados com `use_waves=False`),
    então isto é capacidade nova, não revalidação.
 8. **A footprint prevista é a área VARRIDA, não a mancha instantânea.** Não é

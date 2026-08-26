@@ -30,6 +30,12 @@ orchestrator), `tests/` (pytest).
 - Spill volume: `spill_m3=10` (reference scenario; type out of scope).
 - RK4 advection; declared uncertainties current 0.05 / wind 0.5 m/s.
 - Forcing box lon −45..−36 / lat −27..−19; >2 % domain-exit triggers a warning.
+- Stokes drift: real ERA5 waves when `inputs/waves_cf.nc` exists (2025 is
+  downloaded), otherwise parameterised from wind. Measured difference at D+7:
+  5.9 km, against 27.7 km for waves-on vs waves-off. Every archived product
+  was generated with `use_waves=False`, so waves change no published number.
+  The download script requests the Stokes components (`ust`/`vst`): without
+  them a wave file loads and changes nothing at all.
 - No silent smoke fallback: missing forcing raises (pass `smoke_test=True`).
 - **Status codes vary per output file** — decode via `main/status_utils.py`
   (`flag_meanings`); `active` is always 0; never assume `1 == stranded`.

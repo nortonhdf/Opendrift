@@ -80,8 +80,11 @@ consulted 2026-07-29). Oil type derives from API gravity via
   model is a declared constant, not a prediction
   (`docs/auditoria/CAMADA_IA.md` §5h).
 - SST from CMEMS `thetao` (merged into `currents.nc`); declared 24 °C fallback.
-- Stokes drift: parameterised from wind when waves are enabled (no wave
-  dataset needed); real ERA5 waves remain optional via `waves_cf.nc`.
+- Stokes drift: real ERA5 waves when `inputs/waves_cf.nc` is present
+  (2025 is downloaded), otherwise parameterised from the wind. The two differ
+  by 5.9 km at D+7 against a 27.7 km waves-on/waves-off effect, so the
+  parameterisation is a fair stand-in — measured, `CAMADA_IA.md` §5h context.
+  Every archived product was generated with `use_waves=False`.
 - Forcing box lon −45..−36 / lat −27..−19 (`domain_config.py`);
   `run_simulation` warns if >2 % of particles exit the forcing coverage.
 - **Status flags are per-file**: always decode with `status_utils` — never
