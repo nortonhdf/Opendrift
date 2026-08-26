@@ -176,8 +176,15 @@ Lista deliberada de fraquezas — se o revisor for atrás de algo, que seja daqu
    feita (não há dado observado no projeto).
 6. **Ensemble por datas de início**, não por perturbação de física: a
    dispersão do ensemble mede variabilidade temporal, não incerteza de modelo.
-7. **Ondas reais (ERA5) nunca entraram**: o Stokes drift, quando ligado, vem
-   de parametrização a partir do vento.
+7. **Ondas reais (ERA5)**: em 2026-08-26 o pipeline foi consertado e o
+   arquivo de 2025 baixado. Dois defeitos estavam escondidos porque o script
+   nunca havia sido executado: (a) pedia o ano inteiro numa requisição e o
+   CDS recusa por limite de custo; (b) baixava altura/período/direção mas
+   **não as componentes de Stokes drift**, então o arquivo carregava sem erro
+   e a trajetória saía **bit-idêntica** à parametrização do vento — um no-op
+   silencioso. Corrigidos os dois. Continua atacável: nenhum produto
+   publicado usa ondas (todos os arquivos foram gerados com `use_waves=False`),
+   então isto é capacidade nova, não revalidação.
 8. **A footprint prevista é a área VARRIDA, não a mancha instantânea.** Não é
    uma escolha de conveniência — a mancha instantânea ocupa 1–2 células na
    grade de 0,1° (§5f, Decisão 1) —, mas quem esperar "onde está o óleo no
@@ -190,7 +197,7 @@ Lista deliberada de fraquezas — se o revisor for atrás de algo, que seja daqu
   processo morre nativamente (exit `0xC06D007F`, sem output).
 - Sempre a partir da raiz do repositório.
 - App: `python -m streamlit run main/app.py`
-- Testes: `python -m pytest main/tests -o addopts=""` (**119 testes**, todos
+- Testes: `python -m pytest main/tests -o addopts=""` (**129 testes**, todos
   passando em 2026-08-26; `-o addopts=""` neutraliza as opções de pytest do
   OpenDrift upstream).
 
@@ -204,9 +211,12 @@ O que sobra depende de decisão, credencial ou horas de máquina:
 1. **Deploy do app** — plataforma segue em aberto (`PERGUNTAS_ABERTAS.md`),
    e o polimento de UI foi decidido para depois de ciência+ML. **Depende de
    decisão do autor**, não de trabalho técnico pendente.
-2. **Mais locais de semeadura** (grade de pontos, não só os 6 campos) — ataca
-   diretamente a limitação #1 da §6, e é o item com maior retorno científico.
-   Exige horas de simulação nova.
+2. **Mais locais de semeadura** — a **infraestrutura ficou pronta** em
+   2026-08-26 (`main/ml/seedgrid.py`, §5i do `CAMADA_IA.md`): amostragem
+   testada, margem dimensionada por medição, piloto de 32 runs com 0 saídas
+   de domínio, e os dataset builders já aceitam `--grid`. Falta só **rodar**
+   o arquivo completo (480 runs, horas de máquina) e avaliar o
+   leave-one-location-out. É o item com maior retorno científico.
 3. **Ondas ERA5 reais** — os scripts existem, `waves_cf.nc` nunca foi gerado;
    o Stokes drift hoje é parametrizado do vento (§6.7). Exige credencial CDS.
 4. **D+14** — exige refazer o arquivo a 336 h (4 anos × 240 runs). Medir

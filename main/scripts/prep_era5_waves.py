@@ -20,11 +20,17 @@ def main():
     ]
     mwp_candidates = ["mean_wave_period", "mwp", "mpww"]
     mwd_candidates = ["mean_wave_direction", "mwd", "mdww"]
+    # The Stokes components are the ones OpenDrift advects with; without them
+    # a wave file changes nothing but the weathering terms.
+    ust_candidates = ["u_component_stokes_drift", "ust"]
+    vst_candidates = ["v_component_stokes_drift", "vst"]
 
     for candidates, std_name, cf_name in [
         (swh_candidates, "sea_surface_wave_significant_height",            "sea_surface_wave_significant_height"),
         (mwp_candidates, "sea_surface_wave_mean_period_from_variance_spectral_density_first_frequency_moment", "sea_surface_wave_mean_period"),
         (mwd_candidates, "sea_surface_wave_from_direction",                "sea_surface_wave_from_direction"),
+        (ust_candidates, "sea_surface_wave_stokes_drift_x_velocity",       "sea_surface_wave_stokes_drift_x_velocity"),
+        (vst_candidates, "sea_surface_wave_stokes_drift_y_velocity",       "sea_surface_wave_stokes_drift_y_velocity"),
     ]:
         for c in candidates:
             if c in ds.data_vars:
@@ -43,6 +49,12 @@ def main():
     ds.to_netcdf(OUT)
     print("OK ->", OUT.resolve())
     print("data_vars:", list(ds.data_vars))
+    for needed in ("sea_surface_wave_stokes_drift_x_velocity",
+                   "sea_surface_wave_stokes_drift_y_velocity"):
+        if needed not in ds.data_vars:
+            print(f"[AVISO] {needed} ausente — o OpenDrift vai continuar "
+                  f"usando a parametrizacao do vento e este arquivo nao "
+                  f"mudara a trajetoria.")
 
 if __name__ == "__main__":
     main()

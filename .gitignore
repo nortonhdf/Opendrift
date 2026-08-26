@@ -31,4 +31,7 @@ main/outputs/tracks.png
 main/outputs/test_wind_off.*
 main/outputs/_smoke_budget.*
 main/outputs/_spread_probe/
+main/outputs/_waves_probe/
+# CDS monthly parts: a download cache, keyed by the variable set
+main/inputs/_waves_parts*/
 main/outputs/scenarios/*.png

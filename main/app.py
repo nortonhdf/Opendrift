@@ -802,9 +802,15 @@ API: **{field['api']}°** · {field['operator']} · {field['water_depth_m']} m
 
         st.divider()
         use_wind   = st.toggle("Wind forcing",        value=True)
+        # Which Stokes source is live depends on whether a real wave file
+        # exists: run_open_oil prefers waves_cf.nc over the wind-based
+        # parameterisation. Say which one, instead of asserting the old one.
+        waves_nc = ROOT / "main" / "inputs" / "waves_cf.nc"
+        wave_src = ("real ERA5 waves (`inputs/waves_cf.nc`)" if waves_nc.exists()
+                    else "parameterised from the wind field (no wave dataset present)")
         use_waves  = st.toggle("Stokes drift (waves)", value=False,
-                               help="Adds wave-driven Stokes drift, parameterised from the "
-                                    "wind field (no separate wave dataset needed). Requires wind.")
+                               help=f"Adds wave-driven Stokes drift, {wave_src}. "
+                                    "Requires wind.")
         n_particles = st.slider("Particles", 100, 2000, 1000, step=100)
 
         run_btn = st.button("▶ Run simulation", type="primary", width="stretch")

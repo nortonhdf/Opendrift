@@ -162,33 +162,61 @@ def targets_from_run(nc_path: Path) -> tuple[list[float], float, float]:
     return out, lon0, lat0
 
 
-def _archives(holdout: bool) -> list[tuple[int, Path]]:
-    """168-h archives (D+7 scope), one balanced set per year."""
+def _archives(holdout: bool = False, grid_years=None) -> list:
+    """168-h archives (D+7 scope), one balanced set per year.
+
+    ``grid_years`` switches to the seed-location archives of main.ml.seedgrid
+    instead of the six-field ones — same file layout, many more locations.
+    """
     from main.ml.multiyear import TRAIN_DIR_TMPL
-    years = [2024] if holdout else TRAIN_YEARS
+    from main.ml.seedgrid import GRID_DIR_TMPL
+
+    tmpl = GRID_DIR_TMPL if grid_years else TRAIN_DIR_TMPL
+    years = list(grid_years) if grid_years else ([2024] if holdout
+                                                 else TRAIN_YEARS)
     out = []
     for y in years:
-        m = (ROOT / "main" / "outputs"
-             / TRAIN_DIR_TMPL.format(year=y) / "manifest.json")
+        m = (ROOT / "main" / "outputs" / tmpl.format(year=y) / "manifest.json")
         if m.exists():
             out.append((y, m))
     if not out:
-        raise SystemExit(
-            "Nenhum arquivo de 168 h encontrado. Gere com: "
-            "python -m main.ml.multiyear generate <ano>")
+        how = ("python -m main.ml.seedgrid generate <ano>" if grid_years
+               else "python -m main.ml.multiyear generate <ano>")
+        raise SystemExit(f"Nenhum arquivo de 168 h encontrado. Gere com: {how}")
     return out
 
 
-def build(holdout: bool = False) -> dict:
-    years = [2024] if holdout else TRAIN_YEARS
+def release_config(entry: dict) -> dict:
+    """Release parameters for one manifest entry.
+
+    Six-field archives name a field and look the rest up in fields_config;
+    seed-grid archives carry lon/lat/api/depth in the manifest because there
+    is no registry entry to look up. Manifest values win, so a future archive
+    can override anything without touching this builder.
+    """
+    cfg = dict(CAMPOS_FIELDS.get(entry["field"], {}))
+    for k in ("api", "water_depth_m", "lon", "lat"):
+        if k in entry and entry[k] is not None:
+            cfg[k] = entry[k]
+        elif k in entry:                      # explicit null = unknown
+            cfg[k] = float("nan")
+    if "api" not in cfg:
+        raise KeyError(f"manifesto sem api e campo desconhecido: {entry}")
+    cfg.setdefault("water_depth_m", float("nan"))
+    return cfg
+
+
+def build(holdout: bool = False, grid_years=None) -> dict:
+    years = (list(grid_years) if grid_years
+             else ([2024] if holdout else TRAIN_YEARS))
     sampler = AntecedentSampler(years)
     X, Y, blocks, meta = [], [], [], []
 
-    for year, mpath in _archives(holdout):
+    for year, mpath in _archives(holdout, grid_years):
         man = json.loads(mpath.read_text())
         for key, entry in sorted(man.items()):
             field = entry["field"]
-            cfg = CAMPOS_FIELDS[field]
+            cfg = release_config(entry)
             nc = ROOT / entry["nc"]
             targs, lon0, lat0 = targets_from_run(nc)
             if not np.isfinite(targs[:4]).all():      # need at least D+1
@@ -206,7 +234,9 @@ def build(holdout: bool = False) -> dict:
         print(f"  {mpath.parent.name}: acumulado {len(X)} cenários", flush=True)
     sampler.close()
 
-    name = "scenario_dataset_2024.npz" if holdout else "scenario_dataset.npz"
+    name = ("scenario_dataset_grid.npz" if grid_years
+            else "scenario_dataset_2024.npz" if holdout
+            else "scenario_dataset.npz")
     out = ML_OUT / name
     out.parent.mkdir(parents=True, exist_ok=True)
     np.savez_compressed(
@@ -236,8 +266,10 @@ def main() -> None:
     p = argparse.ArgumentParser(description="Build the scenario-level dataset.")
     p.add_argument("--holdout", action="store_true",
                    help="Build from the frozen 2024 archive instead.")
+    p.add_argument("--grid", type=int, nargs="*", metavar="ANO",
+                   help="Build from the seed-location archives of these years.")
     args = p.parse_args()
-    build(holdout=args.holdout)
+    build(holdout=args.holdout, grid_years=args.grid)
 
 
 if __name__ == "__main__":

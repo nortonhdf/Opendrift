@@ -835,6 +835,57 @@ nenhum modelo melhor vai criá-la. Consequência prática: `predict_scenario`
 continua devolvendo `spread_km`, mas com aviso explícito de que não deve ser
 apresentado como previsão; o app não o exibe.
 
+## 5i. Infraestrutura para atacar a limitação #1 — locais de semeadura (2026-08-26)
+
+`main/ml/seedgrid.py`. A limitação #1 do projeto é que toda afirmação sobre
+"local nunca visto" vem de leave-one-field-out entre **seis** sítios vizinhos
+da mesma bacia — seis locais não distinguem "o modelo transfere no espaço" de
+"os seis sítios se parecem". Este módulo gera o arquivo a partir de uma
+amostra de locais, para que o leave-one-**location**-out tenha dezenas de
+sítios retidos em vez de cinco.
+
+Três decisões de desenho, e as duas que o piloto corrigiu:
+
+**Só o local varia.** API fixo em 28° e volume no valor de referência, para
+que diferença entre locais não seja efeito de tipo de óleo disfarçado de
+mapa.
+
+**A amostra precisa ser um prefixo estável.** O LHS estratifica sobre o
+número de pontos sorteados, então um pool dimensionado como `n × k` faz
+`sample_locations(8)` **não** ser prefixo de `sample_locations(40)`. Com isso
+um lote piloto viraria lixo e "adicionar mais dez locais" invalidaria todo o
+arquivo já gerado. Corrigido com pool fixo; o invariante está fixado em teste.
+
+**A margem da região é medida, não chutada.** Nos 720 runs arquivados de
+168 h a partícula mais distante chegou a **373 km a oeste, 384 km ao sul,
+128 km a leste e 161 km ao norte** — a assimetria da Corrente do Brasil em
+números. A primeira versão usou margem chutada (2° O, 1,5° S) e o piloto
+pegou: **1 run em 32 perdeu 39% das partículas pela borda**, uma regressão
+contra o "0 saídas de domínio" da regeração. Com a margem dimensionada pelo
+máximo observado, o piloto refeito deu **0 saídas de domínio em 32 runs**.
+
+O custo é honesto e fica declarado: a região resultante
+(lon −41,2..−37,2 / lat −23,5..−20,4) é a Bacia de Campos e arredores. O
+arquivo fortalece a afirmação espacial em escala de **bacia**; geografia
+arbitrária exige baixar forçante numa caixa maior, que é outro trabalho.
+
+**Locais costeiros ficam.** A margem de costa só mantém a semente fora da
+terra, não longe dela: um ponto a ~20 km da costa entra na amostra e encalha
+em dias. O piloto achou exatamente um assim em oito (metade dos runs
+encalhando; os outros sete, zero). Aumentar a margem até eles sumirem seria
+selecionar pelo resultado — o mesmo erro que a margem de domínio evita — e
+apagaria o único regime que seis campos offshore não têm como ensinar. A
+avaliação deve reportar costeiro e offshore em separado.
+
+Detalhe de convenção que era invisível enquanto o encalhe era ~zero: o
+OpenDrift preenche elementos desativados com NaN, então o centróide em D+n é
+o do que **ainda está à deriva**, não o do óleo incluindo o que já está na
+praia.
+
+Estado: gerador testado (10 testes), piloto de 32 runs no arquivo, dataset
+builders (`scenario.py`, `footprint.py`) já aceitam `--grid`. Falta rodar o
+arquivo completo (40 locais × 4 estações × 3 dias = 480 runs) e avaliar.
+
 ## 6. Decisões tomadas pelo autor (2026-07-29)
 
 - **Alvos**: (a) surrogate de transporte de patch **e** (b) estatísticas-resumo por cenário —

@@ -190,28 +190,32 @@ class FootprintSet:
         return self.sizes(h, kind) > 0
 
 
-def _archives(holdout: bool) -> list:
-    years = [2024] if holdout else TRAIN_YEARS
+def _archives(holdout: bool = False, grid_years=None) -> list:
+    """Same archives the scenario builder reads, six-field or seed-grid."""
+    from main.ml.seedgrid import GRID_DIR_TMPL
+
+    tmpl = GRID_DIR_TMPL if grid_years else TRAIN_DIR_TMPL
+    years = list(grid_years) if grid_years else ([2024] if holdout
+                                                 else TRAIN_YEARS)
     out = []
     for y in years:
-        m = (ROOT / "main" / "outputs"
-             / TRAIN_DIR_TMPL.format(year=y) / "manifest.json")
+        m = (ROOT / "main" / "outputs" / tmpl.format(year=y) / "manifest.json")
         if m.exists():
             out.append((y, m))
     if not out:
-        raise SystemExit(
-            "Nenhum arquivo de 168 h encontrado. Gere com: "
-            "python -m main.ml.multiyear generate <ano>")
+        how = ("python -m main.ml.seedgrid generate <ano>" if grid_years
+               else "python -m main.ml.multiyear generate <ano>")
+        raise SystemExit(f"Nenhum arquivo de 168 h encontrado. Gere com: {how}")
     return out
 
 
-def build(holdout: bool = False) -> dict:
+def build(holdout: bool = False, grid_years=None) -> dict:
     swept: dict = {h: [] for h in HORIZONS_D}
     snap: dict = {h: [] for h in HORIZONS_D}
     uid, field, season, year, lon0, lat0 = [], [], [], [], [], []
     n_out_total = 0
 
-    for y, mpath in _archives(holdout):
+    for y, mpath in _archives(holdout, grid_years):
         man = json.loads(mpath.read_text())
         for key, entry in sorted(man.items()):
             m = masks_from_run(ROOT / entry["nc"])
@@ -236,7 +240,8 @@ def build(holdout: bool = False) -> dict:
             arrays[f"{k}_cells_d{h}"] = flat
             arrays[f"{k}_ptr_d{h}"] = ptr
 
-    name = ("footprint_dataset_2024.npz" if holdout
+    name = ("footprint_dataset_grid.npz" if grid_years
+            else "footprint_dataset_2024.npz" if holdout
             else "footprint_dataset.npz")
     out = ML_OUT / name
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -280,8 +285,10 @@ def main() -> None:
     p = argparse.ArgumentParser(description="Build the footprint dataset.")
     p.add_argument("--holdout", action="store_true",
                    help="Build from the frozen 2024 archive instead.")
+    p.add_argument("--grid", type=int, nargs="*", metavar="ANO",
+                   help="Build from the seed-location archives of these years.")
     args = p.parse_args()
-    build(holdout=args.holdout)
+    build(holdout=args.holdout, grid_years=args.grid)
 
 
 if __name__ == "__main__":
