@@ -232,6 +232,43 @@ release point, ~1 s, no simulation.
 is calibrated on the DISTANCE travelled, so it is a range along the predicted
 bearing; the spatial uncertainty is what the footprint field carries.
 
+### Agenda v8 — two questions closed (2026-08-26), §5h
+
+**The anisotropic plume is finished as a line of work.** Three hypotheses for
+why it lost to the isotropic corridor at a new location; the first two were
+tested and rejected — coarser bins changed nothing (LOFO D+1 IoU 0.464 →
+0.469), and the bearing-error story is contradicted by the data (the plume
+loses MOST where the bearing is best, r = −0.02). The third survives:
+normalising the kernel axes by the PREDICTED displacement injects the model's
+own error into the coordinate, so under-predicted runs smear probability
+along the whole axis. Coordinates are now arc length and offset in km around
+the polyline, which recovers most of the gap (D+7 IoU 0.162 → 0.193). It
+still ties the corridor and never beats it, so the corridor remains the
+shipped shape and the plume stays as the "does anisotropy pay?" control.
+Reproduce: `python main/scripts/_plume_frames.py`.
+
+**Spread is not forecastable, and now we know why** — the §5e limitation is
+resolved, not merely restated. Three measurements
+(`python main/scripts/_spread_decomposition.py`):
+1. MAE/MAD ≈ 1.0–1.12 at every horizon: no model beats the best constant, so
+   the "failure" is in the target, not the models.
+2. Switching off the declared uncertainties collapses the slick width to
+   **0.2 %** of it, and current-only ⊕ wind-only reproduce the total in
+   quadrature (1.190 vs 1.141 km at D+7). The width is the diffusion constant
+   this project declared, acting on a 1 m seed radius. Current dominates
+   despite the smaller number: 0.05 m/s enters the drift directly, while the
+   0.5 m/s of wind is multiplied by the ~3 % drag factor.
+3. But the between-scenario variation is real: 32× the seed-to-seed scatter,
+   and seed 0 reproduces the archive exactly. What sets it is strain along
+   the FUTURE path — the same information barrier that keeps advection out
+   of §5d.
+
+`drift:current_uncertainty` and `drift:wind_uncertainty` are now parameters
+of `run_simulation` (defaults unchanged at 0.05 / 0.5) so that claim is
+testable rather than asserted. `predict_scenario` still returns `spread_km`,
+with a docstring saying plainly that it must not be shown as a forecast; the
+app does not display it.
+
 ## Author decisions on record (2026-07-29)
 
 See `docs/auditoria/PERGUNTAS_ABERTAS.md` for all 18. Highlights: outputs

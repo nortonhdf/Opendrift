@@ -30,4 +30,5 @@ main/outputs/openoil_run.nc
 main/outputs/tracks.png
 main/outputs/test_wind_off.*
 main/outputs/_smoke_budget.*
+main/outputs/_spread_probe/
 main/outputs/scenarios/*.png

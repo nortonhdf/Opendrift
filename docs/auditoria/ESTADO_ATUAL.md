@@ -49,6 +49,7 @@ em `main/`). Projeto de pesquisa acadêmica. Três camadas:
 | 2026-08-11 | **Escopo D+7** | Arquivos de 168 h completos; controle linear no resultado-manchete; incerteza calibrada por conformal (`CAMADA_IA.md` §5e) |
 | 2026-08-25 | **Footprint** (item 1 da agenda v6) | Alvo passa a ser a grade de células oleadas, não só o centróide. Num local nunca visto, o corredor calibrado em volta do caminho previsto pelo v4 bate a climatologia em IoU e em área de busca nos 5 horizontes; produto exportado para o app (`CAMADA_IA.md` §5f) |
 | 2026-08-26 | **A camada vira produto** (item 1 da agenda v7) | Modelos passam a ser exportados (`forecast_product.joblib`, `footprint_plume.joblib`), features ganham fonte única (`scenario.feature_row`) e o app ganha a aba **Forecast (ML)**: ponto de vazamento arbitrário, resposta em ~1 s, sem simulação (`CAMADA_IA.md` §5g) |
+| 2026-08-26 | **Agenda v8** | Pluma anisotrópica encerrada: duas hipóteses falsificadas, a terceira (normalizar pelo deslocamento previsto injeta o erro do modelo na coordenada) confirmada. Corrigida, ela passa o corredor em IoU a partir de D+5 mas perde a área de captura nos cinco horizontes, então o corredor segue sendo a forma entregue. Espalhamento explicado: é a difusão declarada, e o resíduo depende do escoamento futuro (`CAMADA_IA.md` §5h) |
 
 ### O que mudou de conclusão ao longo do caminho (importante para o crosscheck)
 
@@ -84,6 +85,10 @@ Todos os comandos rodam **da raiz do repositório**, com o env conda
 | Footprint, local conhecido: o corredor perde IoU e ganha área | `CAMADA_IA.md` §5f Res. 1 | `footprint_report.json` → `blind_2024` | idem |
 | O corredor é calibrado; o Brier pior é nitidez | `CAMADA_IA.md` §5f Res. 3 | `footprint_reliability.json` | `python -m main.ml.footprint_forecast --reliability` |
 | Mancha instantânea = 1–2 células; varrida = 8–39 | `CAMADA_IA.md` §5f Decisão 1 | saída de `main.ml.footprint` | `python -m main.ml.footprint [--holdout]` |
+| **Espalhamento: sem as incertezas declaradas sobra 0,2%** | `CAMADA_IA.md` §5h Passo 2 | saída do script | `python main/scripts/_spread_decomposition.py` |
+| **Espalhamento: variação entre cenários é 32× a variação entre sementes** | `CAMADA_IA.md` §5h Passo 3 | idem | idem |
+| **Espalhamento: MAE/MAD ≈ 1 — uma constante já é ótima** | `CAMADA_IA.md` §5h Passo 1 | idem | idem |
+| **Pluma: a normalização pelo deslocamento previsto era o defeito** | `CAMADA_IA.md` §5h Item 1 | saída do script | `python main/scripts/_plume_frames.py` |
 
 Reconstrução dos datasets de ML (pré-requisito de `main.ml.forecast` e
 `main.ml.footprint_forecast`):
@@ -148,10 +153,16 @@ Lista deliberada de fraquezas — se o revisor for atrás de algo, que seja daqu
 
 1. **Só 6 locais de treino.** A afirmação de generalização espacial vem de
    leave-one-field-out entre campos vizinhos da mesma bacia. Não há evidência
-   para geografia arbitrária. É a limitação #1 e o item 2 da agenda v6.
+   para geografia arbitrária. É a limitação #1 e segue na agenda.
 2. **Espalhamento não é previsto por ninguém** (MAE ~1,3 km para todos os
-   modelos, inclusive climatologia). Ou não há sinal nas features, ou o alvo
-   está mal definido — não sabemos qual.
+   modelos, inclusive climatologia) — **e agora se sabe por quê** (§5h do
+   `CAMADA_IA.md`): a largura da mancha é a difusão declarada do projeto
+   (desligá-la derruba o espalhamento a 0,2%), e a variação que sobra entre
+   cenários é real mas depende da deformação do escoamento no trajeto
+   FUTURO, que não existe no instante do vazamento. O alvo é bem posto e não
+   é previsível; nenhum modelo melhor muda isso. Continua atacável na
+   direção oposta: **o valor absoluto do espalhamento é um parâmetro que
+   escolhemos**, não uma previsão física.
 3. **A cobertura conformal fica em 84–89% contra 80% nominal.** Conservadora,
    como esperado ao calibrar num ano e aplicar em outro, mas significa que a
    garantia de troca (*exchangeability*) do CQR não vale estritamente entre
@@ -179,31 +190,31 @@ Lista deliberada de fraquezas — se o revisor for atrás de algo, que seja daqu
   processo morre nativamente (exit `0xC06D007F`, sem output).
 - Sempre a partir da raiz do repositório.
 - App: `python -m streamlit run main/app.py`
-- Testes: `python -m pytest main/tests -o addopts=""` (**118 testes**, todos
+- Testes: `python -m pytest main/tests -o addopts=""` (**119 testes**, todos
   passando em 2026-08-26; `-o addopts=""` neutraliza as opções de pytest do
   OpenDrift upstream).
 
-## 8. O que está aberto (agenda v8)
+## 8. O que está aberto (agenda v9)
 
-Entregues: footprint (v6 item 1, em 2026-08-25, `CAMADA_IA.md` §5f) e a
-exposição da camada no app (v7 item 1, em 2026-08-26, §5g). O que sobra, em
-ordem de custo:
+Entregues: footprint (v6 §5f), a camada servida no app (v7 §5g), e as duas
+perguntas da v8 (§5h) — a pluma anisotrópica, encerrada com veredito medido,
+e o espalhamento, explicado. **Tudo que restava sem simulação nova acabou.**
+O que sobra depende de decisão, credencial ou horas de máquina:
 
-1. **Consertar a pluma 2D** — os bins do núcleo são normalizados pelo
-   deslocamento previsto e ficam menores que a célula em horizontes curtos
-   (§5f, Resultado 2). Barato, e é a hipótese com mais margem. **Próximo
-   passo recomendado.**
-2. **Descobrir por que o espalhamento não é previsível** (MAE 1,28–1,38 km
-   para todo modelo, inclusive climatologia): ou não há sinal nas features,
-   ou o alvo está mal definido. Não exige simulação nova.
-3. **Deploy do app** — plataforma segue em aberto (`PERGUNTAS_ABERTAS.md`),
-   e o polimento de UI foi decidido para depois de ciência+ML.
-4. **Mais locais de semeadura** (grade de pontos, não só os 6 campos) — ataca
-   diretamente a limitação #1 da §6. Exige horas de simulação nova.
-5. **Ondas ERA5 reais** — os scripts existem, `waves_cf.nc` nunca foi gerado;
-   o Stokes drift hoje é parametrizado do vento (§6.7).
-6. **D+14** — exige runs de 336 h; o arquivo atual vai até 168 h. Medir antes
-   de prometer: em D+7 o ganho sobre climatologia no local conhecido já é nulo.
+1. **Deploy do app** — plataforma segue em aberto (`PERGUNTAS_ABERTAS.md`),
+   e o polimento de UI foi decidido para depois de ciência+ML. **Depende de
+   decisão do autor**, não de trabalho técnico pendente.
+2. **Mais locais de semeadura** (grade de pontos, não só os 6 campos) — ataca
+   diretamente a limitação #1 da §6, e é o item com maior retorno científico.
+   Exige horas de simulação nova.
+3. **Ondas ERA5 reais** — os scripts existem, `waves_cf.nc` nunca foi gerado;
+   o Stokes drift hoje é parametrizado do vento (§6.7). Exige credencial CDS.
+4. **D+14** — exige refazer o arquivo a 336 h (4 anos × 240 runs). Medir
+   antes de prometer: em D+7 o ganho sobre climatologia no local conhecido já
+   é nulo.
+5. **Validação contra deriva observada** (§6.5) — a fraqueza mais séria, e a
+   única que nenhum trabalho interno resolve: exige dado externo (boias,
+   *drifters*) que o projeto não tem.
 
 ## 9. Mapa dos documentos
 

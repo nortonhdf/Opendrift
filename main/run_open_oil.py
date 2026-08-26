@@ -50,6 +50,13 @@ MAX_SPEED = 2.0
 # It is now an explicit run_simulation parameter, default off.
 VERTICAL_MIXING = False
 
+# Declared stochastic spreading (audit #15). With horizontal_diffusivity = 0
+# these are the ONLY source of particle spreading, so they are the knobs that
+# set how wide a slick gets. Exposed as parameters so that claim can be
+# TESTED rather than asserted (CAMADA_IA.md 5h) - the defaults are unchanged.
+CURRENT_UNCERTAINTY = 0.05
+WIND_UNCERTAINTY = 0.5
+
 # Trajectory variables plus the oil-mass variables needed to reconstruct the
 # weathering budget (get_oil_budget needs status, z, mass_* and density;
 # water_fraction/viscosity feed the emulsion panel).
@@ -161,7 +168,9 @@ def configure_spill(o: OpenOil, spill_m3: float) -> None:
 
 
 def configure_physics(o: OpenOil, use_wind: bool, use_waves: bool,
-                      vertical_mixing: bool) -> None:
+                      vertical_mixing: bool,
+                      current_uncertainty: float = CURRENT_UNCERTAINTY,
+                      wind_uncertainty: float = WIND_UNCERTAINTY) -> None:
     """Apply the project's transport-physics choices to a model instance.
 
     Kept separate from run_simulation so tests can verify the *effective*
@@ -178,8 +187,8 @@ def configure_physics(o: OpenOil, use_wind: bool, use_waves: bool,
     # made explicit here because with horizontal_diffusivity=0 they are the
     # ONLY source of particle spreading — a methodological choice, not an
     # accident. Random-walk std-dev in m/s added to currents/wind per step.
-    o.set_config("drift:current_uncertainty", 0.05)
-    o.set_config("drift:wind_uncertainty", 0.5)
+    o.set_config("drift:current_uncertainty", float(current_uncertainty))
+    o.set_config("drift:wind_uncertainty", float(wind_uncertainty))
 
     # SST safety net: OpenOil's default fallback is 10 degC, which badly
     # under-weathers oil in Campos Basin surface waters (~22-27 degC; audit
@@ -261,6 +270,8 @@ def run_simulation(
     use_wind: bool = True,
     use_waves: bool = True,
     vertical_mixing: bool = VERTICAL_MIXING,
+    current_uncertainty: float = CURRENT_UNCERTAINTY,
+    wind_uncertainty: float = WIND_UNCERTAINTY,
     spill_m3: float = SPILL_M3,
     smoke_test: bool = False,
     currents_file: Optional[str] = CURRENTS_FILE,
@@ -307,7 +318,9 @@ def run_simulation(
     o.max_speed = float(MAX_SPEED)
 
     configure_physics(o, use_wind=use_wind, use_waves=use_waves,
-                      vertical_mixing=vertical_mixing)
+                      vertical_mixing=vertical_mixing,
+                      current_uncertainty=current_uncertainty,
+                      wind_uncertainty=wind_uncertainty)
     configure_spill(o, spill_m3)
 
     # Readers — a real waves file is optional; absence is fine when use_waves

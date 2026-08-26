@@ -74,7 +74,11 @@ consulted 2026-07-29). Oil type derives from API gravity via
   `run_simulation(vertical_mixing=True)`), NOAA weathering, RK4 advection.
 - Reference spill: **10 m³ instantaneous** (`spill_m3` parameter).
 - Spreading comes from the declared stochastic uncertainties
-  (current 0.05 m/s, wind 0.5 m/s); horizontal diffusivity 0.
+  (`current_uncertainty` 0.05 m/s, `wind_uncertainty` 0.5 m/s, both
+  parameters of `run_simulation`); horizontal diffusivity 0. Switching them
+  off collapses the slick width to 0.2 % of it — the width of a slick in this
+  model is a declared constant, not a prediction
+  (`docs/auditoria/CAMADA_IA.md` §5h).
 - SST from CMEMS `thetao` (merged into `currents.nc`); declared 24 °C fallback.
 - Stokes drift: parameterised from wind when waves are enabled (no wave
   dataset needed); real ERA5 waves remain optional via `waves_cf.nc`.

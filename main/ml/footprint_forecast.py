@@ -241,30 +241,64 @@ def paths_from_centroid(P: np.ndarray, h: float) -> list:
 
 
 def path_frame(path_xy: np.ndarray, cdx: np.ndarray, cdy: np.ndarray):
-    """Cell coordinates in the frame of the predicted displacement.
+    """Cell coordinates along and across the predicted path, both in km.
 
-    ``along`` and ``cross`` are measured on the chord from the release point
-    to the predicted position at D+h, and DIVIDED by its length. Both errors
-    that shape a footprint — arriving early/late along the track, and being
-    off to one side — scale with how far the slick travelled, so a
-    scale-free frame lets one empirical shape serve a 60-km drift and a
-    300-km drift alike. Returns None when the model predicts no displacement,
-    in which case the frame is undefined and the caller falls back.
+    ``along`` is arc length measured on the predicted polyline; ``cross`` is
+    the signed offset from it. Beyond the ends the first and last segment
+    directions are extended, so a footprint that overshoots the predicted
+    endpoint lands past the end of the axis instead of piling onto the last
+    bin. Returns None when the model predicts no displacement at all, in
+    which case there is no frame and the caller falls back.
+
+    **Why km and not fractions of the predicted displacement.** The first
+    version of this kernel divided both coordinates by the predicted
+    displacement L. That was measured and rejected (CAMADA_IA.md 5h): L is
+    itself a model output with error, so dividing by it injects the model's
+    own uncertainty into the axis — when L is under-predicted the true
+    footprint runs off to twice the normalised length, and pooling such cases
+    smears probability along the whole axis. The corridor never paid that
+    price because it measures distance to the drawn path in km, and the path
+    already carries L. Dropping the normalisation recovered most of the gap.
     """
-    end = np.asarray(path_xy, float)[-1]
-    L = float(np.hypot(end[0], end[1]))
-    if not np.isfinite(L) or L < 1e-6:
+    pts = np.asarray(path_xy, float)
+    if len(pts) < 2 or not np.isfinite(pts).all():
         return None
-    ex, ey = end[0] / L, end[1] / L
-    along = (cdx * ex + cdy * ey) / L
-    cross = (-cdx * ey + cdy * ex) / L
-    return along, cross, L
+    if float(np.hypot(*(pts[-1] - pts[0]))) < 1e-6:
+        return None
+    best_d = np.full(np.shape(cdx), np.inf)
+    best_s = np.zeros_like(best_d)
+    best_c = np.zeros_like(best_d)
+    acc = 0.0
+    for i, ((x1, y1), (x2, y2)) in enumerate(zip(pts[:-1], pts[1:])):
+        vx, vy = x2 - x1, y2 - y1
+        seg = float(np.hypot(vx, vy))
+        if seg < 1e-9:
+            continue
+        t = ((cdx - x1) * vx + (cdy - y1) * vy) / (seg * seg)
+        lo = -np.inf if i == 0 else 0.0
+        hi = np.inf if i == len(pts) - 2 else 1.0
+        tc = np.clip(t, lo, hi)
+        px, py = x1 + tc * vx, y1 + tc * vy
+        d = np.hypot(cdx - px, cdy - py)
+        take = d < best_d
+        best_d = np.where(take, d, best_d)
+        best_s = np.where(take, acc + tc * seg, best_s)
+        best_c = np.where(take, ((cdx - x1) * vy - (cdy - y1) * vx) / seg,
+                          best_c)
+        acc += seg
+    return best_s, best_c, acc
 
 
-# Kernel support: the slick may fall short, overshoot by 2x, or sit a full
-# displacement off to the side. Bins are 5 % of the displacement.
-PLUME_A = np.arange(-0.6, 2.201, 0.05)
-PLUME_C = np.arange(-1.0, 1.001, 0.05)
+def plume_bins(radius_km: float):
+    """Kernel bin edges, one grid cell wide, covering the candidate disc.
+
+    One cell is the finest resolution the target can express, and the
+    candidate radius is the furthest any cell can sit from the release, so
+    these edges always contain the frame.
+    """
+    r = float(radius_km) + CELL_KM
+    edges = np.arange(-r, r + CELL_KM, CELL_KM)
+    return edges, edges.copy()
 
 
 def fit_plume_kernel(paths: list, T: np.ndarray, ok: np.ndarray,
@@ -273,10 +307,14 @@ def fit_plume_kernel(paths: list, T: np.ndarray, ok: np.ndarray,
 
     This is the corridor idea with the shape LEARNED instead of assumed: the
     isotonic corridor can only make probability fall with distance from the
-    path, whereas the real uncertainty is anisotropic — much longer along the
-    track (timing) than across it (direction).
+    path, whereas the real uncertainty is anisotropic — longer along the
+    track (timing) than across it (direction). Measured verdict: it does not
+    pay. Even with the coordinate defect fixed it ties the corridor and never
+    beats it (CAMADA_IA.md 5h), so it stays here as the control that answers
+    "does anisotropy earn its place", not as the product.
     """
-    num = np.zeros((len(PLUME_A) - 1, len(PLUME_C) - 1))
+    edges_a, edges_c = plume_bins(float(np.hypot(cdx, cdy).max()))
+    num = np.zeros((len(edges_a) - 1, len(edges_c) - 1))
     den = np.zeros_like(num)
     out_hit = out_tot = 0.0
     for r, p in enumerate(paths):
@@ -287,23 +325,26 @@ def fit_plume_kernel(paths: list, T: np.ndarray, ok: np.ndarray,
             continue
         a, c, _ = fr
         t = T[r].astype(float)
-        inside = ((a >= PLUME_A[0]) & (a < PLUME_A[-1])
-                  & (c >= PLUME_C[0]) & (c < PLUME_C[-1]))
-        num += np.histogram2d(a[inside], c[inside], bins=[PLUME_A, PLUME_C],
+        inside = ((a >= edges_a[0]) & (a < edges_a[-1])
+                  & (c >= edges_c[0]) & (c < edges_c[-1]))
+        num += np.histogram2d(a[inside], c[inside], bins=[edges_a, edges_c],
                               weights=t[inside])[0]
-        den += np.histogram2d(a[inside], c[inside], bins=[PLUME_A, PLUME_C])[0]
+        den += np.histogram2d(a[inside], c[inside],
+                              bins=[edges_a, edges_c])[0]
         out_hit += float(t[~inside].sum())
         out_tot += float((~inside).sum())
     with np.errstate(invalid="ignore", divide="ignore"):
         P = np.where(den > 0, num / np.maximum(den, 1), np.nan)
     base = float(num.sum() / max(den.sum(), 1))
     return {"P": np.nan_to_num(P, nan=base), "base": base,
-            "outside": float(out_hit / out_tot) if out_tot else 0.0}
+            "outside": float(out_hit / out_tot) if out_tot else 0.0,
+            "edges_a": edges_a, "edges_c": edges_c}
 
 
 def predict_plume(kernel: dict, paths: list, cdx, cdy,
                   fallback: np.ndarray) -> np.ndarray:
     """Look the kernel up for each scenario; fall back where the frame fails."""
+    edges_a, edges_c = kernel["edges_a"], kernel["edges_c"]
     out = np.empty((len(paths), len(cdx)), np.float32)
     for r, p in enumerate(paths):
         fr = path_frame(p, cdx, cdy)
@@ -311,12 +352,12 @@ def predict_plume(kernel: dict, paths: list, cdx, cdy,
             out[r] = fallback[r]
             continue
         a, c, _ = fr
-        ia = np.clip(np.searchsorted(PLUME_A, a, side="right") - 1,
-                     -1, len(PLUME_A) - 2)
-        ic = np.clip(np.searchsorted(PLUME_C, c, side="right") - 1,
-                     -1, len(PLUME_C) - 2)
-        inside = ((a >= PLUME_A[0]) & (a < PLUME_A[-1])
-                  & (c >= PLUME_C[0]) & (c < PLUME_C[-1]))
+        ia = np.clip(np.searchsorted(edges_a, a, side="right") - 1,
+                     -1, len(edges_a) - 2)
+        ic = np.clip(np.searchsorted(edges_c, c, side="right") - 1,
+                     -1, len(edges_c) - 2)
+        inside = ((a >= edges_a[0]) & (a < edges_a[-1])
+                  & (c >= edges_c[0]) & (c < edges_c[-1]))
         vals = kernel["P"][np.clip(ia, 0, None), np.clip(ic, 0, None)]
         out[r] = np.where(inside, vals, kernel["outside"])
     return out
@@ -829,7 +870,7 @@ def export_product(ctx, cal_year: int, out: Path = PRODUCT) -> tuple:
     payload = {
         "feature_names": [str(f) for f in ctx["feature_names"]],
         "horizons_d": HORIZONS_D, "cell_km": CELL_KM,
-        "plume_a": PLUME_A, "plume_c": PLUME_C, "kernels": {},
+        "kernels": {},   # each kernel carries the bin edges it was fitted at
         "fit_years": sorted(set(ctx["year"][fit].tolist())),
         "calibration_year": int(cal_year),
         "default_model": PRODUCT_MODEL,
@@ -911,7 +952,8 @@ def predict_footprint(payload, fc_payload, x_row: np.ndarray, h: int,
     else:
         clim = k["climatology"].get(str(season),
                                     next(iter(k["climatology"].values())))
-        kernel = {"P": k["P"], "outside": k["outside"], "base": k["base"]}
+        kernel = {"P": k["P"], "outside": k["outside"], "base": k["base"],
+                  "edges_a": k["edges_a"], "edges_c": k["edges_c"]}
         prob = predict_plume(kernel, [path], cdx, cdy, clim[None, :])[0]
     thr = k["threshold"]
     lon, lat = cells_to_lonlat(cand_ids, lon0, lat0)

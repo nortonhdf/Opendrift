@@ -490,7 +490,7 @@ Cego 2024, 240 cenários:
 | persistência | 0,00581 | −0,12 | 0,155 | 65.926 |
 | análogo | 0,00523 | −0,01 | 0,191 | 44.612 |
 | corredor do centróide | 0,00558 | −0,08 | 0,174 | 39.159 |
-| pluma | 0,00522 | −0,01 | 0,190 | **35.194** |
+| pluma | 0,00510 | +0,01 | 0,189 | 39.407 |
 | ocupação | 0,00535 | −0,03 | **0,198** | **32.467** |
 
 A leitura: num local que a climatologia já viu, **nenhum modelo melhora a
@@ -509,21 +509,21 @@ IoU (limiar escolhido na calibração):
 
 | horizonte | climatologia | **corredor** | análogo | pluma | ocupação |
 |---|---|---|---|---|---|
-| D+1 | 0,553 | **0,610** | 0,581 | 0,464 | 0,522 |
-| D+2 | 0,361 | **0,422** | 0,401 | 0,349 | 0,345 |
-| D+3 | 0,288 | **0,330** | 0,319 | 0,287 | 0,272 |
-| D+5 | 0,216 | 0,242 | **0,250** | 0,216 | 0,208 |
-| D+7 | 0,182 | 0,203 | **0,212** | 0,193 | 0,175 |
+| D+1 | 0,553 | **0,610** | 0,581 | 0,502 | 0,522 |
+| D+2 | 0,361 | **0,422** | 0,401 | 0,364 | 0,345 |
+| D+3 | 0,288 | **0,330** | 0,319 | 0,299 | 0,272 |
+| D+5 | 0,216 | 0,242 | 0,250 | **0,251** | 0,208 |
+| D+7 | 0,182 | 0,203 | **0,212** | 0,207 | 0,175 |
 
 Área a varrer para cobrir 80% das células oleadas (km², mediana):
 
 | horizonte | climatologia | **corredor** | análogo | pluma | ocupação |
 |---|---|---|---|---|---|
-| D+1 | 1.611 | **1.239** | 1.363 | 1.735 | 1.735 |
-| D+2 | 5.205 | **3.594** | 4.089 | 4.957 | 5.329 |
-| D+3 | 9.728 | **7.745** | 8.798 | 9.666 | 9.356 |
-| D+5 | 19.827 | **18.588** | 20.075 | 20.509 | 19.332 |
-| D+7 | 33.893 | **29.927** | 32.715 | 31.042 | 32.158 |
+| D+1 | 1.611 | **1.239** | 1.363 | 1.487 | 1.735 |
+| D+2 | 5.205 | **3.594** | 4.089 | 4.213 | 5.329 |
+| D+3 | 9.728 | **7.745** | 8.798 | 8.179 | 9.356 |
+| D+5 | 19.827 | **18.588** | 20.075 | 19.889 | 19.332 |
+| D+7 | 33.893 | **29.927** | 32.715 | 34.078 | 32.158 |
 
 Wilcoxon pareado, corredor vs climatologia (720 cenários):
 
@@ -550,15 +550,12 @@ Os dois modelos mais ambiciosos falham no local novo, e isso é informativo:
   todos os horizontes (Δ −0,008 a −0,017). Ele aprende a forma da pluma
   condicionada a lon/lat e não a transporta — mesmo padrão do controle linear
   do §5e, por motivo oposto (excesso de capacidade em vez de falta).
-- **Pluma** (núcleo 2D) fica atrás do corredor isotrópico. Diagnóstico
-  geométrico: as coordenadas do núcleo são normalizadas pelo deslocamento
-  previsto L, com bins de 5% de L. Em D+1, L ≈ 31 km, então o bin vale 1,5 km
-  — **sete vezes menor que a célula de 11,1 km**. O núcleo passa a estimar
-  estrutura mais fina do que o dado tem. Em D+7 (L ≈ 200 km) o bin vale 10 km
-  ≈ 1 célula, e ali a pluma de fato empata/ganha (cego: menor Brier entre os
-  modelos de ML). A hipótese "referencial livre de escala" vale acima de
-  L ≈ 1 célula por bin e falha abaixo — corrigir é item da agenda v7, não um
-  ajuste silencioso.
+- **Pluma** (núcleo 2D) fica atrás do corredor nos horizontes curtos e o
+  alcança nos longos (D+5: 0,251 vs 0,242; D+7: 0,207 vs 0,203), mas **perde
+  a área de captura em todos**. As tabelas acima já são da versão corrigida
+  em §5h: a primeira versão normalizava as coordenadas pelo deslocamento
+  previsto, o que era o defeito. O diagnóstico completo, com as duas
+  hipóteses que foram testadas e falsificadas antes, está em §5h.
 
 ### Resultado 3 — o corredor é calibrado; o Brier ruim é nitidez, não erro
 
@@ -598,9 +595,9 @@ limiar e o caminho previsto — pronto para desenhar.
 
 ### Limitações desta rodada
 
-1. A pluma 2D está quebrada abaixo de L ≈ 1 célula por bin (diagnóstico
-   acima). O corredor isotrópico a substitui, mas a forma anisotrópica
-   continua sendo a hipótese com mais margem.
+1. A pluma 2D tinha um defeito de coordenada, diagnosticado e corrigido em
+   §5h. Mesmo corrigida ela não toma o lugar do corredor: alcança-o em IoU a
+   partir de D+5, mas perde a área de captura nos cinco horizontes.
 2. A footprint é a **área varrida**, não a mancha instantânea — que é
    pequena demais para a grade do app (1–2 células). Uma footprint
    instantânea exigiria grade mais fina, e aí o alvo vira o centróide.
@@ -610,13 +607,13 @@ limiar e o caminho previsto — pronto para desenhar.
 4. A LOFO retém **espaço, não tempo** (mesmo protocolo do §5e); quem retém
    tempo é o cego 2024. Nenhum dos dois retém os dois ao mesmo tempo.
 
-### Agenda v7
+### Agenda v7 (toda entregue em 2026-08-26)
 
-1. Consertar a pluma: bins do núcleo em km absolutos (ou piso em L), para
-   que a resolução do núcleo nunca fique abaixo da resolução do dado.
-2. Expor no app (item 3 da v6, agora com produto pronto para consumir).
-3. Mais locais de semeadura (item 2 da v6) — continua sendo a limitação #1.
-4. D+14 (item 4 da v6) — continua exigindo runs de 336 h.
+1. Consertar a pluma → §5h, item 1: duas hipóteses falsificadas, a terceira
+   confirmada, e o veredito medido.
+2. Expor no app → §5g.
+3. Mais locais de semeadura — continua aberto, é a limitação #1.
+4. D+14 — continua exigindo runs de 336 h.
 
 ### Verificações do método
 
@@ -688,6 +685,155 @@ Uma armadilha de interface que o código evita de propósito: **a banda
 conformal é sobre a DISTÂNCIA percorrida**, não sobre a posição. Desenhá-la
 como um disco em volta do ponto previsto seria inventar incerteza de direção
 que ninguém mediu. Quem carrega a incerteza espacial é a footprint.
+
+## 5h. Agenda v8 — a pluma encerrada e o espalhamento explicado (2026-08-26)
+
+### Item 1 — a pluma: duas hipóteses falsificadas, uma sobrevive, e mesmo assim ela não paga
+
+A pluma desenha uma forma 2D empírica em volta do caminho previsto pelo v4.
+No local nunca visto ela perdeu para o corredor isotrópico (§5f, Resultado 2)
+e a agenda registrou uma explicação. Ela estava errada. Reproduz com
+`python main/scripts/_plume_frames.py`.
+
+**H1 — os bins do núcleo eram mais finos que a célula.** Em D+1 o
+deslocamento previsto é ~31 km e o bin valia 5% dele = 1,5 km, contra célula
+de 11,1 km. Corrigido (bin nunca abaixo de uma célula) e reavaliado no
+protocolo completo: **IoU no LOFO D+1 foi de 0,464 para 0,469.** Nada. A
+resolução não era o problema. (Esses dois números vêm de avaliações completas
+de duas variantes datadas, ambas hoje substituídas pela H3 — como os modelos
+superados do §5c, ficam como registro e não são reproduzíveis pelo código
+atual. A sonda reproduz H2 e H3, que são o que decide.)
+
+**H2 — a forma anisotrópica se desalinha quando o rumo previsto erra.** Um
+corredor isotrópico é invariante a rotação; uma pluma alongada, não. Medido
+por faixa de erro angular (fold Marlim, D+1):
+
+| erro angular | n | IoU pluma | IoU corredor | pluma − corredor |
+|---|---|---|---|---|
+| 0–15° | 62 | 0,468 | 0,675 | **−0,207** |
+| 15–30° | 33 | 0,431 | 0,472 | −0,040 |
+| 30–60° | 18 | 0,342 | 0,389 | −0,047 |
+
+Correlação (erro angular, pluma−corredor): r = −0,02. **Falsificada e
+contradita**: a pluma perde *mais* justamente onde o rumo está certo.
+
+**H3 — normalizar os eixos pelo deslocamento PREVISTO injeta o erro do
+próprio modelo dentro da coordenada.** L é saída de modelo, com erro: quando
+o modelo subestima, a footprint verdadeira vai parar em a ≈ 2 na coordenada
+normalizada, e juntar esses casos borra a probabilidade ao longo de todo o
+eixo. O corredor nunca pagou esse preço porque mede distância ao caminho em
+km — o caminho já carrega L. Trocando para coordenadas em km (comprimento de
+arco ao longo da polilinha e afastamento perpendicular, bins de uma célula):
+
+| horizonte | corredor | pluma normalizada | **pluma em km** |
+|---|---|---|---|
+| D+1 | 0,564 | 0,423 | **0,455** |
+| D+3 | 0,290 | 0,272 | **0,284** |
+| D+7 | 0,196 | 0,162 | **0,193** |
+
+**H3 sobrevive**: tirar a normalização recupera quase todo o buraco (D+7:
+0,162 → 0,193). É o que o módulo implementa agora. No protocolo completo
+(LOFO, 720 cenários) o ganho se confirma e é maior do que o fold sugeria:
+
+| horizonte | pluma normalizada | **pluma em km** | corredor |
+|---|---|---|---|
+| D+1 | 0,464 | **0,502** | 0,610 |
+| D+3 | 0,287 | **0,299** | 0,330 |
+| D+5 | 0,216 | **0,251** | 0,242 |
+| D+7 | 0,193 | **0,207** | 0,203 |
+
+**O veredito, medido e não presumido:** a coordenada consertada torna a pluma
+competitiva — ela **passa o corredor em IoU a partir de D+5** (0,251 vs 0,242)
+e o alcança em D+7. Mas perde a **área de captura nos cinco horizontes**
+(D+5: 19.889 vs 18.588 km²; D+7: 34.078 vs 29.927), e essa é a métrica que o
+projeto declarou operacional. **O corredor continua sendo a forma entregue.**
+
+O item sai da agenda encerrado, não pendente: a anisotropia foi testada com o
+defeito removido e não toma o lugar do corredor. A pluma fica no código como
+o controle que responde "a anisotropia vale a pena?" — com a resposta medida,
+e com a ressalva honesta de que em horizonte longo ela é uma alternativa
+defensável se algum dia a métrica de decisão passar a ser o IoU.
+
+### Item 2 — por que o espalhamento não é previsível
+
+Desde §5d todo modelo empata no espalhamento da mancha, climatologia
+inclusive, e a limitação ficou registrada como "ou não há sinal nas features,
+ou o alvo está mal definido — não sabemos qual". Três medidas resolvem, e
+cada uma elimina uma explicação. Reproduz com
+`python main/scripts/_spread_decomposition.py`.
+
+### Passo 1 — o alvo mal varia em torno de uma constante
+
+Comparando o MAE da climatologia com o MAD em torno da melhor constante, no
+cego 2024:
+
+| horizonte | mediana (km) | IQR | MAD | MAE clim | **MAE/MAD** |
+|---|---|---|---|---|---|
+| D+1 | 0,35 | 0,32–0,39 | 0,04 | 0,04 | **1,04** |
+| D+2 | 0,59 | 0,49–0,72 | 0,14 | 0,14 | **1,00** |
+| D+3 | 0,80 | 0,65–1,04 | 0,31 | 0,31 | **0,99** |
+| D+5 | 1,18 | 0,90–1,65 | 0,65 | 0,72 | **1,10** |
+| D+7 | 1,61 | 1,18–2,35 | 1,23 | 1,38 | **1,12** |
+
+**Razão ≈ 1 em todos os horizontes.** O "MAE de 1,28–1,38 km" que a §5e
+publicou como limitação não é fracasso dos modelos: prever uma constante já
+é ótimo, e nenhum deles chega a igualá-la. A pergunta muda de "por que os
+modelos falham" para "por que o alvo é quase constante".
+
+### Passo 2 — a largura da mancha é a difusão que nós declaramos
+
+Mesmo cenário (Marlim, 2024-04-10), variando só as incertezas declaradas
+(espalhamento RMS em km). **Na configuração exata do arquivo** — 200
+partículas, Stokes drift desligado; rodar com os defaults de
+`run_simulation` mede outro modelo físico e não serve para comparar:
+
+| configuração | D+1 | D+2 | D+3 | D+5 | D+7 |
+|---|---|---|---|---|---|
+| declarado (0,05 / 0,5) | 0,421 | 0,630 | 0,804 | 0,778 | 1,141 |
+| só corrente (0,05 / 0) | 0,353 | 0,542 | 0,692 | 0,687 | 1,039 |
+| só vento (0 / 0,5) | 0,188 | 0,296 | 0,379 | 0,386 | 0,581 |
+| soma em quadratura | 0,400 | 0,618 | 0,789 | 0,788 | **1,190** |
+| **sem incerteza (0 / 0)** | 0,003 | 0,004 | 0,004 | 0,003 | **0,003** |
+
+As duas se somam em quadratura e reproduzem o total (1,190 vs 1,141 medido) —
+são passeios aleatórios independentes. A corrente domina apesar do número
+menor: 0,05 m/s entra direto na deriva, enquanto os 0,5 m/s de vento entram
+multiplicados pelo fator de arrasto (~3%). **Desligadas as duas, sobra
+0,2%.** Com raio de semeadura de 1 m, o que o oceano faz com a mancha é
+proporcional ao tamanho dela, e ela começa num ponto: a largura do início ao
+fim é a constante de difusão que o projeto escolheu (`drift:current_uncertainty`
+0,05 e `drift:wind_uncertainty` 0,5, agora parâmetros de `run_simulation`).
+
+### Passo 3 — mas a variação entre cenários é física, não semente
+
+Se fosse tudo RNG, a pergunta acabava aqui. Não é. Os cenários de menor,
+mediano e maior espalhamento do cego, cada um com três sementes (D+7, km):
+
+| cenário | arquivo | semente 0 | 7 | 99 | desvio |
+|---|---|---|---|---|---|
+| albacora_jan_d13 | 0,74 | **0,74** | 0,85 | 0,77 | 0,046 |
+| albacora_apr_d16 | 1,66 | **1,66** | 1,88 | 1,75 | 0,090 |
+| frade_jan_d25 | 18,20 | **18,20** | 19,71 | 18,63 | 0,632 |
+
+Dispersão **dentro** do cenário: 0,256 km. **Entre** cenários: 8,293 km —
+**32×**. As diferenças são reprodutíveis: o escoamento estica a mancha
+gerada pela difusão de formas diferentes em cenários diferentes (o
+`frade_jan_d25` chega a 18 km de largura, com mediana de 13,5 km de distância
+ao centróide — é a mancha inteira aberta, não uma partícula fugitiva).
+
+A coluna "arquivo" é a verificação de que a sonda mede o mesmo modelo: a
+semente 0 **reproduz o arquivo exatamente** nos três casos, que é o que a
+§5 do `ESTADO_ATUAL.md` afirma sobre determinismo.
+
+### Conclusão
+
+O alvo não é ruído, e não está mal definido: é bem posto e tem sinal real.
+Mas o que o determina é a **deformação do escoamento ao longo do trajeto
+futuro** — a mesma barreira de informação que faz a advecção não ser
+competidora em §5d. No instante do vazamento essa informação não existe, e
+nenhum modelo melhor vai criá-la. Consequência prática: `predict_scenario`
+continua devolvendo `spread_km`, mas com aviso explícito de que não deve ser
+apresentado como previsão; o app não o exibe.
 
 ## 6. Decisões tomadas pelo autor (2026-07-29)
 

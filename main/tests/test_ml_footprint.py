@@ -198,15 +198,27 @@ def test_dist_to_path_measures_the_path_not_the_endpoint():
     assert far[0] == pytest.approx(200.0)
 
 
-def test_path_frame_is_scale_free():
-    """Doubling the drift and the offsets must give the same coordinates."""
-    a1, c1, L1 = ff.path_frame(np.array([[0.0, 0.0], [100.0, 0.0]]),
-                               np.array([50.0]), np.array([25.0]))
-    a2, c2, L2 = ff.path_frame(np.array([[0.0, 0.0], [200.0, 0.0]]),
-                               np.array([100.0]), np.array([50.0]))
-    assert a1[0] == pytest.approx(a2[0]) == pytest.approx(0.5)
-    assert c1[0] == pytest.approx(c2[0]) == pytest.approx(0.25)
-    assert (L1, L2) == (100.0, 200.0)
+def test_path_frame_measures_arc_length_and_offset_in_km():
+    """Along = distance travelled on the path; across = signed offset."""
+    path = np.array([[0.0, 0.0], [100.0, 0.0]])
+    s, c, total = ff.path_frame(path, np.array([50.0, 150.0, -30.0]),
+                                np.array([25.0, 0.0, 0.0]))
+    assert total == pytest.approx(100.0)
+    assert s[0] == pytest.approx(50.0)
+    assert abs(c[0]) == pytest.approx(25.0)
+    # Past the end and before the start the axis keeps going, so an
+    # overshooting footprint does not pile onto the last bin.
+    assert s[1] == pytest.approx(150.0)
+    assert s[2] == pytest.approx(-30.0)
+
+
+def test_path_frame_follows_a_bend():
+    """Arc length accumulates along the polyline, not along the chord."""
+    path = np.array([[0.0, 0.0], [100.0, 0.0], [100.0, 100.0]])
+    s, c, total = ff.path_frame(path, np.array([100.0]), np.array([50.0]))
+    assert total == pytest.approx(200.0)
+    assert s[0] == pytest.approx(150.0)
+    assert c[0] == pytest.approx(0.0, abs=1e-9)
 
 
 def test_path_frame_undefined_without_displacement():
@@ -223,26 +235,25 @@ def test_plume_kernel_recovers_a_planted_shape():
     for L in (100.0, 200.0, 300.0):
         p = np.array([[0.0, 0.0], [L, 0.0]])
         a, c, _ = ff.path_frame(p, cdx, cdy)
-        truths.append((a > 0.1) & (a < 0.9) & (np.abs(c) < 0.1))
+        # In km now, so the planted ribbon is the same physical strip for
+        # every scale — which is the point of dropping the normalisation.
+        truths.append((a > 20.0) & (a < L - 20.0) & (np.abs(c) < 30.0))
         paths.append(p)
     T = np.array(truths)
     ok = np.ones(len(paths), bool)
     kernel = ff.fit_plume_kernel(paths, T, ok, cdx, cdy)
     P = ff.predict_plume(kernel, paths, cdx, cdy, np.zeros_like(T, float))
-    # Inside the planted ribbon the kernel is confident; outside it is not.
-    # It does not reach exactly 1: bins are 5 % of the displacement wide, so
-    # the ones straddling the edge of the ribbon pool a hit from one scale
-    # with a miss from another. That blur is the method, not a defect.
-    assert P[T].mean() > 0.85
-    assert P[~T].mean() < 0.1
-    assert P[T].mean() > 10 * P[~T].mean()
+    assert P[T].mean() > 0.6
+    assert P[~T].mean() < 0.15
+    assert P[T].mean() > 4 * P[~T].mean()
 
 
 def test_plume_falls_back_when_the_frame_is_undefined():
     cdx = np.array([0.0, 10.0])
     cdy = np.array([0.0, 0.0])
-    kernel = {"P": np.zeros((len(ff.PLUME_A) - 1, len(ff.PLUME_C) - 1)),
-              "base": 0.0, "outside": 0.0}
+    ea, ec = ff.plume_bins(300.0)
+    kernel = {"P": np.zeros((len(ea) - 1, len(ec) - 1)), "base": 0.0,
+              "outside": 0.0, "edges_a": ea, "edges_c": ec}
     fallback = np.array([[0.42, 0.42]])
     P = ff.predict_plume(kernel, [np.array([[0.0, 0.0], [0.0, 0.0]])],
                          cdx, cdy, fallback)
@@ -268,7 +279,8 @@ class _Corridor:
         return np.exp(-np.asarray(d, float) / 50.0)
 
 
-def _payload(cand_ids, P, horizon=1, dx=100.0, dy=0.0, default="plume"):
+def _payload(cand_ids, P, edges_a, edges_c, horizon=1, dx=100.0, dy=0.0,
+             default="plume"):
     """Shapes payload + the v4 payload that places them — they ship apart."""
     from main.ml.forecast import Q, tcol
     models = [_Const(0.0) for _ in range(len(HORIZONS_D) * len(Q))]
@@ -281,6 +293,7 @@ def _payload(cand_ids, P, horizon=1, dx=100.0, dy=0.0, default="plume"):
         "default_model": default,
         "kernels": {horizon: {
             "P": P, "outside": 0.0, "base": 0.0, "radius_km": 400.0,
+            "edges_a": edges_a, "edges_c": edges_c,
             "cand_ids": np.asarray(cand_ids, np.int32),
             "isotonic": _Corridor(),
             "climatology": {"jan": np.full(len(cand_ids), 0.11)},
@@ -292,8 +305,9 @@ def _payload(cand_ids, P, horizon=1, dx=100.0, dy=0.0, default="plume"):
 def test_predict_footprint_draws_the_corridor_by_default():
     """The product default is the shape that won leave-one-field-out."""
     ids, _ = fp.cell_of(np.array([50.0, -200.0]), np.array([0.0, 0.0]))
-    P = np.zeros((len(ff.PLUME_A) - 1, len(ff.PLUME_C) - 1))
-    shapes, fc = _payload(ids, P, default="centroid")
+    ea, ec = ff.plume_bins(300.0)
+    P = np.zeros((len(ea) - 1, len(ec) - 1))
+    shapes, fc = _payload(ids, P, ea, ec, default="centroid")
     out = ff.predict_footprint(shapes, fc, np.zeros(3), 1, lon0=-40.0,
                                lat0=-22.0, season="jan")
     assert out["model"] == "centroid"
@@ -305,13 +319,15 @@ def test_predict_footprint_draws_the_corridor_by_default():
 
 def test_predict_footprint_places_the_plume_on_the_predicted_track():
     ids, _ = fp.cell_of(np.array([50.0, -200.0]), np.array([0.0, 0.0]))
-    P = np.zeros((len(ff.PLUME_A) - 1, len(ff.PLUME_C) - 1))
-    # Bins are indexed by their left edge; a cell CENTRE sits up to half a
-    # cell off the track, so the planted ribbon has to be wider than a hair.
-    on_track = ((ff.PLUME_A[:-1] >= 0.0) & (ff.PLUME_A[:-1] < 1.0))
-    centred = np.abs(ff.PLUME_C[:-1] + 0.025) < 0.1
+    ea, ec = ff.plume_bins(300.0)
+    P = np.zeros((len(ea) - 1, len(ec) - 1))
+    # Coordinates are km along and across the 100 km predicted track, and a
+    # cell centre sits up to half a cell off it.
+    w = ea[1] - ea[0]
+    on_track = (ea[:-1] >= 0.0) & (ea[:-1] < 100.0)
+    centred = np.abs(ec[:-1] + w / 2) < 15.0
     P[np.ix_(on_track, centred)] = 1.0
-    shapes, fc = _payload(ids, P)
+    shapes, fc = _payload(ids, P, ea, ec)
     out = ff.predict_footprint(shapes, fc, np.zeros(3), 1, lon0=-40.0,
                                lat0=-22.0, season="jan", model="plume")
     assert out["prob"][0] == pytest.approx(1.0)     # halfway along the track
@@ -325,8 +341,9 @@ def test_predict_footprint_places_the_plume_on_the_predicted_track():
 def test_predict_footprint_falls_back_to_the_season_climatology():
     """No predicted displacement means no frame — the app still gets a field."""
     ids, _ = fp.cell_of(np.array([50.0]), np.array([0.0]))
-    P = np.ones((len(ff.PLUME_A) - 1, len(ff.PLUME_C) - 1))
-    shapes, fc = _payload(ids, P, dx=0.0, dy=0.0)
+    ea, ec = ff.plume_bins(300.0)
+    P = np.ones((len(ea) - 1, len(ec) - 1))
+    shapes, fc = _payload(ids, P, ea, ec, dx=0.0, dy=0.0)
     out = ff.predict_footprint(shapes, fc, np.zeros(3), 1, lon0=-40.0,
                                lat0=-22.0, season="jan", model="plume")
     assert out["prob"][0] == pytest.approx(0.11)

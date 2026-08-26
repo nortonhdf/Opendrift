@@ -436,6 +436,14 @@ def predict_scenario(payload, x_row) -> dict:
     distances along the predicted bearing, NOT a disc around the predicted
     point. Direction uncertainty is not in this number; the footprint
     corridor is what carries it spatially.
+
+    ``spread_km`` is returned for completeness and should NOT be presented as
+    a forecast. Measured in CAMADA_IA.md 5h: switching off the declared
+    stochastic uncertainties collapses the slick width to under 1 % of it, so
+    the number mostly reports a diffusion constant this project chose. What
+    varies between scenarios is real (47x the seed-to-seed scatter) but is set
+    by strain along the FUTURE path, which no release-time feature can see —
+    every model, climatology included, ties the best constant.
     """
     x = np.asarray(x_row, np.float32)[None, :]
     P = derive_dist(predict_models(payload["point_models"], x))
