@@ -195,6 +195,24 @@ Lista deliberada de fraquezas — se o revisor for atrás de algo, que seja daqu
    grade de 0,1° (§5f, Decisão 1) —, mas quem esperar "onde está o óleo no
    dia 7" está lendo outra coisa: "por onde o óleo passou até o dia 7".
 
+## 6b. Trabalho em voo (2026-08-27) — troca de máquina
+
+O arquivo de locais de semeadura estava sendo gerado quando a máquina mudou:
+**231 de 480 runs prontos e commitados**. É resumível e nunca refaz o que
+existe, então basta continuar:
+
+```
+python -m main.ml.seedgrid generate 2025     # ~4 h para os 249 restantes
+python -m main.ml.scenario --grid 2025       # constrói o dataset
+python -m main.ml.forecast --grid            # leave-one-LOCATION-out
+```
+
+O que **não** viaja no git e precisa ser refeito na máquina nova: o env conda
+(`environment.yml`, com o pin de OpenBLAS que é obrigatório) e as credenciais
+`~/.cdsapirc` e `~/.copernicusmarine/`. As credenciais só fazem falta para
+baixar forçante nova — tudo que já foi baixado está commitado. Detalhes em
+`main/CLAUDE.md`, seção "Continuing on a different machine".
+
 ## 7. Como rodar
 
 - Env conda **`opendrift`** (miniforge, Python 3.14). O python do PATH **não**

@@ -46,6 +46,40 @@ orchestrator), `tests/` (pytest).
   Note the seed must reach the OpenOil *constructor* — calling
   `np.random.seed()` before it is overwritten and silently does nothing.
 
+## Continuing on a different machine (written 2026-08-27)
+
+Everything needed to carry on is in this repository **except three things
+that cannot be**, so do these first:
+
+1. **The environment.** `conda env create -f environment.yml` (miniforge).
+   The file pins `libblas=*=*openblas` and that pin is load-bearing: with
+   MKL, numpy crashes natively on Windows/py3.14 with exit `0xC06D007F` and
+   no output. Verify with `conda list blas` before blaming any code.
+2. **Credentials, which are deliberately not in git.** `~/.cdsapirc` for
+   ERA5/CDS and `~/.copernicusmarine/` for CMEMS. Only the download scripts
+   need them; everything already downloaded is committed, so the app, the
+   ML layer and the tests run without them.
+3. **Claude's local memory does not travel.** This file plus
+   `docs/auditoria/ESTADO_ATUAL.md` are the portable context, which is why
+   they are kept current in every commit.
+
+**Work in flight when the machine changed:** the seed-location archive was
+generating and is **231 of 480 runs** done and committed. It is resumable and
+never recomputes what exists:
+
+```
+python -m main.ml.seedgrid generate 2025     # ~4 h for the remaining 249
+python -m main.ml.scenario --grid 2025       # then build the dataset
+python -m main.ml.forecast --grid            # leave-one-LOCATION-out
+```
+
+Measured rate on the previous machine: 60 s per run. A run interrupted
+mid-write leaves a NetCDF with no manifest entry and is simply redone — the
+resume check requires both. `scenario_dataset_grid.npz` and
+`forecast_grid_report.json` were deleted on purpose before the handover:
+they had been built from the 34-run pilot and would have looked
+authoritative while describing 7 % of the archive.
+
 ## How to run
 
 - Env conda `opendrift` (miniforge, Python 3.14). PATH python is NOT it.
