@@ -105,6 +105,32 @@ From the repo root, env active:
 python -m streamlit run main/app.py
 ```
 
+## Deploy: what actually has to ship
+
+The repository carries ~2.6 GB, but the app opens a small part of it at run
+time. `main/scripts/deploy_bundle.py` assembles exactly that slice and
+refuses to guess: `--dry-run` prints the plan and flags anything missing.
+
+| bundle | size |
+|---|---|
+| all five tabs, four forecast years | **383 MB** |
+| without the live-simulation tab, current year only | **156 MB** |
+
+What is deliberately left behind: ~410 MB of `*_raw*.nc` (inputs to prep, never
+opened by the app) and ~1.5 GB of run archives (`training168_*`, `ensemble/`,
+`holdout_*` — evidence behind the published numbers, not app data). Only the
+**Custom Run** tab needs the 86 MB wind field, because it is the only one that
+runs a simulation; the forecast tab needs one currents file per year it must
+answer for.
+
+```
+python main/scripts/deploy_bundle.py --dry-run
+python main/scripts/deploy_bundle.py --out ../campos-deploy --tabs scenarios risk beaching forecast --years 2025
+```
+
+The bundle is data only — the code comes from a git clone and the environment
+from `environment.yml`.
+
 ## Rebuild the precomputed products
 
 The committed `outputs/` were regenerated on 2026-07-30 with the corrected

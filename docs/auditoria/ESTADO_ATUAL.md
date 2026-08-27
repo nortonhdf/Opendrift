@@ -213,9 +213,13 @@ perguntas da v8 (§5h) — a pluma anisotrópica, encerrada com veredito medido,
 e o espalhamento, explicado. **Tudo que restava sem simulação nova acabou.**
 O que sobra depende de decisão, credencial ou horas de máquina:
 
-1. **Deploy do app** — plataforma segue em aberto (`PERGUNTAS_ABERTAS.md`),
-   e o polimento de UI foi decidido para depois de ciência+ML. **Depende de
-   decisão do autor**, não de trabalho técnico pendente.
+1. **Deploy do app** — plataforma segue em aberto (`PERGUNTAS_ABERTAS.md`).
+   O que era a restrição técnica deixou de ser: medido em 2026-08-27, o app
+   precisa de **156 MB** (sem a aba de simulação ao vivo, um ano de previsão)
+   a **383 MB** (tudo), não dos 2,6 GB do repo — 410 MB são `*_raw*.nc` que o
+   prep consome e o app nunca abre, e ~1,5 GB são arquivos de runs que são
+   evidência, não dado de aplicação. `main/scripts/deploy_bundle.py` monta a
+   fatia. **Depende de decisão do autor**, não de trabalho técnico pendente.
 2. **Mais locais de semeadura** — a **infraestrutura ficou pronta** em
    2026-08-26 (`main/ml/seedgrid.py`, §5i do `CAMADA_IA.md`): amostragem
    testada, margem dimensionada por medição, piloto de 32 runs com 0 saídas
