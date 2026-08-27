@@ -23,6 +23,7 @@ main/rebuild_all.log
 main/ml_generate_*.log
 main/ml_forecast_*.log
 main/ml_footprint*.log
+main/ml_seedgrid*.log
 
 # Regenerable/debug outputs (audit cleanup, 2026-07-29)
 main/outputs/ensemble/*.png

@@ -47,6 +47,8 @@ DATASET = ML_OUT / "scenario_dataset.npz"
 HOLDOUT = ML_OUT / "scenario_dataset_2024.npz"
 REPORT = ML_OUT / "forecast_report.json"
 PRODUCT = ML_OUT / "forecast_product.joblib"
+GRID_DATASET = ML_OUT / "scenario_dataset_grid.npz"
+GRID_REPORT = ML_OUT / "forecast_grid_report.json"
 SEED = 42
 
 # loss='absolute_error' fits the CONDITIONAL MEDIAN, matching the median
@@ -463,6 +465,67 @@ def predict_scenario(payload, x_row) -> dict:
     return out
 
 
+def evaluate_grid(out: Path = GRID_REPORT) -> dict:
+    """Leave-one-LOCATION-out on the seed-grid archive (limitation #1).
+
+    No new evaluation code: leave_one_field_out already holds out one value
+    of the ``field`` column at a time, and in the grid archive that column is
+    the location id. Six held-out sites become forty, which is the whole
+    point — with six neighbouring fields, "the model transfers in space" and
+    "the six sites are alike" predict the same table.
+
+    Read the comparison with §5e carefully: this archive is ONE year, so the
+    numbers are not a like-for-like replacement for the three-year six-field
+    result. What transfers is the SHAPE of the claim — whether the gain over
+    a season climatology survives when the held-out location is one of many.
+    """
+    d = np.load(GRID_DATASET, allow_pickle=True)
+    X, Y = d["X"], d["Y"]
+    blocks, fields = d["block"], d["field"]
+    feat_names = np.asarray([str(f) for f in d["feature_names"]])
+    n_loc = len(set(fields.tolist()))
+    print(f"Grade de locais — {len(X)} cenários, {n_loc} locais, "
+          f"anos {sorted(set(d['year'].tolist()))}, horizontes {HORIZONS_D}")
+
+    # Drop features with no observed value at all. Bathymetry is unknown for
+    # arbitrary points, so water_depth_m is entirely NaN here: the trees
+    # ignore it and the ridge's imputer skips it with a warning per fold —
+    # same outcome either way, but dropping it says so once instead of
+    # forty times, and keeps the two models reading the same columns.
+    empty = ~np.isfinite(X).any(axis=0)
+    dropped = feat_names[empty].tolist()
+    if dropped:
+        print("features sem nenhum valor observado, removidas: "
+              + ", ".join(dropped))
+        X = X[:, ~empty]
+        feat_names = feat_names[~empty]
+
+    # A fully beached slick has no drifting centroid, so its target is NaN
+    # and it silently leaves the evaluation at that horizon. Invisible in the
+    # six-field archive (beaching there was ~0); not here, where coastal
+    # locations are deliberately part of the sample.
+    print("cenários com alvo definido por horizonte:")
+    defined = {}
+    for hi, h in enumerate(HORIZONS_D):
+        n_ok = int(np.isfinite(Y[:, tcol(hi, "dx_km")]).sum())
+        defined[f"D+{h}"] = n_ok
+        lost = len(X) - n_ok
+        print(f"  D+{h}: {n_ok}/{len(X)}"
+              + (f"   ({lost} encalhados por completo)" if lost else ""))
+    print("\nLeave-one-LOCATION-out: cada local é retido inteiro, uma vez.\n")
+
+    lofo = leave_one_field_out(X, Y, blocks, fields, feat_names)
+    out.write_text(json.dumps({
+        "lofo_new_location": lofo, "horizons_d": HORIZONS_D,
+        "n_scenarios": int(len(X)), "n_locations": int(n_loc),
+        "n_defined_by_horizon": defined,
+        "dropped_features": dropped,
+        "years": sorted(set(d["year"].tolist())),
+    }, indent=2))
+    print(f"\n[OK] relatório -> {out.relative_to(ROOT)}")
+    return lofo
+
+
 def main() -> None:
     try:
         sys.stdout.reconfigure(encoding="utf-8")
@@ -472,8 +535,14 @@ def main() -> None:
     ap = argparse.ArgumentParser(description="Scenario-level forecasting.")
     ap.add_argument("--export", action="store_true",
                     help="Fit and persist the product for the app, no evaluation.")
-    if ap.parse_args().export:
+    ap.add_argument("--grid", action="store_true",
+                    help="Leave-one-LOCATION-out on the seed-grid archive.")
+    args = ap.parse_args()
+    if args.export:
         export_product()
+        return
+    if args.grid:
+        evaluate_grid()
         return
 
     d = np.load(DATASET, allow_pickle=True)
