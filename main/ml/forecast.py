@@ -49,6 +49,9 @@ REPORT = ML_OUT / "forecast_report.json"
 PRODUCT = ML_OUT / "forecast_product.joblib"
 GRID_DATASET = ML_OUT / "scenario_dataset_grid.npz"
 GRID_REPORT = ML_OUT / "forecast_grid_report.json"
+# The grid archive is one year; the six-field arm is restricted to it so
+# the two differ only in how many locations they cover.
+REFERENCE_YEAR = 2025
 SEED = 42
 
 # loss='absolute_error' fits the CONDITIONAL MEDIAN, matching the median
@@ -515,12 +518,30 @@ def evaluate_grid(out: Path = GRID_REPORT) -> dict:
     print("\nLeave-one-LOCATION-out: cada local é retido inteiro, uma vez.\n")
 
     lofo = leave_one_field_out(X, Y, blocks, fields, feat_names)
+
+    # Reference arm: the SAME evaluation on the six fields, restricted to the
+    # same year and reading the same feature columns. Without it the grid
+    # number is uninterpretable — §5e trained on 720 scenarios across three
+    # years and six sites, so a difference could be locations, years or
+    # sample size. This pins everything except the thing under test.
+    ref = None
+    if REFERENCE_YEAR in set(d["year"].tolist()) and DATASET.exists():
+        f = np.load(DATASET, allow_pickle=True)
+        keep_cols = [list(f["feature_names"]).index(n) for n in feat_names]
+        m = f["year"] == REFERENCE_YEAR
+        print(f"\n=== Braço de referência: 6 campos, só {REFERENCE_YEAR}, "
+              f"{int(m.sum())} cenários, mesmas colunas ===")
+        ref = leave_one_field_out(f["X"][m][:, keep_cols], f["Y"][m],
+                                  f["block"][m], f["field"][m], feat_names)
+
     out.write_text(json.dumps({
         "lofo_new_location": lofo, "horizons_d": HORIZONS_D,
         "n_scenarios": int(len(X)), "n_locations": int(n_loc),
         "n_defined_by_horizon": defined,
         "dropped_features": dropped,
         "years": sorted(set(d["year"].tolist())),
+        "reference_six_fields": ref,
+        "reference_year": REFERENCE_YEAR,
     }, indent=2))
     print(f"\n[OK] relatório -> {out.relative_to(ROOT)}")
     return lofo
