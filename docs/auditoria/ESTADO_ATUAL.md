@@ -214,8 +214,10 @@ locais costeiros entram de propósito e 11 de 480 cenários somem até D+7.
 A avaliação que estava rodando foi abortada e sua saída **apagada** — estava
 contaminada por esse defeito.
 
-**Primeiro comando na máquina nova:** `python -m pytest main/tests -o addopts=""`
-(esperado 133). Depois `python -m main.ml.forecast --grid`.
+**Correção VERIFICADA em 2026-09-02 na máquina nova: 152 testes passando.**
+O "esperado 133" da versão anterior deste bloco estava errado por arrastar o
+129 desatualizado — a suíte já estava em 147. Falta só rodar
+`python -m main.ml.forecast --grid`.
 
 ## 6c. Trabalho em voo (2026-08-27) — troca de máquina
 

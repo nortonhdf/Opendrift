@@ -50,20 +50,32 @@ orchestrator), `tests/` (pytest).
 
 Read this block before touching anything. It is ordered: do 1 before 2.
 
-**1. Run the test suite first. There is an unverified fix in the tree.**
+**1. The fix is VERIFIED (2026-09-02). Nothing is pending here any more.**
 
 ```
-python -m pytest main/tests -o addopts=""     # expect 129 + 4 new = 133
+python -m pytest main/tests -o addopts=""     # 152 passed
 ```
 
 `block_mean()` in `main/ml/forecast.py` and
 `main/tests/test_ml_climatology_nan.py` were written on the previous machine
-**after** the defect was diagnosed but **before** the suite could be re-run
-(the author stopped compute there). Treat both as unproven until that command
-is green. If the new test fails, the test is more likely wrong than the fix —
-the fix is a one-line `mean` → `nanmean` and the defect it addresses was
-observed live, in `grid000` and `grid017` printing `nan` for the climatology
-column at D+5 and D+7.
+after the defect was diagnosed but before the suite could be re-run. Both are
+now proven green on the new machine.
+
+Two corrections to what the previous handover expected. It predicted
+`129 + 4 = 133`; the 129 was itself stale — the suite was already at **147**
+before those tests landed, so 4 + 1 new tests make **152**. And the defect
+was found twice, independently: the previous machine saw `grid000`/`grid017`
+printing `nan` in the climatology column of a live log, while the new machine
+saw the paired-sample denominator collapse across a completed run — 480 at
+D+1, 241 at D+3, 3 at D+5, 0 at D+7. Same defect, same diagnosis, and both
+fixes were the same four call sites; `block_mean()` is the version kept,
+being the better-factored of the two.
+
+The extra test is `test_paired_sample_is_not_shrunk_by_a_beached_training_run`,
+which pins the *consequence* rather than the unit: the broken evaluation never
+raised, it just quietly had fewer scenarios in it. That is the shape to guard
+against, because a full 57-minute run completed and printed a plausible table
+before anyone noticed.
 
 **What the defect was, because it matters for how you read any result:** a
 fully beached slick has no drifting centroid, so its target is NaN at that
