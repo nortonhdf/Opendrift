@@ -1,6 +1,7 @@
 # ESTADO ATUAL — leia este arquivo primeiro
 
-> Atualizado em **2026-08-26**, branch **`audit/revisao-completa`**.
+> Atualizado em **2026-09-02**, branch **`audit/revisao-completa`**.
+> **Passagem de máquina em curso — leia a §6b antes de rodar qualquer coisa.**
 > Este é o único documento desta pasta que descreve o **estado de hoje**. Os
 > demais (`DIAGNOSTICO.md`, `MAPA_DO_PROJETO.md`, `ARQUITETURA.md`,
 > `PIPELINE_CIENTIFICO.md`, `PLANO_DE_ACAO.md`) são **fotografias datadas de
@@ -49,6 +50,7 @@ em `main/`). Projeto de pesquisa acadêmica. Três camadas:
 | 2026-08-11 | **Escopo D+7** | Arquivos de 168 h completos; controle linear no resultado-manchete; incerteza calibrada por conformal (`CAMADA_IA.md` §5e) |
 | 2026-08-25 | **Footprint** (item 1 da agenda v6) | Alvo passa a ser a grade de células oleadas, não só o centróide. Num local nunca visto, o corredor calibrado em volta do caminho previsto pelo v4 bate a climatologia em IoU e em área de busca nos 5 horizontes; produto exportado para o app (`CAMADA_IA.md` §5f) |
 | 2026-08-26 | **A camada vira produto** (item 1 da agenda v7) | Modelos passam a ser exportados (`forecast_product.joblib`, `footprint_plume.joblib`), features ganham fonte única (`scenario.feature_row`) e o app ganha a aba **Forecast (ML)**: ponto de vazamento arbitrário, resposta em ~1 s, sem simulação (`CAMADA_IA.md` §5g) |
+| 2026-09-02 | **Arquivo de locais completo** | 480 runs, 40 locais, 0 falhas. Avaliação leave-one-LOCATION-out abortada no meio: achou-se que a climatologia agregava com `mean` em vez de `nanmean` e deixava de responder quando havia cenário encalhado — correção na árvore, **não verificada** (§6b) |
 | 2026-08-26 | **Agenda v8** | Pluma anisotrópica encerrada: duas hipóteses falsificadas, a terceira (normalizar pelo deslocamento previsto injeta o erro do modelo na coordenada) confirmada. Corrigida, ela passa o corredor em IoU a partir de D+5 mas perde a área de captura nos cinco horizontes, então o corredor segue sendo a forma entregue. Espalhamento explicado: é a difusão declarada, e o resíduo depende do escoamento futuro (`CAMADA_IA.md` §5h) |
 
 ### O que mudou de conclusão ao longo do caminho (importante para o crosscheck)
@@ -195,7 +197,27 @@ Lista deliberada de fraquezas — se o revisor for atrás de algo, que seja daqu
    grade de 0,1° (§5f, Decisão 1) —, mas quem esperar "onde está o óleo no
    dia 7" está lendo outra coisa: "por onde o óleo passou até o dia 7".
 
-## 6b. Trabalho em voo (2026-08-27) — troca de máquina
+## 6b. Trabalho em voo (2026-09-02) — passagem de máquina
+
+**O arquivo de locais está COMPLETO**: 480 runs, 40 locais, 0 falhas,
+manifesto e arquivos batendo exatamente (`training168_grid_2025`). O dataset
+derivado (`scenario_dataset_grid.npz`, 480 cenários) está commitado e válido.
+
+**Há uma correção não verificada na árvore.** Ver `main/CLAUDE.md`, bloco
+"START HERE". Resumo: a climatologia agregava blocos com `mean` em vez de
+`nanmean`, e como uma mancha totalmente encalhada não tem centróide (alvo
+NaN), **um único** cenário assim zerava o bloco inteiro e o baseline deixava
+de responder — fazendo qualquer modelo "vencer" por WO. Observado ao vivo no
+log (`grid000`, `grid017` com `nan` na coluna da climatologia em D+5 e D+7).
+Não podia disparar com os 6 campos (encalhe ~0); dispara na grade, onde
+locais costeiros entram de propósito e 11 de 480 cenários somem até D+7.
+A avaliação que estava rodando foi abortada e sua saída **apagada** — estava
+contaminada por esse defeito.
+
+**Primeiro comando na máquina nova:** `python -m pytest main/tests -o addopts=""`
+(esperado 133). Depois `python -m main.ml.forecast --grid`.
+
+## 6c. Trabalho em voo (2026-08-27) — troca de máquina
 
 O arquivo de locais de semeadura estava sendo gerado quando a máquina mudou:
 **231 de 480 runs prontos e commitados**. É resumível e nunca refaz o que

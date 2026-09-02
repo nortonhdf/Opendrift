@@ -25,6 +25,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import warnings
 from pathlib import Path
 
 import numpy as np
@@ -72,11 +73,29 @@ def tcol(h_idx: int, q: str) -> int:
 
 # ── baselines ────────────────────────────────────────────────────────────────
 
+def block_mean(Y: np.ndarray) -> np.ndarray:
+    """Mean outcome, ignoring targets that do not exist.
+
+    It has to be nanmean, and the reason is not tidiness. A fully beached
+    slick has no drifting centroid, so its target is NaN at that horizon —
+    and with plain mean, ONE such scenario turns the whole block's mean into
+    NaN, which makes the climatology emit no prediction at all. Every model
+    then "beats" a baseline that never answered. Invisible while beaching was
+    ~0 (the six fields); real on the seed grid, where coastal locations are
+    deliberately included and 11 of 480 scenarios are gone by D+7.
+
+    An all-NaN column stays NaN, which is the honest answer: that block has
+    no outcome to average.
+    """
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", RuntimeWarning)
+        return np.nanmean(Y, axis=0)
+
+
 def fit_climatology(Y_tr, blocks_tr):
     """Mean outcome per (field, season) block; global mean as fallback."""
-    table = {b: Y_tr[blocks_tr == b].mean(axis=0)
-             for b in np.unique(blocks_tr)}
-    return table, Y_tr.mean(axis=0)
+    table = {b: block_mean(Y_tr[blocks_tr == b]) for b in np.unique(blocks_tr)}
+    return table, block_mean(Y_tr)
 
 
 def predict_climatology(model, blocks_te):
@@ -328,9 +347,9 @@ def leave_one_field_out(X, Y, blocks, fields, feat_names) -> dict:
         # Season-only climatology: the field is unknown, so pool by season.
         seasons_tr = np.array([b.split("_")[-1] for b in blocks[tr]])
         seasons_te = np.array([b.split("_")[-1] for b in blocks[te]])
-        table = {s: Y[tr][seasons_tr == s].mean(axis=0)
+        table = {s: block_mean(Y[tr][seasons_tr == s])
                  for s in np.unique(seasons_tr)}
-        glob = Y[tr].mean(axis=0)
+        glob = block_mean(Y[tr])
         P_clim = np.array([table.get(s, glob) for s in seasons_te])
         P_hgb = derive_dist(predict_models(fit_hgb(X[tr], Y[tr]), X[te]))
         P_ridge = derive_dist(predict_models(fit_ridge(X[tr], Y[tr]), X[te]))

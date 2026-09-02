@@ -46,6 +46,76 @@ orchestrator), `tests/` (pytest).
   Note the seed must reach the OpenOil *constructor* — calling
   `np.random.seed()` before it is overwritten and silently does nothing.
 
+## ⇒ START HERE if you are the next session (handover, 2026-09-02)
+
+Read this block before touching anything. It is ordered: do 1 before 2.
+
+**1. Run the test suite first. There is an unverified fix in the tree.**
+
+```
+python -m pytest main/tests -o addopts=""     # expect 129 + 4 new = 133
+```
+
+`block_mean()` in `main/ml/forecast.py` and
+`main/tests/test_ml_climatology_nan.py` were written on the previous machine
+**after** the defect was diagnosed but **before** the suite could be re-run
+(the author stopped compute there). Treat both as unproven until that command
+is green. If the new test fails, the test is more likely wrong than the fix —
+the fix is a one-line `mean` → `nanmean` and the defect it addresses was
+observed live, in `grid000` and `grid017` printing `nan` for the climatology
+column at D+5 and D+7.
+
+**What the defect was, because it matters for how you read any result:** a
+fully beached slick has no drifting centroid, so its target is NaN at that
+horizon. The climatology averaged its block with plain `mean`, so ONE such
+scenario turned the entire block mean into NaN and the baseline emitted no
+prediction at all. Every model then "beats" a baseline that never answered.
+It could not fire while beaching was ~0 (the six fields); it fires
+immediately on the seed grid, where coastal locations are deliberately
+included and 11 of 480 scenarios are gone by D+7.
+
+**2. Then re-run the evaluation that was aborted mid-flight.**
+
+```
+python -m main.ml.forecast --grid          # ~1 h: 40 folds + 6 reference folds
+```
+
+Its previous output was deleted on purpose — it was computed with the broken
+climatology and would have looked like a win. `scenario_dataset_grid.npz` is
+committed and valid (built from the complete 480-run archive), so the dataset
+step can be skipped unless you change the builder.
+
+**3. What that evaluation answers, and how to read it.** Leave-one-LOCATION-out
+over 40 held-out sites, which is the attack on limitation #1 (`ESTADO_ATUAL.md`
+§6.1: every spatial-generalisation claim so far rests on six neighbouring
+fields, and six sites cannot separate "the model transfers in space" from
+"the six sites are alike"). The report also carries a **reference arm**: the
+same evaluation on the six fields restricted to the same year and the same
+feature columns, so the two differ only in how many locations they cover.
+Do not compare the grid numbers directly with §5e — that was 720 scenarios
+over three years; this is 480 over one.
+
+Two accounting details already instrumented, do not remove them: the count of
+scenarios whose target exists per horizon (beached ones leave the evaluation),
+and the dropped all-NaN feature (`water_depth_m`, unknown for arbitrary
+points — it must reach the model as NaN, never as 0 m).
+
+**4. Decisions waiting on the author, not on work:**
+- The GitHub default branch is `main`, which holds a pre-audit version, so the
+  repository landing page does not show this project. Options are: switch the
+  default to `audit/revisao-completa`, merge via PR, or keep using the branch
+  URL. Do not do any of these without being asked.
+- Deploy platform. The technical objection is gone: measured, the app needs
+  **156 MB** (products + ML forecast, current year) to **383 MB** (all five
+  tabs, four years), not the 2.6 GB of the repo. `main/scripts/deploy_bundle.py
+  --dry-run` prints the plan.
+
+**5. Still open, in order of value:** more seeding locations *outside* the
+Campos box (needs a wider forcing download — the current region is bounded by
+what the forcing covers), validation against observed drift (needs external
+drifter data the project does not have, and is the most serious declared
+weakness, §6.5), and D+14 (needs 336-h runs; deferred by the author).
+
 ## Continuing on a different machine (written 2026-08-27)
 
 Everything needed to carry on is in this repository **except three things
